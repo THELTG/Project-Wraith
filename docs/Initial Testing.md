@@ -11,6 +11,7 @@ The Win10 VM has the following items installed/downloaded:
 
 1) Wireshark-win64-4.0.10 installed
 2) Ncat.exe standalone downloaded
+3) Python 3.10.11 Installed (for all users)
 
 The following users were made:
 
@@ -18,7 +19,9 @@ The following users were made:
 | ----------- | ------ | ---- |
 | alice | china1 | Local User |
 | bob | spiderman3 | Local User |
-| johnathan | bubblegum | Administrator|
+| johnathan | bubblegum | Administrator |
+| admin | 1qwer$#@! | Administrator |
+
 
 ![](misc/Pasted%20image%2020231012195023.png)
 
@@ -87,4 +90,19 @@ For example, the ```Get-Acl``` command can be called in powershell
 But cannot be called in Command prompt
 
 ![](misc/Pasted%20image%2020231012193200.png)
+
+---
+
+# Work arounds
+
+It was then later discovered that powershell -enc is still able to be used
+
+![](misc/Pasted%20image%2020231013033531.png)
+
+Which means that we are able to execute the Get-Acl command as presented above despite only having a cmd shell.
+
+![](misc/Pasted%20image%2020231013033651.png)
+We could use this to leverage ourselves
+
+
 
