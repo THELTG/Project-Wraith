@@ -4,9 +4,9 @@
 
 this repository contains the source code / development files for the Automated Penetration Testing Tool for Defence Science Organization (DSO)
 
-Goals of the project:
+Goals of the project (Tentative):
 
-1) Create an automated tool that conducts autoamted Windows post-exploitation
+1) Create an automated tool that conducts automated Windows post-exploitation
    - Evade AntiVirus / Anti-Malware Scan Interface (AMSI)
    - Conduct privilege escalation
 
