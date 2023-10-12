@@ -12,6 +12,15 @@ The Win10 VM has the following items installed/downloaded:
 1) Wireshark-win64-4.0.10 installed
 2) Ncat.exe standalone downloaded
 
+The following users were made:
+
+| Username | Password | User Account Type |
+| ----------- | ------ | ---- |
+| alice | china1 | Local User |
+| bob | spiderman3 | Local User |
+| johnathan | bubblegum | Administrator|
+
+![[Pasted image 20231012195023.png]]
 
 This is the configurations used for the Win10 VM
 ![[Pasted image 20231012170011.png]]
@@ -21,12 +30,7 @@ To test what the AMSI would look like when triggered, I will paste the following
 We can see that the Antivirus software stopped the code from executing.
 ![[Pasted image 20231012172442.png]]
 
-
 The next step is to figure out how we can setup the bind shell for our python testing later on. 
-
-Start a netcat listener on our host machine to listen out for connections in port 9999
-
-![[Pasted image 20231012172808.png]]
 
 In the Win10 VM, run the following command to allow your client machine to use cmd remotely.
 
