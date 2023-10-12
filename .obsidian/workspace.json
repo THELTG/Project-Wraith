@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "e41b6aac5d1437c4",
+        "id": "93c7d959d4f6b2e8",
         "type": "tabs",
         "children": [
           {
-            "id": "022a1717947b9b78",
+            "id": "5112b32c2de94a2d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Initial Testing.md",
+                "file": "docs/Initial Testing.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Initial Testing.md",
+                "file": "docs/Initial Testing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Initial Testing.md",
+                "file": "docs/Initial Testing.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Initial Testing.md"
+                "file": "docs/Initial Testing.md"
               }
             }
           }
@@ -146,8 +146,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "022a1717947b9b78",
+  "active": "5112b32c2de94a2d",
   "lastOpenFiles": [
+    "docs/misc/Pasted image 20231012201146.png",
+    "docs/misc/Pasted image 20231012201039.png",
+    "docs/misc/Pasted image 20231012200710.png",
+    "docs/misc/Pasted image 20231012200706.png",
+    "docs/software packages.md",
+    "docs/misc/Pasted image 20231012172442.png",
+    "docs/Initial Testing.md",
+    "docs/Untitled 1.md",
+    "docs/Untitled.md",
+    "README.md",
+    "Pasted image 20231012200541.png",
+    "misc/Pasted image 20231012200434.png",
     "misc/Pasted image 20231012193200.png",
     "Initial Testing.md",
     "misc/Pasted image 20231012195926.png",
@@ -157,12 +169,6 @@
     "software packages 1.md",
     "Untitled 3.md",
     "Untitled 2.md",
-    "misc/Pasted image 20231012193158.png",
-    "misc/Pasted image 20231012193114.png",
-    "misc/Pasted image 20231012191147.png",
-    "misc/Pasted image 20231012184734.png",
-    "misc/Pasted image 20231012184723.png",
-    "misc/Pasted image 20231012184548.png",
     "misc",
     "images"
   ]

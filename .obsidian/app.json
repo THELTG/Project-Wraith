@@ -1,0 +1,11 @@
+{
+  "trashOption": "local",
+  "promptDelete": false,
+  "newFileLocation": "folder",
+  "attachmentFolderPath": "docs/misc",
+  "showUnsupportedFiles": true,
+  "newLinkFormat": "relative",
+  "alwaysUpdateLinks": true,
+  "newFileFolderPath": "docs",
+  "useMarkdownLinks": true
+}
