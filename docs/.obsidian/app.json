@@ -3,5 +3,6 @@
   "promptDelete": false,
   "newFileLocation": "root",
   "attachmentFolderPath": "misc",
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "newLinkFormat": "relative"
 }

@@ -20,15 +20,15 @@ The following users were made:
 | bob | spiderman3 | Local User |
 | johnathan | bubblegum | Administrator|
 
-![[Pasted image 20231012195023.png]]
+![[misc/Pasted image 20231012195023.png]]
 
 This is the configurations used for the Win10 VM
-![[Pasted image 20231012170011.png]]
+![[misc/Pasted image 20231012170011.png]]
 
 To test what the AMSI would look like when triggered, I will paste the following powershell reverse shell one-liner into the vm terminal.
 
 We can see that the Antivirus software stopped the code from executing.
-![[Pasted image 20231012172442.png]]
+![[misc/Pasted image 20231012172442.png]]
 
 The next step is to figure out how we can setup the bind shell for our python testing later on. 
 
@@ -38,17 +38,17 @@ In the Win10 VM, run the following command to allow your client machine to use c
 ncat -e cmd.exe -l 9999
 ```
 
-![[Pasted image 20231012184532.png]]
+![[misc/Pasted image 20231012184532.png]]
 
 From the host machine connect to the VM via ncat on port 9999 and cmd.exe should appear.
 
-![[Pasted image 20231012184548.png]]
+![[misc/Pasted image 20231012184548.png]]
 
 However, we are unable to open powershell due to AMSI blocking access 
-![[Pasted image 20231012184723.png]]
+![[misc/Pasted image 20231012184723.png]]
 
 It will instead run powershell on the terminal that contains the netcat command and stop the connection.
-![[Pasted image 20231012184734.png]]
+![[misc/Pasted image 20231012184734.png]]
 
 ---
 # Connecting via Python on Host
@@ -71,7 +71,7 @@ c.close()
 
 The script above imitates the ncat connection as conducted in the previous section, from here we can try to automate certain operations such as privilege escalation.
 
-![[Pasted image 20231012191147.png]]
+![[misc/Pasted image 20231012191147.png]]
 
 The massive issue here is that AMSI is still blocking Powershell from being connected as stated above.
 
@@ -80,9 +80,9 @@ The below are some of the reasons why we need to use powershell and not cmd to a
 1) Powershell is able to call and reference all the Windows APIs easily, while command prompt cannot.
 
 For example, the ```Get-Acl``` command can be called in powershell
-![[Pasted image 20231012193114.png]]
+![[misc/Pasted image 20231012193114.png]]
 
 But cannot be called in Command prompt
-![[Pasted image 20231012193200.png]]
+![[misc/Pasted image 20231012193200.png]]
 
 

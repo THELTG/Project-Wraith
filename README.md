@@ -1,4 +1,4 @@
-# Final-Year-Project
+# Project Wraith Final Year Project
 
 ---
 
