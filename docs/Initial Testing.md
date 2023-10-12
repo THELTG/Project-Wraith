@@ -23,6 +23,7 @@ The following users were made:
 ![](misc/Pasted%20image%2020231012195023.png)
 
 This is the configurations used for the Win10 VM
+
 ![](misc/Pasted%20image%2020231012170011.png)
 
 To test what the AMSI would look like when triggered, I will paste the following powershell reverse shell one-liner into the vm terminal.
@@ -80,9 +81,10 @@ The below are some of the reasons why we need to use powershell and not cmd to a
 1) Powershell is able to call and reference all the Windows APIs easily, while command prompt cannot.
 
 For example, the ```Get-Acl``` command can be called in powershell
+
 ![](misc/Pasted%20image%2020231012193114.png)
 
 But cannot be called in Command prompt
+
 ![](misc/Pasted%20image%2020231012193200.png)
 
-![](misc/Pasted%20image%2020231012201146.png)
