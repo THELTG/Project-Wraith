@@ -4,67 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "f4e39bf9752b53d3",
+        "id": "e41b6aac5d1437c4",
         "type": "tabs",
         "children": [
           {
-            "id": "a5b0b3f51091abd6",
+            "id": "022a1717947b9b78",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "software packages.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "409a04d388b1c84d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "software packages.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "8b98dcafa29cf842",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 1.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "3136bc6f6c2e7e71",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 2.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "f321ce3348de4d75",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 3.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -133,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "software packages.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "software packages.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -172,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "software packages.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -194,15 +138,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a5b0b3f51091abd6",
+  "active": "022a1717947b9b78",
   "lastOpenFiles": [
-    "misc/Pasted image 20231012120657.png",
-    "Untitled 1.md",
-    "software packages.md",
-    "misc",
-    "Pasted image 20231012120452.png",
-    "images",
     "Untitled 3.md",
-    "Untitled 2.md"
+    "Untitled 2.md",
+    "software packages.md",
+    "Initial Testing.md",
+    "misc/Pasted image 20231012193200.png",
+    "misc/Pasted image 20231012193158.png",
+    "misc/Pasted image 20231012193114.png",
+    "misc/Pasted image 20231012191147.png",
+    "misc/Pasted image 20231012184734.png",
+    "misc/Pasted image 20231012184723.png",
+    "misc/Pasted image 20231012184548.png",
+    "misc/Pasted image 20231012184532.png",
+    "misc/Pasted image 20231012175457.png",
+    "misc/Pasted image 20231012175334.png",
+    "software packages 1.md",
+    "misc",
+    "images"
   ]
 }
