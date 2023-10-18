@@ -86,7 +86,7 @@ To verify that it works, we enter the string "Invoke-Mimikatz", which is flagged
 
 ![Alt text](misc/mimikatz.png)
 
-After the memory patch, we receieve a different output, stating that powershell could not find a file or script named Invoke-Mimikatz. This is expected, as we didn't actually download mimikatz.
+After the memory patch, we receive a different output, stating that powershell could not find a file or script named Invoke-Mimikatz. This is expected, as we didn't actually download mimikatz.
 
 ![Alt text](misc/mimikatz2.png)
 
