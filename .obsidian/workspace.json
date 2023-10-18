@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/Initial Testing.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/Initial Testing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/Initial Testing.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Action Items.md"
+                "file": "docs/Initial Testing.md"
               }
             }
           }
@@ -148,6 +148,11 @@
   },
   "active": "5112b32c2de94a2d",
   "lastOpenFiles": [
+    "docs/software packages.md",
+    "docs/Untitled.md",
+    "docs/Testing AMSI bypass methods.md",
+    "exploit/uploads/malware",
+    "Action Items.md",
     "README.md",
     "docs/Initial Testing.md",
     "exploit/uploads/testing.txt",
@@ -156,14 +161,12 @@
     "docs/misc/Pasted image 20231013033651.png",
     "docs/misc/Pasted image 20231013033531.png",
     "exploit/server.py",
-    "docs/software packages.md",
     "docs/misc/Pasted image 20231012201146.png",
     "docs/misc/Pasted image 20231012201039.png",
     "docs/misc/Pasted image 20231012200710.png",
     "docs/misc/Pasted image 20231012200706.png",
     "docs/misc/Pasted image 20231012172442.png",
     "docs/Untitled 1.md",
-    "docs/Untitled.md",
     "Pasted image 20231012200541.png",
     "misc/Pasted image 20231012200434.png",
     "misc/Pasted image 20231012193200.png",
