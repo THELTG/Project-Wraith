@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "93c7d959d4f6b2e8",
+        "id": "aa7ff3ca9cbdb323",
         "type": "tabs",
         "children": [
           {
-            "id": "5112b32c2de94a2d",
+            "id": "7bb55d62870d461a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/Initial Testing.md",
+                "file": "Action Items.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/Initial Testing.md",
+                "file": "Action Items.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/Initial Testing.md",
+                "file": "Action Items.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/Initial Testing.md"
+                "file": "Action Items.md"
               }
             }
           }
@@ -146,15 +146,21 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5112b32c2de94a2d",
+  "active": "7bb55d62870d461a",
   "lastOpenFiles": [
-    "docs/software packages.md",
-    "docs/Untitled.md",
-    "docs/Testing AMSI bypass methods.md",
-    "exploit/uploads/malware",
-    "Action Items.md",
     "README.md",
     "docs/Initial Testing.md",
+    "docs/misc/Pasted image 20231012195023.png",
+    "docs/AMSI Tests.md",
+    "docs/Testing AMSI bypass methods.md",
+    "docs/software packages.md",
+    "docs/misc/mimikatz2.png",
+    "docs/misc/mimikatz.png",
+    "docs/misc/memorypatch.png",
+    "docs/misc/detected.png",
+    "docs/Untitled.md",
+    "exploit/uploads/malware",
+    "Action Items.md",
     "exploit/uploads/testing.txt",
     "exploit/uploads",
     "exploit/translator.py",
@@ -164,12 +170,7 @@
     "docs/misc/Pasted image 20231012201146.png",
     "docs/misc/Pasted image 20231012201039.png",
     "docs/misc/Pasted image 20231012200710.png",
-    "docs/misc/Pasted image 20231012200706.png",
-    "docs/misc/Pasted image 20231012172442.png",
     "docs/Untitled 1.md",
-    "Pasted image 20231012200541.png",
-    "misc/Pasted image 20231012200434.png",
-    "misc/Pasted image 20231012193200.png",
     "Initial Testing.md",
     "software packages.md",
     "software packages 1.md",

