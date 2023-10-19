@@ -82,13 +82,15 @@ Thus, we first obfuscate the code. After obfuscation using the same tool in the 
 
 ![Alt text](misc/memorypatch.png)
 
-To verify that it works, we enter the string "Invoke-Mimikatz", which is flagged by AMSI as malicious content. As shown below, AMSI works as usual.
+The screenshot below shows the output when we entered the string "Invoke-Mimikatz" before our bypass. As expected, AMSI flags it as malicious content.
 
 ![Alt text](misc/mimikatz.png)
 
-After the memory patch, we receieve a different output, stating that powershell could not find a file or script named Invoke-Mimikatz. This is expected, as we didn't actually download mimikatz.
+However, after the memory patch, we able to use Mimikatz with no error and dump credentials.
 
 ![Alt text](misc/mimikatz2.png)
+
+
 
 We were also able to freely run other powershell commands (such as reverse shells) without the need of obfuscating them.
 
