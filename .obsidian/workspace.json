@@ -146,8 +146,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "7bb55d62870d461a",
+  "active": "f4fda1a6c0659a7a",
   "lastOpenFiles": [
+    "Untitled.canvas",
+    "Action Items.md",
     "README.md",
     "docs/Initial Testing.md",
     "docs/misc/Pasted image 20231012195023.png",
@@ -160,7 +162,6 @@
     "docs/misc/detected.png",
     "docs/Untitled.md",
     "exploit/uploads/malware",
-    "Action Items.md",
     "exploit/uploads/testing.txt",
     "exploit/uploads",
     "exploit/translator.py",
