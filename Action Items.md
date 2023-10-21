@@ -1,10 +1,11 @@
 ## Things achieved
 
 - Powershell code execution via cmd (by using the powershell -enc method)
-- 
+- AMSI bypass using Memory Patching (working on Windows 11)
+
 ## To Do List
 
-- Figure out how to do AMSI bypass / shutdown 
+- Find more bypass methods, understand how they work.
 - Figure out how to bypass windows defender / disable windef
 - Figure out methods of PE and how to automate PE
 
@@ -22,7 +23,5 @@ https://devdotpy.medium.com/how-i-evaded-windows-defender-with-a-batch-script-ki
 
 ## Things to clarify
 
-- Are we allowed to have a testing environment (e.g. vulnerable application run on admin rights that is used as a PE vector etc)
-- Are we allowed to use open source auto-enumeration projects (such as winpeas) to automate findings
-
+To be updated before our next meeting with DSO
 
