@@ -170,3 +170,10 @@ Back in our attacker machine (kali), we can verify that the reverse shell connec
 However, this method would not be very helpful if the attacker had to run multiple commands. That would mean each command would have to be repeatedly encoded using the Invoke-Obfuscation tool. Thus, this method is better if used to execute one command only (e.g Invoke-Mimikatz)
 
 The better option would be disabling AMSI entirely.
+
+## Other possible methods to bypass AMSI
+
+I think this tool https://github.com/RythmStick/AMSITrigger will be really helpful if we want to continuously bypass AMSI even if the signatures are added to windows defender.
+
+
+
