@@ -30,7 +30,7 @@ In addition, when we disassemble **AmsiScanBuffer**, we can see the following ne
 
 First, it performs a series of validations. If the results of the validation are not as expected, it land in the block on the right, which has the instructions  ```mov eax 0x800700057``` . **0x80070057** actually correlates to the error code **E_INVALIDARG**. Otherwise, if it passes the validations, it goes through the actual scanning for malicious content, as depicted by the block on the left.
 
-The function then ends, and the powershell command a user typed is then executed depending on whether it passed the scanning **or if an invalid argument error occured**.
+The function then ends, and the powershell command a user typed is then executed if it passed the content scanning **or if an invalid argument error occured**.
 
 Therefore, if we can force **AmsiScanBuffer()** to jump to the block on the right early on, we can easily bypass AMSI. This is exactly what the script below seeks to do. 
 
