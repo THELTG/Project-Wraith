@@ -1,11 +1,11 @@
-## Method 2 : Disabling AMSI - Memory Patching Method
+## Method 1 : Disabling AMSI - Memory Patching Method
 
 The following method completely disables AMSI by using a memory patch. We were able to test that it is an effective method.
 
 Note : This bypass disables AMSI only for the terminal it was executed on.
 
-### Why this particular method works 
 
+### Why this particular method works 
 
 To understand why the technique works, we must first understand AMSI. AMSI protects PowerShell from malicious strings/scripts by loading a DLL (**amsi.dll**) into powershell's memory space each time a powershell process is started.
 
