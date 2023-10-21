@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/AMSI Tests.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/AMSI Tests.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Action Items.md",
+                "file": "docs/AMSI Tests.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Action Items.md"
+                "file": "docs/AMSI Tests.md"
               }
             }
           }
@@ -143,19 +143,25 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "f4fda1a6c0659a7a",
+  "active": "7bb55d62870d461a",
   "lastOpenFiles": [
-    "Untitled.canvas",
-    "Action Items.md",
-    "README.md",
+    "output",
+    "exploit/meterpreter_b64_encrypted",
+    "exploit/uploads/meterpreter.exe",
+    "exploit/test.ps1",
+    "docs/Caldera.md",
+    "docs/software packages.md",
     "docs/Initial Testing.md",
+    "Action Items.md",
+    "Untitled.canvas",
+    "README.md",
     "docs/misc/Pasted image 20231012195023.png",
     "docs/AMSI Tests.md",
     "docs/Testing AMSI bypass methods.md",
-    "docs/software packages.md",
     "docs/misc/mimikatz2.png",
     "docs/misc/mimikatz.png",
     "docs/misc/memorypatch.png",
