@@ -102,7 +102,7 @@ $out = 0
 [WinApi]::VirtualProtect($funcAddr, [uint32]$patch.Length, $out, [ref] $null)
 ```
 
-It first retrieves the value of the address space allocated to **amsi.dll** and then extracts the address of **AmsiScanBuffer()**. The script then makes the address space writable, and patches the space with the following bytes :
+It first retrieves the value of the address space allocated to **amsi.dll** and then extracts the address of **AmsiScanBuffer()**. The script then makes the address space writable, and patches beginning of the space with the following bytes :
 ```
 (0xc3,0x80,0x07,0x00,0x57,0xb8)
 ```
@@ -111,14 +111,14 @@ These bytes correspond to the instruction (in little endian)
 mov eax, 0x80070057
 ret
 ```
-The **ret** instruction is needed to exit the function. If it worked correctly, we should be able to run any powershell command without any issues.
+The **ret** instruction is used to exit the function. If it worked correctly, we should be able to run any powershell command without any issues.
 
-Not only that, since we established earlier on that **AmsiScanBuffer** returning 0 means that no detection was found, we can also adjust the script such that the function prematurely returns 0, using an instruction like :
+Alternatively, since we established earlier on that **AmsiScanBuffer** returning 0 means that no detection was found, we can also adjust the script such that the function prematurely returns 0, using an instruction like :
 ```
 sub eax,eax 
 ret
 ```
-The bypass will also work as usual with this change.
+This will still allow us to bypass AMSI.
 
 
 
