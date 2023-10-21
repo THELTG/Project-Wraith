@@ -78,7 +78,7 @@ Alternatively, since we established earlier on that **AmsiScanBuffer** returning
 sub eax,eax 
 ret
 ```
-This will still allow us to bypass AMSI.
+This will still allow us to bypass AMSI. Overall, this method can serve as a good reference point for creating an entirely new but similar bypass.
 
 
 
