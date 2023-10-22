@@ -32,7 +32,7 @@ First, it performs a series of validations. If the results of the validation are
 
 The function then ends, and the powershell command a user typed is then executed if it passed the content scanning **or if an invalid argument error occured**.
 
-Therefore, if we can force **AmsiScanBuffer()** to return the invalid arument error early on, we can easily bypass AMSI. This is exactly what the script below seeks to do. 
+Therefore, if we can force **AmsiScanBuffer()** to return the invalid arugument error early on, we can easily bypass AMSI. This is exactly what the script below seeks to do. 
 
 ```powershell
 $pinvoke_obj = @"
