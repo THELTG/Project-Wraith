@@ -71,7 +71,7 @@ These bytes correspond to the instruction (in little endian)
 mov eax, 0x80070057
 ret
 ```
-The **ret** instruction is used to exit the function. If it worked correctly, the function should return an error, and we should be able to run any powershell command without any issues.
+The **eax** instruction stores the return value of the function (which is the error). The **ret** instruction is used to exit the function. If it worked correctly, the function should return an error, and we should be able to run any powershell command without any issues. 
 
 Alternatively, since we established earlier on that **AmsiScanBuffer** returning 0 means that no detection was found, we can also adjust the script such that the function prematurely returns 0, using an instruction like :
 ```
