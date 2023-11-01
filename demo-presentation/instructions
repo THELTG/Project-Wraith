@@ -1,0 +1,6 @@
+with the icon and everything in place
+shellter injecting executable to another executable
+initiate a reverse shell connection from the victim to the c2 server
+start amsi bypass + invokereflectivepeinjection
+start msfconsole meterpreter_bind_tcp 4444
+screenshare?

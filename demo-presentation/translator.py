@@ -1,0 +1,164 @@
+# allows for translation between base64 powershell and powershell commands/payloads
+from Cryptodome.Util.strxor import strxor
+from Cryptodome.Cipher import AES
+from Cryptodome.Util.Padding import pad
+from secrets import token_bytes
+from base64 import b64encode, b64decode
+from random import choices, randint, choice
+from string import ascii_letters
+from zlib import compress
+import re
+
+def power_file_xor_encrypt(payload:bytes,key:bytes):
+    length = len(payload)
+    kdf = ((length // len(key) + 1) * key)[:length]
+    encrypted = strxor(kdf,payload)
+    return b64encode(encrypted).decode()
+
+def power_encode(payload:str):
+    return b64encode(payload.encode('utf-16-le')).decode()
+
+def power_decode(payload:str):
+    return b64decode(payload).decode('utf-16-le')
+
+def create_nonsense(variable:str,available:dict):
+    while True:
+        nonsense = '$'+''.join(choices(ascii_letters,k=randint(5,6)))
+        if nonsense in available.items():
+            continue
+        else:
+            available[variable] = nonsense
+            break 
+    return available
+
+def upperlower(line:str):
+    output = ''
+    for char in line:
+        if randint(0,1) == 1:
+            output += char.upper()
+        else:
+            output += char.lower()
+    return output
+
+# variable obfuscation needs a fix on sorting algorithm (for substitution of every variable) 
+def variableObfuscation(payload:list):
+    ignorelst = ['$null']
+    variables = {}
+    regex = r'(\$\w{1,})'
+    for line in payload:
+        vars = re.findall(regex,line)
+        for var in vars:
+            if var not in variables.keys() and var.lower() not in ignorelst:
+                variables = create_nonsense(var,variables)
+    #print(sorted(variables,key=lambda x:len(x[0])))
+    payload = '\n'.join(payload)
+    for substitute in variables.keys():
+        payload = payload.replace(substitute,variables[substitute])
+    return payload.split('\n')
+
+def compressObfuscation(payload:str):
+    output = []
+    bases = [
+        "(new-object io.streamreader((new-object system.io.compression.deflatestream([io.memorystream][system.convert]::frombase64string('!!!!'),[system.io.compression.compressionmode]::decompress)),[system.text.encoding]::ascii)).readtoend()|iex",
+        ". ((variable '*mdr*').name[3,11,2]-join'')(new-object io.streamreader( (new-object io.compression.deflatestream( [io.memorystream][system.convert]::frombase64string( '!!!!'),[system.io.compression.compressionmode]::decompress )) , [system.text.encoding]::ascii) ).readtoend()",
+        ". ( $pshome[21]+$pshome[34]+'x') ( new-object system.io.compression.deflatestream([system.io.memorystream] [convert]::frombase64string('!!!!' ),[system.io.compression.compressionmode]::decompress )|foreach{ new-object io.streamreader( $_, [text.encoding]::ascii) }).readtoend( )",
+        "&( ([string]$verbosepreference)[1,3]+'x'-join'') (new-object system.io.compression.deflatestream( [io.memorystream] [convert]::frombase64string( '!!!!' ),[io.compression.compressionmode]::decompress ) |foreach-object {new-object io.streamreader( $_,[system.text.encoding]::ascii )} |foreach-object { $_.readtoend( )} )",
+        "&( $env:comspec[4,26,25]-join'') ( new-object  io.compression.deflatestream( [io.memorystream][system.convert]::frombase64string('!!!!') , [io.compression.compressionmode]::decompress )|foreach{ new-object io.streamreader($_ , [system.text.encoding]::ascii ) } ).readtoend( )",
+        "(new-object system.io.compression.deflatestream([io.memorystream][system.convert]::frombase64string('!!!!') , [system.io.compression.compressionmode]::decompress )| foreach-object { new-object system.io.streamreader( $_,[text.encoding]::ascii)} ).readtoend( ) |& ( $shellid[1]+$shellid[13]+'x')",
+        "invoke-expression( new-object  system.io.compression.deflatestream([io.memorystream] [convert]::frombase64string( '!!!!' ),[system.io.compression.compressionmode]::decompress )| foreach-object { new-object  system.io.streamreader( $_,[system.text.encoding]::ascii )}|foreach-object{$_.readtoend( )})",
+        "&( $shellid[1]+$shellid[13]+'x') ( new-object io.compression.deflatestream( [system.io.memorystream] [system.convert]::frombase64string('!!!!') , [system.io.compression.compressionmode]::decompress )| foreach-object{ new-object  io.streamreader($_ ,[text.encoding]::ascii ) } ).readtoend( )"
+        ]
+    for line in payload:
+        base = choice(bases)
+        buffer = b64encode(compress(line.encode(),wbits=-15)).decode()
+        output.append(upperlower(base).replace('!!!!',buffer))
+    return output
+
+def securestringObfuscation(payload:list):
+    output = []
+    base = "( new-object  management.automation.pscredential ' ', ( '76492d1116743f0423413b16050a5345@@@@'|convertto-securestring  -key !!!!)).getnetworkcredential().password |&( $shellid[1]+$shellid[13]+'x')"
+    for line in payload:
+        key = token_bytes(32)
+        iv = token_bytes(16)
+        keyInDec = str(list(key)).strip('[]')
+        cipher = AES.new(key,AES.MODE_CBC,iv)
+        enc = cipher.encrypt(pad(line.encode('utf-16-le'),cipher.block_size)).hex()
+        body = f'2|{b64encode(iv).decode()}|{enc}'
+        output.append(upperlower(base).replace('@@@@',power_encode(body)).replace("!!!!",keyInDec))
+    return output
+
+def deadObfuscation(payload:list):
+    if type(payload) == str:
+        payload = [payload]
+    payload_length = len(payload)
+    operators = ['+','%','-','/','*','-band','-bor','-bxor','-shl','-shr']
+    instructions = [f'$v{i} = {randint(100,1000)}' for i in range(randint(3,5))]
+    variables = [f'$v{i}' for i in range(len(instructions))]
+    for _ in range(payload_length**2+randint(5,10)):
+        if randint(1,3) == 1:
+            xpression = f'{choice(variables)}'
+        else:
+            xpression = f'{randint(10,100)}'
+        for _ in range(randint(1,3)):
+            if randint(1,3) == 1:
+                xpression += f' {choice(operators)} {randint(10,100)}'
+            else:
+                xpression += f' {choice(operators)} {choice(variables)}'
+        instructions.append(f'{choice(variables)} = {xpression}')
+    instructions = variableObfuscation(instructions)
+    ptr = 0
+    for i in payload: 
+        ptr += 3 + randint(0,20) % 8
+        instructions.insert(ptr,i)
+    return instructions
+
+# level 0 No Obfuscation
+# level 1 Noob
+# level 2 Beginner
+# level 3 Intermediate
+# level 4 Professional
+# level 999 NASA Type Activity
+conf_obfuscation = {
+    0 : {
+        'rules':[],
+        'mutate':False
+    },
+
+    1 : {
+        'rules':[variableObfuscation],
+        'mutate':False
+    },
+    2 : {
+        'rules':[compressObfuscation],    
+        'mutate':False
+    },
+    3 : {
+        'rules':[deadObfuscation,compressObfuscation],
+        'mutate':False
+    },
+    4 : {
+        'rules':[deadObfuscation,securestringObfuscation],
+        'mutate':False
+    },
+    999 : { # mutation cannot use variable obfuscation
+        'rules':[securestringObfuscation,compressObfuscation],
+        'mutate':True
+    }
+}
+
+def preset_obfuscation(level:int,payload:str):
+    if level != 0:
+        rules = conf_obfuscation[level]['rules']
+        mutate = conf_obfuscation[level]['mutate']
+        if not mutate:
+            for obfuscate_function in rules:
+                payload = obfuscate_function(payload)
+        else:
+            initial = []
+            for i in payload:
+                i = choice(rules)([i])
+                initial.extend(i)
+            return initial
+    return payload
+
+
