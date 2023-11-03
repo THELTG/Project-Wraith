@@ -12,6 +12,8 @@ caldera = False
 # configuration for each payload
 # still a work in progress
 
+meterpreter_file = 'shikata_meterpreter_bind_tcp.exe'
+
 conf_meterpreter = {
     'file' : 'meterpreter.exe'
 }

