@@ -1,3 +1,4 @@
 pwntools
 flask
-pycryptodomex
+pycryptodome
+colorama
