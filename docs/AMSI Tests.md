@@ -118,21 +118,6 @@ https://fluidattacks.com/blog/amsi-bypass/
 
 
 
-
-## Method 2 : Disabling AMSI - AMSI Killer
-
-
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue laoreet venenatis. Nam rutrum urna aliquam, pharetra metus vitae, varius dolor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean placerat iaculis laoreet. Vestibulum id velit et nulla interdum pretium vitae nec justo. Duis congue quam dolor, auctor feugiat mi feugiat eu. Fusce ac felis elit. Proin molestie tellus id turpis convallis vehicula. Nullam non venenatis leo. Aliquam porttitor elementum vestibulum. Sed scelerisque lacus dui, sed vehicula ante auctor eget. Vestibulum sagittis, est ut euismod efficitur, arcu ex finibus quam, vitae dapibus risus purus ac odio. Nam sodales lorem ac accumsan consectetur. In sodales bibendum turpis, eu laoreet urna mollis interdum.
-
-Nullam hendrerit consequat imperdiet. Integer bibendum cursus tincidunt. Duis venenatis gravida faucibus. In hendrerit ante quis lorem condimentum, in pulvinar diam euismod. Nullam vehicula, velit et posuere malesuada, ipsum velit blandit justo, tincidunt rutrum ipsum lectus varius est. In eget viverra arcu, vel accumsan nibh. Ut bibendum malesuada ipsum, eu euismod turpis. Praesent aliquam lorem at neque sodales porttitor. Aenean at placerat lectus. Duis sed tellus id eros ultrices fermentum. Nunc ut orci nec neque lobortis ultrices ac et arcu. Integer et ipsum nulla. Duis placerat mi mauris, nec vulputate metus scelerisque a. Donec congue purus et turpis laoreet eleifend.
-
-
-
-
-
-
-
 ## Method ? : Obfuscation of commands
 
 First, it was verified that the following powershell reverse shell command would be detected by AMSI.
