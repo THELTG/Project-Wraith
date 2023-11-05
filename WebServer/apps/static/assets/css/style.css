@@ -1540,13 +1540,7 @@ p.text-muted {
   font-size: 18px;
 }
 
-/* logo centering - a bit hard coded because mx-auto doesn't work */
-.b-brand .bg {
-  margin-left: 20px;
-  font-weight: 100;
-  color: #fff;
-  font-size: 18px;
-}
+
 
 .navbar-collapsed .b-brand .b-title {
   -webkit-transform: rotateY(-90deg);
