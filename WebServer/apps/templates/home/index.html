@@ -35,7 +35,21 @@
                                                 </div>
 
                                             </div>
-                                            <button class="container-fluid mb-3 mt-2" type="button" style="cursor: pointer;"><h6 class="mb-2 mt-2">Add an Agent</h6></button>
+                                            <a class="btn btn-primary container-fluid mb-3 mt-2" type="button" style="cursor: pointer;"
+                                            data-toggle="collapse" aria-expanded="false" aria-controls="multiCollapseExample1" href="#multiCollapseExample1" role="button">
+                                            Add an Agent</a>
+                                            <div class="row">
+                                                <div class="col">
+                                                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                                    <div class="card card-body shadow">
+                                                    <h7 style="font-weight: bold; font-size: 17.5px;" class="mt-2">Code to Copy</h7>
+                                                    <p class="mt-1">
+                                                        $server=http://0.0.0.0:8888 <br>$socket=http://0.0.0.0:7001<br>$contact="tcp"
+                                                    </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
                                             
                                             
                                         </div>
@@ -389,11 +403,11 @@
                                 <div class="col-xl-12 col-md-12 m-b-30">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                            <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                                 aria-controls="home" aria-selected="false">Live Agents</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active show" id="profile-tab" data-toggle="tab"
+                                            <a class="nav-link" id="profile-tab" data-toggle="tab"
                                                 href="#profile" role="tab" aria-controls="profile" aria-selected="true">
                                                 Terminated Agents</a>
                                         </li>
@@ -403,14 +417,14 @@
                                         </li> -->
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
                                             <table class="table table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>User</th>
-                                                    <th>Activity</th>
-                                                    <th>Time</th>
-                                                    <th>Status</th>
+                                                    <th>ID</th>
+                                                    <th>Host</th>
+                                                    <th>Privelege</th>
+                                                    <th>Last Seen</th>
                                                     <th class="text-right"></th>
                                                 </tr>
                                                 </thead>
@@ -497,15 +511,15 @@
                                             </table>
 
                                         </div>
-                                        <div class="tab-pane fade active show" id="profile" role="tabpanel"
+                                        <div class="tab-pane fade" id="profile" role="tabpanel"
                                                 aria-labelledby="profile-tab">
                                             <table class="table table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>User</th>
-                                                    <th>Activity</th>
-                                                    <th>Time</th>
-                                                    <th>Status</th>
+                                                    <th>ID</th>
+                                                    <th>Host</th>
+                                                    <th>Privilege</th>
+                                                    <th>Last Seen</th>
                                                     <th class="text-right"></th>
                                                 </tr>
                                                 </thead>
@@ -590,7 +604,7 @@
                                             </table>
 
                                         </div>
-                                        <div class="tab-pane fade" id="contact" role="tabpanel"
+<!--                                         <div class="tab-pane fade" id="contact" role="tabpanel"
                                                 aria-labelledby="contact-tab">
                                             <table class="table table-hover">
                                                 <thead>
@@ -681,7 +695,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
