@@ -4,8 +4,8 @@
         <div class="navbar-brand header-logo">
             <a href="/" class="b-brand">
                 <div class="bg"> 
-                    <img style="width: 170px;"
-                    src="{{ config.ASSETS_ROOT }}/images/wraith3.png" alt="wraith">
+                    <img style="width: 90%;"
+                    src="{{ config.ASSETS_ROOT }}/images/wraith3.png" alt="wraith" class="mt-3 mx-auto">
                 </div>
             </a>
         </div>
@@ -19,13 +19,36 @@
                     <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
                             class="pcoded-mtext">Dashboard</span></a>
                 </li>
+                <li data-username="agents" 
+                    class="nav-item {% if 'agents' in segment %} active {% endif %}"> <!--add a agents.html later-->
+                    <a href="/agents.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span 
+                            class="pcoded-mtext">Agents</span></a>
+                </li>
+                <li data-username="Operations" 
+                    class="nav-item {% if 'operations' in segment %} active {% endif %}"> <!--add a operations.html later-->
+                    <a href="/operators.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-crosshair"></i></span><span 
+                            class="pcoded-mtext">Operations</span></a>
+                </li>
                 <li data-username="reports" 
                     class="nav-item {% if 'reports' in segment %} active {% endif %}"> <!--add a reports.html later-->
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span 
+                    <a href="/reports.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span 
                             class="pcoded-mtext">Reports</span></a>
                 </li>
-               
-                              
+                <li data-username="documentation" 
+                    class="nav-item {% if 'documentation' in segment %} active {% endif %}"> <!--add a documentation.html later-->
+                    <a href="/documentation.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span 
+                            class="pcoded-mtext">Documentation</span></a>
+                </li>
+                
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Configuration</label>
+                </li>
+                <li data-username="settings" 
+                    class="nav-item {% if 'settings' in segment %} active {% endif %}"> <!--add a settings.html later-->
+                    <a href="/settings.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span 
+                            class="pcoded-mtext">Settings</span></a>
+                </li>
+
                 <li class="nav-item pcoded-menu-caption">
                     <label>UI Element</label>
                 </li>
@@ -73,26 +96,12 @@
                     <a href="/map-google.html" class="nav-link "><span
                         class="pcoded-micon"><i class="feather icon-map"></i></span><span
                         class="pcoded-mtext">Maps</span></a></li>
-                <li class="nav-item pcoded-menu-caption">
-                    <label>Pages</label>
-                </li>
+              
 
-                <li data-username="Sample Page" class="nav-item"><a href="/page-blank.html" class="nav-link"><span
-                        class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a>
-                </li>
+             
 
-            
-                <li class="nav-item pcoded-menu-caption">
-                    <label>More Resources</label>
-                </li>                    
-                <li data-username="Support Page" class="nav-item ">
-                    <a target="_blank" href="https://appseed.us/support" class="nav-link">
-                        <span class="pcoded-micon">
-                            <i class="feather icon-headphones"></i>
-                        </span>
-                        <span class="pcoded-mtext">Support</span>
-                    </a>
-                </li>                
+                          
+                          
             </ul>
         </div>
     </div>

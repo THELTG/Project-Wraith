@@ -1,6 +1,8 @@
-{% extends "layouts/base-fullscreen.html" %}
+{% extends "layouts/base.html" %}
 
 {% block title %} 404 Page {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}   
 
@@ -22,7 +24,7 @@
                     <br />
 
                     <span class="mb-0 text-muted">
-                        Page not found - <a href="/">Home</a> 
+                        Page not found - <a href="/">Return to Dashboard</a> 
                     </span>
 
                 </div>
@@ -31,3 +33,5 @@
     </div>
 
 {% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}
