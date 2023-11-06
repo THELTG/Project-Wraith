@@ -3,12 +3,13 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-
+from apps import db
+from apps.home.db import Student
 
 @blueprint.route('/')
 def index():
-    return render_template('home/index.html', segment='index')
-
+    students = Student.query.all()
+    return render_template('home/index.html', segment='index', students=students)
 
 @blueprint.route('/<template>')
 def route_template(template):
