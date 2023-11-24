@@ -4,12 +4,12 @@ from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
-from apps.home.db import Student
+from apps.home.db import allAgents
 
 @blueprint.route('/')
 def index():
-    students = Student.query.all()
-    return render_template('home/index.html', segment='index', students=students)
+    agents = allAgents.query.all()
+    return render_template('home/index.html', segment='index', agents=allAgents) # students=students is temporary, just testing db
 
 @blueprint.route('/<template>')
 def route_template(template):
