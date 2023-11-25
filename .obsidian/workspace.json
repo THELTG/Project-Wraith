@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/Exploitation.md",
+                "file": "docs/LPE.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/Exploitation.md",
+                "file": "docs/LPE.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/Exploitation.md",
+                "file": "docs/LPE.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/Exploitation.md"
+                "file": "docs/LPE.md"
               }
             }
           }
@@ -149,21 +149,28 @@
   },
   "active": "52bfce401d2a6235",
   "lastOpenFiles": [
-    "demo-presentation/uploads/meterpreter.exe",
-    "demo-presentation/__pycache__/translator.cpython-311.pyc",
-    "demo-presentation/__pycache__/attacker_conf.cpython-311.pyc",
-    "demo-presentation/uploads/powercat.ps1",
-    "demo-presentation/payloads/windefender_disable.reg",
-    "demo-presentation/uploads/Invoke-Reflective.ps1",
-    "demo-presentation/payloads/amsi_variant.ps1",
-    "demo-presentation/payloads/amsi_bypass.ps1",
-    "demo-presentation/__pycache__",
-    "demo-presentation/payloaders.py",
-    "demo-presentation/uploads",
+    "WebServer/apps/templates/home/operations.html",
+    "docs/misc/Pasted image 20231125222408.png",
+    "docs/misc/Pasted image 20231125222356.png",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/Cl.items.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_MSKSSRV_LPE_CVE-2023-36802.exe.recipe",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link.command.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link.write.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link.read.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link.read.27.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link.read.54.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link-cvtres.write.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link-cvtres.read.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/Windows_MSKSSRV_LPE_CVE-2023-36802/x64/Release/Windows_.7c5c471b.tlog/link-rc.write.1.tlog",
+    "LPE/Windows_MSKSSRV_LPE_CVE-2023-36802/README.md",
+    "LPE/Windows_LPE_AFD_CVE-2023-21768/README.md",
+    "docs/misc/Pasted image 20231125214501.png",
+    "docs/misc/Pasted image 20231125015314.png",
+    "WebServer/README.md",
+    "docs/Exploitation.md",
     "docs/AMSI Tests.md",
     "docs/Initial Testing.md",
     "docs/misc/disassembler.png",
-    "docs/Exploitation.md",
     "docs/misc/detected.png",
     "docs/software packages.md",
     "docs/Caldera.md",
@@ -175,10 +182,6 @@
     "docs/misc/mimikatz2.png",
     "docs/misc/mimikatz.png",
     "docs/misc/memorypatch.png",
-    "docs/misc/Pasted image 20231013033651.png",
-    "docs/misc/Pasted image 20231013033531.png",
-    "docs/misc/Pasted image 20231012201146.png",
-    "docs/misc/Pasted image 20231012201039.png",
     "docs/Untitled 1.md",
     "Initial Testing.md",
     "software packages.md",
