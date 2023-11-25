@@ -1,0 +1,529 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!--[ Recommended Operations] start-->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>Recommended Operations</h5>
+                                        </div>
+                                        <div class="card-block px-3 py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Operation Name</th>
+                                                            <th>Description</th>
+                                                            <th>Compatibility</th>
+                                                            <th>Agent Select</th>
+                                                            <th>Execute</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">AMSI Bypass</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description1">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description1" tabindex="-1" role="dialog" aria-labelledby="Description1Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description1Label">AMSI Bypass</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests various AMSI Bypass methods against a Windows 10/11 device.
+                                                                    <br>
+                                                                    <br>
+                                                                    The current version of the operation supports one method of AMSI Bypass : Memory patching. <br><br>
+                                                                    If this operation is deployed, encoded implementations of this method will be executed in the target machine, and return the results of the test.
+                                                                    It is recommended that this operation is run first before the others, as most rely on the bypass of AMSI to work.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                    
+                                                        <!-- <form action="" method="post"> replace with flask endpoint later -->
+                                                      
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                   
+                                                        <!-- <form> -->
+                                                   
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Local Privilege Escalation : Kernel Drivers</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description2">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description2" tabindex="-1" role="dialog" aria-labelledby="Description2Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Privilege Escalation : Kernel Drivers</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests the kernel driver exploitation method of local privilege escalation.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Lateral Movement : Credentials Forwarding</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description3">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description3" tabindex="-1" role="dialog" aria-labelledby="Description3Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Credentials forwarding for lateral movement</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests credentials forwarding.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                    </tr>
+                                                       
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Network Pivoting : Chisel</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description4" tabindex="-1" role="dialog" aria-labelledby="Description4Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Network Pivoting : Chisel</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests the ability to pivot into an internal network using Chisel.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                       
+                                                    </tr>
+                                                     
+                                                    </tr>
+                                                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--[ Recommended Operations ] end-->
+
+                                <!-- [ Operations info ] start -->
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="card card-event">
+                                        <div class="card-block">
+                                            <div class="row align-items-center justify-content-center">
+                                                <div class="col">
+                                                    <h5 class="m-0">Operations in Database</h5>
+                                                </div>
+                                                
+                                            </div>
+                                            <h2 class="mt-3 f-w-200">5<sub class="text-muted f-14"> Unique Operations have been loaded. <a href="/documentation.html"><u>Want to add more?</u></a></sub></h2>
+                                    
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-block border-bottom">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-auto">
+                                                    <i class="feather icon-zap f-30 text-c-blue"></i>
+                                                </div>
+                                                <div class="col">
+                                                    <h3 class="f-w-300">235</h3>
+                                                    <span class="d-block text-uppercase">Total Operations executed</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-block border-bottom">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-auto">
+                                                    <i class="feather icon-check-circle f-30 text-c-blue"></i>
+                                                </div>
+                                                <div class="col">
+                                                    <h3 class="f-w-300">0</h3>
+                                                    <span class="d-block text-uppercase">Total Agents fully compromised</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <!-- [ Operations info  ] end -->
+                               
+                        
+
+                                <!--[ All Operations ] start-->
+                                <div class="col-xl-12 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>All Operations</h5>
+                                        </div>
+                                        <div class="card-block px-3 py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Operation Name</th>
+                                                            <th>Description</th>
+                                                            <th>Compatibility</th>
+                                                            <th>Agent Select</th>
+                                                            <th>Execute</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">AMSI Bypass</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description1">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description1" tabindex="-1" role="dialog" aria-labelledby="Description1Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description1Label">AMSI Bypass</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests various AMSI Bypass methods against a Windows 10/11 device.
+                                                                    <br>
+                                                                    <br>
+                                                                    The current version of the operation supports one method of AMSI Bypass : Memory patching. <br><br>
+                                                                    If this operation is deployed, encoded implementations of this method will be executed in the target machine, and return the results of the test.
+                                                                    It is recommended that this operation is run first before the others, as most rely on the bypass of AMSI to work.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                    
+                                                        <!-- <form action="" method="post"> replace with flask endpoint later -->
+                                                      
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                   
+                                                        <!-- <form> -->
+                                                   
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Local Privilege Escalation : Kernel Drivers</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description2">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description2" tabindex="-1" role="dialog" aria-labelledby="Description2Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Privilege Escalation : Kernel Drivers</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests the kernel driver exploitation method of local privilege escalation.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Lateral Movement : Credentials Forwarding</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description3">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description3" tabindex="-1" role="dialog" aria-labelledby="Description3Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Credentials forwarding for lateral movement</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests credentials forwarding.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                    </tr>
+                                                       
+                                                    </tr>
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Network Pivoting : Chisel</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description4" tabindex="-1" role="dialog" aria-labelledby="Description4Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Network Pivoting : Chisel</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation tests the ability to pivot into an internal network using Chisel.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    <option>Agent #123ABC</option>
+                                                                    <option>Agent #234DEF</option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <input type="hidden" operation="AMSI">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                        </td>
+                                                       
+                                                    </tr>
+                                                     
+                                                    </tr>
+                                                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               <!--[ All Operations ] End-->
+
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->            
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
