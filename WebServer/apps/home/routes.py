@@ -1,15 +1,31 @@
 
 from apps.home import blueprint
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents
+# from exploit import attacker
 
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
-    return render_template('home/index.html', segment='index', agents=allAgents) 
+    return render_template('home/index.html', segment='index', agents=agents) 
+
+@blueprint.route('/operations.html')
+def operations():
+    agents = allAgents.query.all()
+    return render_template('home/operations.html', agents=agents)
+
+@blueprint.route('/execute_operation', methods=['POST'])
+def execute_script():
+    arg = request.form.to_dict()
+    agent = arg['agent_select']
+    operation = arg['operation']
+    result = attacker.amsi_execute()
+    return jsonify(result=result)
+
+
 
 @blueprint.route('/<template>')
 def route_template(template):

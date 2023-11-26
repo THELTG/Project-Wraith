@@ -72,25 +72,22 @@
                                                             Windows 10/11                      
                                                         </td>
                                                     
-                                                        <!-- <form action="" method="post"> replace with flask endpoint later -->
-                                                      
+                                                        <form action="{{url_for('execute_script')}}" method="POST">
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agent_select">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <input type="hidden" operation="AMSI">
+                                                        <input type="hidden" name="operation" id="AMSI">
                                                         <td>
                                                             <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
                                                         </td>
-                                                   
-                                                        <!-- <form> -->
-                                                   
+                                                        </form>
                                                     </tr>
                                                     <tr class="unread">
                                                         <td>
@@ -124,13 +121,12 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
-                                                            </div>
                                                         </td>
                                                         <input type="hidden" operation="AMSI">
                                                         <td>
@@ -170,11 +166,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -217,11 +213,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -346,11 +342,11 @@
                                                       
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -394,11 +390,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -440,11 +436,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
@@ -487,11 +483,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                <select class="form-control" id="agentAlive">
                                                                     <option value="" disabled selected>Select an agent..</option>
-                                                                    <option>Agent #123ABC</option>
-                                                                    <option>Agent #234DEF</option>
-                                                                    
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </td>
