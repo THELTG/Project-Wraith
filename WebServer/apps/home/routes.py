@@ -9,7 +9,7 @@ from apps.home.db import allAgents
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
-    return render_template('home/index.html', segment='index', agents=allAgents) # students=students is temporary, just testing db
+    return render_template('home/index.html', segment='index', agents=allAgents) 
 
 @blueprint.route('/<template>')
 def route_template(template):
