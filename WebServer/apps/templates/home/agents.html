@@ -402,6 +402,8 @@
                                 <!-- [ rating list ] end-->
 
                                 <!-- Used for the caldera agent stats bar-->
+
+
                                 <div class="col-xl-12 col-md-12 m-b-30">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item">
@@ -423,35 +425,18 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Host</th>
-                                                    <th>Privilege</th>
+                                                    <th>Identifier</th>
+                                                    <th>Host Machine</th>
+                                                    <th>IP Address</Address></th>
+                                                    <th>Status</th>
                                                     <th>Last Seen</th>
                                                     <th class="text-right"></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">3:28 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
-                                                    </td>
-                                                </tr>
+                                                
 
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>
                                                         <h6 class="m-0"><img class="rounded-circle  m-r-10"
                                                                                 style="width:40px;"
@@ -469,46 +454,90 @@
                                                     </td>
                                                     <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
+                                                {% for agent in agents if agent.status == "Alive"%}
                                                 <tr>
                                                     <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                                                                                alt="activity-user">Silje Larsen</h6>
+                                                        {% if agent.operatingSystem == "Win 11" or "Win 10" %}
+                                                        <h6 class="m-0" value="{{agent.id}}"><img class="square  m-r-10"
+                                                            style="width:20px;"
+                                                            src="{{ config.ASSETS_ROOT }}/images/user/windows.png"
+                                                            alt="activity-user">{{agent.identifier}}</h6>
+                                                        {% else %}
+                                                        <h6 class="m-0" value="{{agent.id}}">{{agent.identifier}}</h6>
+                                                        {% endif %}
                                                     </td>
                                                     <td>
-                                                        <h6 class="m-0">Dog the quick brown</h6>
+                                                        <h6 class="m-0" value="{{agent.hostname}}">{{agent.hostname}} ({{agent.ipAddress}})</h6>
                                                     </td>
                                                     <td>
-                                                        <h6 class="m-0">10:23 AM</h6>
+                                                        <h6 class="m-0" value="{{agent.operatingSystem}}">{{agent.operatingSystem}}</h6>
+                                                        
                                                     </td>
+                                                    {% if agent.status == "Alive" %}
                                                     <td>
-                                                        <h6 class="m-0 text-c-purple">Delayed</h6>
+                                                        <h6 class="m-0" value="{{agent.status}}">{{agent.status}} <i class="fas fa-circle text-c-green f-10"></i></h6>
                                                     </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
+                                                    {% else %}
                                                     <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
+                                                        <h6 class="m-0" value="{{agent.status}}">{{agent.status}} <i class="fas fa-circle text-c-red f-10"></i></h6>
                                                     </td>
+                                                    {% endif %}
                                                     <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
+                                                        <h6 class="m-0 text-c-purple" value="{{agent.lastCheckin}}">{{agent.lastCheckin}}</h6>
                                                     </td>
+
+
+                                                    {% if agent.status == "Alive" %}
+                                                    <td><a id="button-{{agent.id}}" class="btn btn-primary container-fluid click-button" type="button" style="cursor: pointer;" role="button">Kill Agent</a></td>
+                                                    {% else %}
                                                     <td>
-                                                        <h6 class="m-0">4:28 PM</h6>
+                                                        <h6 class="m-0 text-c-purple">Terminated</h6>
                                                     </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
+                                                    {% endif %}
+
+                                                    <!-- {% if agent.status == "Alive" %}
                                                     <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
                                                     </td>
+                                                    {% else %}
+                                                    <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
+                                                    </td>
+                                                    {% endif %} -->
                                                 </tr>
+                                                {% endfor %}
+
+                                                <script>
+                                                    document.addEventListener('click', function(event) {
+                                                        // Check if the clicked element has the "click-button" class
+                                                        if (event.target.classList.contains('click-button')) {
+                                                            // Retrieve the id from the data-id attribute
+                                                            var buttonId = event.target.id;
+                                                            // Send an asynchronous request to the server with the buttonId
+                                                            fetch('/updateStatus', {
+                                                                method: 'PUT',
+                                                                headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                },
+                                                                body: JSON.stringify({ id: buttonId }),
+                                                            })
+                                                            .then(response => response.json())
+                                                            .then(data => {
+                                                                // Handle the server response if needed
+                                                                console.log('Server response:', data);
+                                                            })
+                                                            .catch(error => {
+                                                                console.error('Error:', error);
+                                                            });
+                                                            console.log(buttonId);
+                                                            setTimeout(()=>{location.reload()},2000);
+
+                                                            
+                                                            
+                                                        }
+                                                    });
+                                                </script>   
+                                                
                                                 </tbody>
                                             </table>
 
@@ -518,15 +547,54 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Host</th>
-                                                    <th>Privilege</th>
+                                                    <th>Identifier</th>
+                                                    <th>Host Machine</th>
+                                                    <th>IP Address</Address></th>
+                                                    <th>Status</th>
                                                     <th>Last Seen</th>
                                                     <th class="text-right"></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
+
+                                                    {% for agent in agents if agent.status == "Dead"%}
+                                                    <tr>
+                                                        <td>
+                                                            {% if agent.operatingSystem == "Win 11" or "Win 10" %}
+                                                            <h6 class="m-0" value="{{agent.id}}"><img class="square  m-r-10"
+                                                                style="width:20px;"
+                                                                src="{{ config.ASSETS_ROOT }}/images/user/windows.png"
+                                                                alt="activity-user">{{agent.identifier}}</h6>
+                                                            {% else %}
+                                                            <h6 class="m-0" value="{{agent.id}}">{{agent.identifier}}</h6>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0" value="{{agent.hostname}}">{{agent.hostname}} ({{agent.ipAddress}})</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0" value="{{agent.operatingSystem}}">{{agent.operatingSystem}}</h6>
+                                                            
+                                                        </td>
+
+                                                        <td>
+                                                            <h6 class="m-0" value="{{agent.status}}">{{agent.status}} <i class="fas fa-circle text-c-red f-10"></i></h6>
+                                                        </td>
+
+                                                        <td>
+                                                            <h6 class="m-0 text-c-purple" value="{{agent.lastCheckin}}">{{agent.lastCheckin}}</h6>
+                                                        </td>
+    
+                                                        <td>
+                                                            <h6 class="m-0 text-c-purple">Terminated</h6>
+                                                        </td>
+
+    
+                                                        
+                                                    </tr>
+                                                    {% endfor %}
+
+                                                <!-- <tr>
                                                     <td>
                                                         <h6 class="m-0"><img class="rounded-circle  m-r-10"
                                                                                 style="width:40px;"
@@ -544,160 +612,12 @@
                                                     </td>
                                                     <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">3:28 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">4:28 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                                                                                alt="activity-user">Silje Larsen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">Dog the quick brown</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">10:23 AM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-purple">Delayed</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i>
-                                                    </td>
-                                                </tr>
+                                                </tr> -->
+                                                
                                                 </tbody>
                                             </table>
 
                                         </div>
-<!--                                         <div class="tab-pane fade" id="contact" role="tabpanel"
-                                                aria-labelledby="contact-tab">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th>User</th>
-                                                    <th>Activity</th>
-                                                    <th>Time</th>
-                                                    <th>Status</th>
-                                                    <th class="text-right"></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                                                                                alt="activity-user">Silje Larsen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">Dog the quick brown</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">10:23 AM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-purple">Delayed</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">3:28 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-2.jpg"
-                                                                                alt="activity-user">Albert Andersen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">Jumps over the lazy</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">2:37 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-red">Missed</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10"
-                                                                                style="width:40px;"
-                                                                                src="{{ config.ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                                                                                alt="activity-user">Ida Jorgensen</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">The quick brown fox</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0">4:28 PM</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="m-0 text-c-green">Done</h6>
-                                                    </td>
-                                                    <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div> -->
                                     </div>
                                 </div>
 

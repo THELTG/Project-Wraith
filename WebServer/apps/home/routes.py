@@ -5,6 +5,7 @@ from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents
+import sqlite3
 # from exploit import attacker
 
 @blueprint.route('/')
@@ -25,6 +26,11 @@ def execute_script():
     result = attacker.amsi_execute()
     return jsonify(result=result)
 
+
+@blueprint.route('/agents.html', methods=["GET"])
+def agents_info():
+    agents = allAgents.query.all()
+    return render_template('home/agents.html', agents=agents)
 
 
 @blueprint.route('/<template>')
@@ -62,3 +68,25 @@ def get_segment(request):
 
     except:
         return None
+
+
+
+
+
+
+
+
+@blueprint.route('/updateStatus', methods=['PUT'])
+def udpateStatus():
+    data = request.get_json()
+    button_id = data.get('id')
+    id = button_id.split("button-")[1]
+    conn = sqlite3.connect('./apps/db.sqlite3')
+    print(button_id)
+    print(id)
+    conn.execute("UPDATE all_agents SET status='Dead' WHERE id=?", id)
+    conn.commit()
+    # agents = allAgents.query.all()
+    conn.close()
+    # return render_template('home/agents.html', agents=agents)\
+    return jsonify({"Message":"Data Status Updated"}) , render_template('home/agents.html')
