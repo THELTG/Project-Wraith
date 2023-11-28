@@ -74,7 +74,7 @@ def get_segment(request):
 
 
 
-
+#update
 
 @blueprint.route('/updateStatus', methods=['PUT'])
 def udpateStatus():
