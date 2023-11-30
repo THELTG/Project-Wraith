@@ -8,6 +8,7 @@ from apps.home.db import allAgents
 import sqlite3
 # from exploit import attacker
 
+'''
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
@@ -32,6 +33,34 @@ def agents_info():
     agents = allAgents.query.all()
     return render_template('home/agents.html', agents=agents)
 
+@blueprint.route('/updateStatus', methods=['PUT'])
+def udpateStatus():
+    data = request.get_json()
+    button_id = data.get('id')
+    id = button_id.split("button-")[1]
+    conn = sqlite3.connect('./apps/db.sqlite3')
+    print(button_id)
+    print(id)
+    conn.execute("UPDATE all_agents SET status='Dead' WHERE id=?", id)
+    conn.commit()
+    # agents = allAgents.query.all()
+    conn.close()
+    # return render_template('home/agents.html', agents=agents)\
+    return jsonify({"Message":"Data Status Updated"}) , render_template('home/agents.html')
+'''
+
+# Helper - Extract current page name from request
+def get_segment(request):
+    try:
+        segment = request.path.split('/')[-1]
+
+        if segment == '':
+            segment = 'index'
+
+        return segment
+
+    except:
+        return None
 
 @blueprint.route('/<template>')
 def route_template(template):
@@ -53,40 +82,3 @@ def route_template(template):
     except:
         return render_template('home/page-500.html'), 500
 
-
-# Helper - Extract current page name from request
-def get_segment(request):
-
-    try:
-
-        segment = request.path.split('/')[-1]
-
-        if segment == '':
-            segment = 'index'
-
-        return segment
-
-    except:
-        return None
-
-
-
-
-
-
-#update
-
-@blueprint.route('/updateStatus', methods=['PUT'])
-def udpateStatus():
-    data = request.get_json()
-    button_id = data.get('id')
-    id = button_id.split("button-")[1]
-    conn = sqlite3.connect('./apps/db.sqlite3')
-    print(button_id)
-    print(id)
-    conn.execute("UPDATE all_agents SET status='Dead' WHERE id=?", id)
-    conn.commit()
-    # agents = allAgents.query.all()
-    conn.close()
-    # return render_template('home/agents.html', agents=agents)\
-    return jsonify({"Message":"Data Status Updated"}) , render_template('home/agents.html')
