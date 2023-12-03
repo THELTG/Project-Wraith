@@ -169,6 +169,9 @@ def update_connections():
 
 if not DEBUG:
     Minify(app=app, html=True, js=False, cssless=False)
+
+
+# threading.Thread(target=socket_server).start()
     
 if DEBUG:
     app.logger.info('DEBUG            = ' + str(DEBUG)             )
