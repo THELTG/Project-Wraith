@@ -167,19 +167,19 @@ def update_connections():
         print(connections)
     return jsonify({"clients": clients_list})
 
+@app.before_first_request
+def start_thread():
+    threading.Thread(target=socket_server).start()
+
 if not DEBUG:
     Minify(app=app, html=True, js=False, cssless=False)
 
-
-# threading.Thread(target=socket_server).start()
-    
 if DEBUG:
     app.logger.info('DEBUG            = ' + str(DEBUG)             )
     app.logger.info('Page Compression = ' + 'FALSE' if DEBUG else 'TRUE' )
     app.logger.info('DBMS             = ' + app_config.SQLALCHEMY_DATABASE_URI)
     app.logger.info('ASSETS_ROOT      = ' + app_config.ASSETS_ROOT )
-    threading.Thread(target=socket_server).start()
 
 
 if __name__ == "__main__":
-    app.run('0.0.0.0',5000,debug=True)
+    app.run('0.0.0.0',5000,debug=True,use_reloader=False)
