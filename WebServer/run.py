@@ -167,8 +167,6 @@ def update_connections():
         print(connections)
     return jsonify({"clients": clients_list})
 
-# threading.Thread(target=socket_server).start()
-
 if not DEBUG:
     Minify(app=app, html=True, js=False, cssless=False)
     
