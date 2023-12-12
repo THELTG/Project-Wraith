@@ -18,7 +18,7 @@ for i in range(len(raw)):
     driverCategory = data['Category']
     driverName = data['Tags'][0]
     useCase = data['Commands']['Usecase']
-    description = data['Commands']['Description']
+    description = data['Commands']['Description'] if data['Commands']['Description'] != "" else "N/A" 
     operatingSystem = data['Commands']['OperatingSystem']
     resources = data['Resources']
     driverDict = {
