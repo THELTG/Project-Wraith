@@ -20,9 +20,9 @@ for i in range(len(raw)):
     driverCategory = data['Category']
     driverName = data['Tags'][0]
     useCase = data['Commands']['Usecase']
-    mitreID = data['MitreID']
     description = data['Commands']['Description']
     operatingSystem = data['Commands']['OperatingSystem']
+    resources = data['Resources']
 
     driverDict = {
         "DriverName" : driverName,
@@ -30,7 +30,6 @@ for i in range(len(raw)):
         "UseCase" : useCase,
         "OperatingSystem" : operatingSystem,
         "Description" : description,
-        "MitreID" : mitreID
     }
 
     driverList.append(driverDict)
