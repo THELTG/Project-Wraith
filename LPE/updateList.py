@@ -1,7 +1,6 @@
 import requests
 import sys
 import json
-import pyperclip
 
 response = requests.get("https://www.loldrivers.io/api/drivers.json") # make request to api endpoint for loldrivers
 
@@ -15,7 +14,6 @@ driverList = []
 
 for i in range(len(raw)):
     data = raw[i]
-
     # extract information
     driverCategory = data['Category']
     driverName = data['Tags'][0]
@@ -23,7 +21,6 @@ for i in range(len(raw)):
     description = data['Commands']['Description']
     operatingSystem = data['Commands']['OperatingSystem']
     resources = data['Resources']
-
     driverDict = {
         "DriverName" : driverName,
         "DriverCategory" : driverCategory,
@@ -31,13 +28,12 @@ for i in range(len(raw)):
         "OperatingSystem" : operatingSystem,
         "Description" : description,
     }
-
     driverList.append(driverDict)
 
-json_output = json.dumps(driverList, indent=4)
-pyperclip.copy(json_output)
+json_output = json.dumps(driverList)
 
-print("Data copied to clipboard, paste it on driverchecker.ps1!")
-
-
+origin = open("driverchecker.ps1",'r').read()
+replacetext = "###landingzone###" + origin.split("###landingzone###")[1] + "###landingzone###"
+newtext = f"###landingzone###\n$driver = @\"\n{json_output}\n\"@\n###landingzone###"
+open("driverchecker.ps1",'w').write(origin.replace(replacetext,newtext))
 
