@@ -71,23 +71,22 @@
                                                         <td>
                                                             Windows 10/11                      
                                                         </td>
-                                                    
-                                                        <form action="{{url_for('execute_script')}}" method="POST">
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agent_select">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" name="operation" id="AMSI">
-                                                        <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
-                                                        </td>
-                                                        </form>
+                                                        <form action="{{url_for('home_blueprint.execute_amsi')}}" method="POST">
+                                                            <td>
+                                                                <div class="form-group my-auto">
+                                                                    <select class="form-control" id="agent_select" name = "selected_agent">
+                                                                        <option value="" disabled selected>Select an agent..</option>
+                                                                        {% for agent in agents if agent.status == "Alive" %}
+                                                                        <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <input type="hidden" id="AMSI">
+                                                            <td>
+                                                                <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                            </td>
+                                                            </form>
                                                     </tr>
                                                     <tr class="unread">
                                                         <td>
