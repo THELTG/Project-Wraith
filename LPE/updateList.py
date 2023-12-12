@@ -21,7 +21,7 @@ for i in range(len(raw)):
     driverName = data['Tags'][0]
     useCase = data['Commands']['Usecase']
     mitreID = data['MitreID']
-    description = data['Commands'].get('Description','N/A')
+    description = data['Commands']['Description']
     operatingSystem = data['Commands']['OperatingSystem']
 
     driverDict = {
