@@ -74,7 +74,7 @@
                                                         <form action="{{url_for('home_blueprint.execute_amsi')}}" method="POST">
                                                             <td>
                                                                 <div class="form-group my-auto">
-                                                                    <select class="form-control" id="agent_select" name = "selected_agent">
+                                                                    <select class="form-control" id="agentAliveAMSI" name = "selected_amsi_agent" onchange="enableButton()">
                                                                         <option value="" disabled selected>Select an agent..</option>
                                                                         {% for agent in agents if agent.status == "Alive" %}
                                                                         <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -84,7 +84,7 @@
                                                             </td>
                                                             <input type="hidden" id="AMSI">
                                                             <td>
-                                                                <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                                <button type="submit" id="amsiButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
                                                             </td>
                                                             </form>
                                                     </tr>
@@ -120,16 +120,16 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
+                                                                <select class="form-control" id="agentAliveKD">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                         </td>
-                                                        <input type="hidden" operation="AMSI">
+                                                        <input type="hidden" operation="kernel">
                                                         <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                            <button type="submit" id="kdButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
                                                         </td>
 
                                                     </tr>
@@ -165,7 +165,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
+                                                                <select class="form-control" id="agentAliveCF">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -173,9 +173,9 @@
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <input type="hidden" operation="AMSI">
+                                                        <input type="hidden" operation="credentials">
                                                         <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                            <button type="submit" id="cfButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
                                                         </td>
                                                     </tr>
                                                        
@@ -212,7 +212,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
+                                                                <select class="form-control" id="agentAliveChisel">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -220,13 +220,57 @@
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <input type="hidden" operation="AMSI">
+                                                        <input type="hidden" operation="chisel">
                                                         <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
+                                                            <button type="submit" id="chiselButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
                                                         </td>
                                                        
                                                     </tr>
-                                                     
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Reflective Injection</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description5">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description5" tabindex="-1" role="dialog" aria-labelledby="Description5Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Reflective Injection</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation bypasses anti-virus and uploads a selected file using reflective injection.
+                                                                    <br>
+                                                                    <br>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="agentAliveRI" onchange="enableButton()">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                        </td>
+                                                        <input type="hidden" operation="reflectiveInject">
+                                                        <td>
+                                                            <button type="submit" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
+                                                        </td>
+
+                                                    </tr>
                                                     </tr>
                                                 
                                                     </tbody>
@@ -235,6 +279,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="fileModal" class="modal" tabindex="-1">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <form method="POST" action="{{ url_for('home_blueprint.select_file') }}">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title">Select Payload</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="form-group my-auto">
+                                              <select class="form-control" id="file_select" name="selected_file" onchange="enableButton()">
+                                                <option value="" disabled selected>Select File</option>
+                                                {% for file in files %}
+                                                <option value="{{ file['name'] }}">{{ file['name'] }}</option>
+                                                {% endfor %}
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <input type="hidden" id="Payload">
+                                            <button type="submit" class="btn btn-outline-primary" id="fileButton" disabled>Select</button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
                                 <!--[ Recommended Operations ] end-->
 
                                 <!-- [ Operations info ] start -->
@@ -521,4 +592,43 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}<script>
+    function enableButton() {
+
+        //AMSI Bypass
+        var amsiSelect = document.getElementById('agentAliveAMSI');
+        var amsiButton = document.getElementById('amsiButton');
+        amsiButton.disabled = amsiSelect.value === "";
+
+        //LPE: Kernel Drivers
+        var kdSelect = document.getElementById('agentAliveKD');
+        var kdButton = document.getElementById('kdButton');
+        kdButton.disabled = kdSelect.value === "";
+
+        //LM: Credentials Forwarding
+        var cfSelect = document.getElementById('agentAliveCF');
+        var cfButton = document.getElementById('cfButton');
+        cfButton.disabled = cfSelect.value === "";
+
+        //NP: Chisel
+        var chiselSelect = document.getElementById('agentAliveChisel');
+        var chiselButton = document.getElementById('chiselButton');
+        chiselButton.disabled = chiselSelect.value === "";
+
+        //Reflective Injection
+        var riSelect = document.getElementById('agentAliveRI');
+        var riButton = document.getElementById('riButton');
+        riButton.disabled = riSelect.value === "";
+        
+        //Reflective Injection - Payload 
+        var fileSelect = document.getElementById('file_select');
+        var fileButton = document.getElementById('fileButton');
+        fileButton.disabled = fileSelect.value === "";
+
+    }
+    function payloadSelection() {
+      // Use Bootstrap modal to show the form
+      var popUp = new bootstrap.Modal(document.getElementById('fileModal'));
+      popUp.show();
+    }
+  </script>{% endblock javascripts %}
