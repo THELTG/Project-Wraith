@@ -1,4 +1,3 @@
-
 from apps.home import blueprint
 from flask import render_template, request, jsonify, redirect, url_for, send_from_directory
 from flask_login import login_required
@@ -42,13 +41,21 @@ def reports():
     agents = allAgents.query.all()
     return render_template('home/reports.html', agents=agents)
 
+@blueprint.route('/payloads.html', methods=["GET"])
+def payloads():
+    return render_template('home/payloads.html')
+
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
     path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
     file = request.files['file']
     filename = file.filename
     file.save(os.path.join(path, filename))
-    return redirect(request.referrer)
+    return """
+            <script>
+                window.alert("File Uploaded");
+                window.location.href = document.referrer;
+            </script>"""
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
