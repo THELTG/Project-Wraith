@@ -1,12 +1,12 @@
 
 from apps.home import blueprint
-from flask import render_template, request, jsonify, redirect, url_for
-from flask_login import login_required
+from flask import render_template, request, jsonify, redirect, url_for, send_from_directory
+# from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents
 from c2server.server import *
-from exploit.operation import *
+from apps.exploit.operation import *
 # from exploit import attacker
 
 @blueprint.route('/')
@@ -23,6 +23,11 @@ def operations():
 def agents_info():
     agents = allAgents.query.all()
     return render_template('home/agents.html', agents=agents)
+
+@blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
+def return_exploit(filename):
+    directory = 'exploit/payload'
+    return send_from_directory(directory, filename)
 
 @blueprint.route("/update_connections", methods=["GET"])
 def update_connections():
