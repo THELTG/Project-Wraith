@@ -36,6 +36,15 @@ def payloads():
     files = [file.name for file in os.scandir(path)]
     return render_template('home/payloads.html', files=files)
 
+@blueprint.route('/upload_payload', methods=["POST"])
+def upload_payload():
+    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
+    file = request.files['file']
+    print(file)
+    filename = file.filename
+    file.save(os.path.join(path, filename))
+    return redirect(request.referrer)
+
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
     directory = 'exploit/payload'
