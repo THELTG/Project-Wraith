@@ -13,3 +13,4 @@ class allAgents(db.Model):
     lastCheckin = db.Column(db.String(100))
     integrity = db.Column(db.String(50), nullable=False)
     operatingSystem = db.Column(db.String(100), nullable=False)
+    connectedTo = db.Column(db.String(50), nullable=False)

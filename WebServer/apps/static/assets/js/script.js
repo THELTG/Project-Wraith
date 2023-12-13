@@ -19,21 +19,21 @@ function updateConnections() {
                     var OS_Version = row.insertCell(4);
                     var Status = row.insertCell(5);
                     var Last_Seen = row.insertCell(6);
-                    var Terminate = row.insertCell(7);
+                    var connectedTo = row.insertCell(7)
+                    var Terminate = row.insertCell(8);
                     Identifier.innerHTML = clients[i][1];
                     Host.innerHTML = clients[i][3];
                     Username.innerHTML = clients[i][4];
                     IP_Address.innerHTML = clients[i][2];
                     OS_Version.innerHTML = clients[i][8];
+                    connectedTo.innerHTML = clients[i][9];
                     Terminate.innerHTML = `<button type="submit" class="btn btn-outline-primary" onclick="terminateConnection(${clients[i][0]})">Terminate</button>`;
-                    if (Number.isInteger(clients[i][6])){
-                        Last_Seen.innerHTML = clients[i][6].toString() + " seconds ago"
-                    } else {
-                        Last_Seen.innerHTML = clients[i][6]
-                    }
+        
                     if(clients[i][5] == 'Alive'){
+                        Last_Seen.innerHTML = clients[i][6].toString() + " seconds ago"
                         Status.innerHTML = '<i class="fas fa-circle text-c-green f-10"></i> ' + clients[i][5];
                     } else {
+                        Last_Seen.innerHTML = clients[i][6]
                         Status.innerHTML = '<i class="fas fa-circle text-c-red f-10"></i> ' + clients[i][5];
                     }
             }

