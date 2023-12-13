@@ -40,7 +40,6 @@ def payloads():
 def upload_payload():
     path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
     file = request.files['file']
-    print(file)
     filename = file.filename
     file.save(os.path.join(path, filename))
     return redirect(request.referrer)
