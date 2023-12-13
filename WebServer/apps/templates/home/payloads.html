@@ -70,6 +70,27 @@
                                                             </form>
                                                     </tr>                                                                              
                                                     </tbody>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Upload Payload</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <form action = "/upload_payload" enctype="multipart/form-data" method="POST">
+                                                            <td>
+                                                                <div class="form-group my-auto">
+                                                                    <input type="file" name="file" />   
+                                                                </div>
+                                                            </td>
+                                                            <input type="hidden" id="Payload">
+                                                            <td>
+                                                                <button type="submit" class="btn btn-outline-primary">Upload</button>
+                                                            </td>
+                                                            </form>
+                                                    </tr>                                                                              
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
