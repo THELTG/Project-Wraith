@@ -52,16 +52,11 @@ def terminate_connections(id):
                         conn[1].send(b"\n")
                         time.sleep(1)
                         conn[1].send("Stop-Process -Name 'agent'".encode() + b"\n")
+                        time.sleep(1)
                         conn[1].recv(1048)
                         db.execute("DELETE FROM all_agents where id=?", id)
                         db.commit()
                         return redirect(request.referrer)
-                    else:
-                        return """
-                            <script>
-                                window.alert("No Matching Identifier");
-                                window.location.href = document.referrer;
-                            </script>"""
             else:
                 return """
                     <script>
