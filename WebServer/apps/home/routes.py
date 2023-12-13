@@ -1,12 +1,13 @@
 
 from apps.home import blueprint
 from flask import render_template, request, jsonify, redirect, url_for, send_from_directory
-# from flask_login import login_required
+from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents
 from c2server.server import *
 from apps.exploit.operation import *
+import os
 # from exploit import attacker
 
 @blueprint.route('/')
@@ -23,6 +24,17 @@ def operations():
 def agents_info():
     agents = allAgents.query.all()
     return render_template('home/agents.html', agents=agents)
+
+@blueprint.route('/reports.html', methods=["GET"])
+def reports():
+    agents = allAgents.query.all()
+    return render_template('home/reports.html', agents=agents)
+
+@blueprint.route('/payloads.html', methods=["GET"])
+def payloads():
+    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
+    files = [file.name for file in os.scandir(path)]
+    return render_template('home/payloads.html', files=files)
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -47,11 +59,12 @@ def update_connections():
 
 @blueprint.route("/terminate_connections/<id>", methods=["POST"])
 def terminate_connections(id):
-    client_id = db.execute("SELECT identifier FROM all_agents WHERE status='Alive' and id=?", id).fetchone()
-    client_id = str(client_id[0])
+    client = db.execute("SELECT identifier, status FROM all_agents WHERE id=?", id).fetchone()
+    client_id = str(client[0])
+    client_status = str(client[1])
     try:
         with connections_lock:
-            if connections != []:
+            if client_status == 'Alive' and connections != []:
                 for conn in connections:
                     if conn[6] == client_id:
                         conn[1].send(b"\n")
@@ -59,15 +72,9 @@ def terminate_connections(id):
                         conn[1].send("Stop-Process -Name 'agent'".encode() + b"\n")
                         time.sleep(1)
                         conn[1].recv(1048)
-                        db.execute("DELETE FROM all_agents where id=?", id)
-                        db.commit()
-                        return redirect(request.referrer)
-            else:
-                return """
-                    <script>
-                        window.alert("No Active Connections, Check Agents");
-                        window.location.href = document.referrer;
-                    </script>"""
+            db.execute("DELETE FROM all_agents where id=?", id)
+            db.commit()
+            return redirect(request.referrer)
     except OSError:
         time.sleep(5)
 
