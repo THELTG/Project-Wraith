@@ -39,37 +39,11 @@
                                 <div class="col-xl-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>List of Payloads</h5>
+                                            <h5>Upload Payload</h5>
                                         </div>
                                         <div class="card-block table-border-style">
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Current Payloads</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr class="unread">
-                                                        <form method="POST">
-                                                            <td>
-                                                                <div class="form-group my-auto">
-                                                                    <select class="form-control" id="file_select" name = "selected_file">
-                                                                        <option value="" disabled selected>Select File</option>
-                                                                        {% for file in files %}
-                                                                        <option value="{{ file.id }}">{{ file }}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <input type="hidden" id="Payload">
-                                                            <td>
-                                                                <button type="submit" class="btn btn-outline-primary">Select</button>
-                                                            </td>
-                                                            </form>
-                                                    </tr>                                                                              
-                                                    </tbody>
                                                     <thead>
                                                         <tr>
                                                             <th>Upload Payload</th>
