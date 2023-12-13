@@ -1,0 +1,112 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Payloads {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10 mb-4">Payloads</h5>
+                                    </div>
+                                    <!-- <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">Tables</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>List of Payloads</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Current Payloads</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <form method="POST">
+                                                            <td>
+                                                                <div class="form-group my-auto">
+                                                                    <select class="form-control" id="file_select" name = "selected_file">
+                                                                        <option value="" disabled selected>Select File</option>
+                                                                        {% for file in files %}
+                                                                        <option value="{{ file.id }}">{{ file }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <input type="hidden" id="Payload">
+                                                            <td>
+                                                                <button type="submit" class="btn btn-outline-primary">Select</button>
+                                                            </td>
+                                                            </form>
+                                                    </tr>                                                                              
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Upload Payload</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <form action = "/upload_payload" enctype="multipart/form-data" method="POST">
+                                                            <td>
+                                                                <div class="form-group my-auto">
+                                                                    <input type="file" name="file" />   
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <button type="submit" class="btn btn-outline-primary">Upload</button>
+                                                            </td>
+                                                            </form>
+                                                    </tr>                                                                              
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
