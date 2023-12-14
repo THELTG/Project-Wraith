@@ -1,9 +1,9 @@
 from apps.home import blueprint
 from flask import render_template, request, jsonify, redirect, url_for, send_from_directory, session
-from flask_login import login_required
-from jinja2 import TemplateNotFound
+# from flask_login import login_required
+# from jinja2 import TemplateNotFound
 from apps import db
-from apps.home.db import allAgents
+from apps.home.db import allAgents, operationResults
 from c2server.server import *
 from apps.exploit.operation import *
 import os
@@ -12,7 +12,8 @@ import os
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
-    return render_template('home/index.html', segment='index', agents=agents) 
+    allOperations = operationResults.query.all()
+    return render_template('home/index.html', segment='index', agents=agents, operations=allOperations) 
 
 @blueprint.route('/operations.html')
 def operations():
