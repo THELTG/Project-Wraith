@@ -39,10 +39,14 @@ def payloads():
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
-    directory = './apps/exploit/uploads' 
+    directory = './apps/exploit/payload' 
     file = request.files['file']
+
+    if file.filename == '':
+        return 'No selected file'
+    
     filename = file.filename
-    file.save(directory, filename)
+    file.save('./apps/exploit/payload/' + filename)
     return """
             <script>
                 window.alert("File Uploaded");
