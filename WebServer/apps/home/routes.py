@@ -12,8 +12,8 @@ import os
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
-    allOperations = operationResults.query.all()
-    return render_template('home/index.html', segment='index', agents=agents, operations=allOperations) 
+    allResults = operationResults.query.all()
+    return render_template('home/index.html', segment='index', agents=agents, results=allResults) 
 
 @blueprint.route('/operations.html')
 def operations():
@@ -30,7 +30,8 @@ def agents_info():
 @blueprint.route('/reports.html', methods=["GET"])
 def reports():
     agents = allAgents.query.all()
-    return render_template('home/reports.html', agents=agents)
+    allResults = operationResults.query.all()
+    return render_template('home/reports.html', agents=agents, results=allResults)
 
 @blueprint.route('/payloads.html', methods=["GET"])
 def payloads():
@@ -38,7 +39,7 @@ def payloads():
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
-    directory = 'exploit/payload'
+    directory = './apps/exploit/uploads' 
     file = request.files['file']
     filename = file.filename
     file.save(directory, filename)
