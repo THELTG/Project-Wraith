@@ -33,7 +33,6 @@ def socket_server():
                     hostname = information['hostname'][-1]
                     username = information['username'][-1]
                     osVersion = information['os_version'][-1]
-                    connectedTo = information['connected_to']
                     db_ipAddr = db.execute("SELECT ipAddress FROM all_agents").fetchall()
                     ipAddr_list = [ipAddr[0] for ipAddr in db_ipAddr]
                     if ip in ipAddr_list:
@@ -41,7 +40,7 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem, connectedTo) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + 'seconds ago'}', 'Low', '{osVersion}', '{connectedTo}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + 'seconds ago'}', 'Low', '{osVersion}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
@@ -90,14 +89,6 @@ def recv_information(conn,PORT):
     information['os_version'].pop()
     information['os_version'] = [empty for empty in information['os_version'] if empty]
     information['os_version'][-1] = information['os_version'][-1].strip()
-
-    # IP address agent is connected to
-    conn.send(f'netstat -an | findstr "{PORT}" | findstr "ESTABLISHED"'.encode() + b"\n")
-    time.sleep(3) # the longer, the more reliable :P
-    response = conn.recv(2048).decode().replace('\r', '')
-    connection_info = response.split('   ')[2] # receive the IP and port the agent connected to
-    connected_IP = connection_info.split(':')[0] # retrieve IP only
-    information['connected_to'] = connected_IP
 
     return information
 

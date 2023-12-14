@@ -17,8 +17,8 @@ def index():
 @blueprint.route('/operations.html')
 def operations():
     agents = allAgents.query.all()
-    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
-    files = [{'name': file.name} for file in os.scandir(path)]
+    directory = './apps/exploit/payload'
+    files = [{'name': file.name} for file in os.scandir(directory)]
     return render_template('home/operations.html', agents=agents, files=files)
 
 @blueprint.route('/agents.html', methods=["GET"])
@@ -37,10 +37,10 @@ def payloads():
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
-    path = r"C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\exploit\payload"
+    directory = 'exploit/payload'
     file = request.files['file']
     filename = file.filename
-    file.save(os.path.join(path, filename))
+    file.save(directory, filename)
     return """
             <script>
                 window.alert("File Uploaded");
