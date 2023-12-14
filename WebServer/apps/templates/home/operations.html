@@ -118,9 +118,10 @@
                                                         <td>
                                                             Windows 10/11                      
                                                         </td>
+                                                        <form action="{{url_for('home_blueprint.execute_driver')}}" method="POST">
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveKD">
+                                                                <select class="form-control" id="agentAliveKD" name = "selected_driver_agent" onchange="enableButton()">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -131,7 +132,7 @@
                                                         <td>
                                                             <button type="submit" id="kdButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
                                                         </td>
-
+                                                        </form>
                                                     </tr>
                                                     <tr class="unread">
                                                         <td>
@@ -165,7 +166,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveCF">
+                                                                <select class="form-control" id="agentAliveCF" name = "selected_credential_agent" onchange="enableButton()">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -212,7 +213,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveChisel">
+                                                                <select class="form-control" id="agentAliveChisel" name = "selected_chisel_agent" onchange="enableButton()">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
@@ -256,20 +257,45 @@
                                                         <td>
                                                             Windows 10/11                      
                                                         </td>
+                                                        <form method="POST" action="{{ url_for('home_blueprint.execute_reflective') }}">
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveRI" onchange="enableButton()">
+                                                                <select class="form-control" id="agentAliveRI" name="selected_reflective_agent" onchange="enableButton()">
                                                                     <option value="" disabled selected>Select an agent..</option>
                                                                     {% for agent in agents if agent.status == "Alive" %}
                                                                     <option value="{{ agent.id }}">{{ agent.identifier }}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                         </td>
-                                                        <input type="hidden" operation="reflectiveInject">
+                                                        <input type="hidden" operation="reflectiveInjection">
                                                         <td>
-                                                            <button type="submit" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
+                                                            <button type="button" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
                                                         </td>
 
+                                                        <div id="fileModal" class="modal" tabindex="-1">
+                                                            <div class="modal-dialog">
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title">Select Payload</h5>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    <div class="form-group my-auto">
+                                                                      <select class="form-control" id="file_select" name="selected_payload" onchange="enableButton()">
+                                                                        <option value="" disabled selected>Select File</option>
+                                                                        {% for file in files %}
+                                                                        <option value="{{ file['name'] }}">{{ file['name'] }}</option>
+                                                                        {% endfor %}
+                                                                      </select>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <input type="hidden" id="Payload">
+                                                                    <button type="submit" class="btn btn-outline-primary" id="fileButton" disabled>Select</button>
+                                                                  </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </form>  
                                                     </tr>
                                                     </tr>
                                                 
@@ -279,33 +305,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="fileModal" class="modal" tabindex="-1">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <form method="POST" action="{{ url_for('home_blueprint.select_file') }}">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title">Select Payload</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body">
-                                            <div class="form-group my-auto">
-                                              <select class="form-control" id="file_select" name="selected_file" onchange="enableButton()">
-                                                <option value="" disabled selected>Select File</option>
-                                                {% for file in files %}
-                                                <option value="{{ file['name'] }}">{{ file['name'] }}</option>
-                                                {% endfor %}
-                                              </select>
-                                            </div>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <input type="hidden" id="Payload">
-                                            <button type="submit" class="btn btn-outline-primary" id="fileButton" disabled>Select</button>
-                                          </div>
-                                        </form>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
+                                <!--
+
+
+                                -->
                                 <!--[ Recommended Operations ] end-->
 
                                 <!-- [ Operations info ] start -->
