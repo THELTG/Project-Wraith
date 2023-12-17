@@ -9,6 +9,9 @@ from apps.exploit.operation import *
 import os
 # from exploit import attacker
 
+
+
+
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
@@ -217,4 +220,16 @@ def execute_driver():
             window.alert("No Agent Selected");
             window.location.href = document.referrer;
         </script>"""
+
+@blueprint.route("/driver_results", methods=["POST"])
+def driver_results():
+    arg = request.form.to_dict()
+    if arg != {}:
+        id = arg['ID']
+        vulnerable_driver = arg['DriverName']
+        # please test the following endpoint
+        db.execute("INSERT INTO (agent_identifier,operationTested,result,details) VALUES (?,'LPE_Driver','True',?)",[id,vulnerable_driver])
+        return 'OK', 200
+    else:
+        return "BAD",400
 
