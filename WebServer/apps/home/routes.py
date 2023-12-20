@@ -7,10 +7,8 @@ from apps.home.db import allAgents, operationResults
 from c2server.server import *
 from apps.exploit.operation import *
 import os
+import socket
 # from exploit import attacker
-
-
-
 
 @blueprint.route('/')
 def index():
@@ -91,11 +89,7 @@ def terminate_connections(id):
             if client_status == 'Alive' and connections != []:
                 for conn in connections:
                     if conn[6] == client_id:
-                        conn[1].send(b"\n")
-                        time.sleep(1)
-                        conn[1].send("Stop-Process -Name 'agent'".encode() + b"\n")
-                        time.sleep(1)
-                        conn[1].recv(1048)
+                        conn[1].close()
             db.execute("DELETE FROM all_agents where id=?", id)
             db.commit()
             return redirect(request.referrer)
@@ -220,16 +214,3 @@ def execute_driver():
             window.alert("No Agent Selected");
             window.location.href = document.referrer;
         </script>"""
-
-@blueprint.route("/driver_results", methods=["POST"])
-def driver_results():
-    arg = request.form.to_dict()
-    if arg != {}:
-        id = arg['ID']
-        vulnerable_driver = arg['DriverName']
-        # please test the following endpoint
-        db.execute("INSERT INTO (agent_identifier,operationTested,result,details) VALUES (?,'LPE_Driver','True',?)",[id,vulnerable_driver])
-        return 'OK', 200
-    else:
-        return "BAD",400
-
