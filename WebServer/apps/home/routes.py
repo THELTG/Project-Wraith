@@ -20,18 +20,18 @@ def operations():
     agents = allAgents.query.all()
     directory = './apps/exploit/payload'
     files = [{'name': file.name} for file in os.scandir(directory)]
-    return render_template('home/operations.html', agents=agents, files=files)
+    return render_template('home/operations.html', segment='operations', agents=agents, files=files)
 
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
     agents = allAgents.query.all()
-    return render_template('home/agents.html', agents=agents)
+    return render_template('home/agents.html', segment='agents', agents=agents)
 
 @blueprint.route('/reports.html', methods=["GET"])
 def reports():
     agents = allAgents.query.all()
     allResults = operationResults.query.all()
-    return render_template('home/reports.html', agents=agents, results=allResults)
+    return render_template('home/reports.html', segment='reports', agents=agents, results=allResults)
 
 @blueprint.route('/payloads.html', methods=["GET"])
 def payloads():
@@ -53,7 +53,7 @@ def upload_payload():
     file.save(directory + filename)
     return """
             <script>
-                window.alert("File Uploaded");
+                window.alert("File Uploaded Successfully.");
                 window.location.href = document.referrer;
             </script>"""
 
