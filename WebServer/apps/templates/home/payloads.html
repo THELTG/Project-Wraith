@@ -21,11 +21,6 @@
                                     <div class="page-header-title">
                                         <h5 class="m-b-10 mb-4">Payloads</h5>
                                     </div>
-                                    <!-- <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Tables</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li>
-                                    </ul> -->
                                 </div>
                             </div>
                         </div>
@@ -36,17 +31,17 @@
                             <!-- [ Main Content ] start -->
                             <div class="row">
                                 <!-- [ basic-table ] start -->
-                                <div class="col-xl-12">
+                                <div class="col-xl-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>Upload Payload</h5>
+                                            <h5>Upload a Payload</h5>
                                         </div>
                                         <div class="card-block table-border-style">
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>Upload Payload</th>
+                                                            <th>Upload Payload (.exe)</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -64,6 +59,41 @@
                                                             </form>
                                                     </tr>                                                                              
                                                     </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Remove an existing Payload</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Payload Name (.exe)</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for file in files %}
+                                                            {% if file['name'].endswith('.exe') %}
+                                                                <tr>
+                                                                    <form action="/delete_payload" enctype="multipart/form-data" method="POST">
+                                                                        <td>{{ file['name'] }}</td>
+                                                                        <td>
+                                                                            <input type="hidden" name="file_name" value="{{ file['name'] }}">
+                                                                            <button type="submit" class="btn btn-outline-primary">Delete</button>
+                                                                        </td>
+                                                                    </form>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>                                                                     
                                                 </table>
                                             </div>
                                         </div>

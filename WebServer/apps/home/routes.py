@@ -36,7 +36,9 @@ def reports():
 
 @blueprint.route('/payloads.html', methods=["GET"])
 def payloads():
-    return render_template('home/payloads.html')
+    directory = './apps/exploit/payload'
+    files = [{'name': file.name} for file in os.scandir(directory)]
+    return render_template('home/payloads.html', files=files)
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
@@ -64,6 +66,21 @@ def upload_payload():
                 window.alert("File Uploaded Successfully.");
                 window.location.href = document.referrer;
             </script>"""
+
+@blueprint.route('/delete_payload', methods=["POST"])
+def delete_payload():
+    directory = './apps/exploit/payload/' 
+
+    filename = request.form['file_name']
+    filepath = os.path.join(directory, filename)
+    os.remove(filepath)
+    
+    return """
+            <script>
+                window.alert("Payload deleted successfully.");
+                window.location.href = document.referrer;
+            </script>"""
+
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
