@@ -43,14 +43,21 @@ def upload_payload():
     directory = './apps/exploit/payload/' 
 
     file = request.files['file']
-    if file.filename == '':
+    filename = file.filename
+
+    if filename == '':
         return """
         <script>
             window.alert("No file was chosen.");
             window.location.href = document.referrer;
         </script>"""
-    
-    filename = file.filename
+    elif filename.split('.')[1] != 'exe':
+        return """
+        <script>
+            window.alert("Please upload .exe payloads only.");
+            window.location.href = document.referrer;
+        </script>"""
+
     file.save(directory + filename)
     return """
             <script>
