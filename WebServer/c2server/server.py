@@ -3,8 +3,7 @@ import socket
 import time
 import random
 import sqlite3
-from pwn import remote
-db = sqlite3.connect(r'C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\db.sqlite3', check_same_thread=False)
+db = sqlite3.connect('./apps/db.sqlite3', check_same_thread=False)
 # List of active connections
 connections = []
 # Lock thread in case got multiple connections at once
@@ -12,7 +11,7 @@ connections_lock = threading.Lock()
 
 def socket_server():
     global connections 
-    HOST = "192.168.218.1"
+    HOST = "0.0.0.0"
     PORT = 9999
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
