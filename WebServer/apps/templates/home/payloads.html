@@ -80,19 +80,24 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% for file in files %}
-                                                            {% if file['name'].endswith('.exe') %}
-                                                                <tr>
-                                                                    <form action="/delete_payload" enctype="multipart/form-data" method="POST">
-                                                                        <td>{{ file['name'] }}</td>
-                                                                        <td>
-                                                                            <input type="hidden" name="file_name" value="{{ file['name'] }}">
-                                                                            <button type="submit" class="btn btn-outline-primary">Delete</button>
-                                                                        </td>
-                                                                    </form>
-                                                                </tr>
-                                                            {% endif %}
-                                                        {% endfor %}
+                                                        {% if files %}
+                                                            {% for file in files %}
+                                                                    <tr>
+                                                                        <form action="/delete_payload" enctype="multipart/form-data" method="POST">
+                                                                            <td>{{ file['name'] }}</td>
+                                                                            <td>
+                                                                                <input type="hidden" name="file_name" value="{{ file['name'] }}">
+                                                                                <button type="submit" class="btn btn-outline-primary">Delete</button>
+                                                                            </td>
+                                                                        </form>
+                                                                    </tr>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                        <tr>
+                                                            <td>No files have been uploaded yet.</td>
+                                                            <td><button type="submit" class="btn btn-outline-primary">Delete</button></td>
+                                                        </tr>
+                                                        {% endif %}
                                                     </tbody>                                                                     
                                                 </table>
                                             </div>

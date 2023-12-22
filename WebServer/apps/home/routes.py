@@ -21,6 +21,7 @@ def operations():
     agents = allAgents.query.all()
     directory = './apps/exploit/payload'
     files = [{'name': file.name} for file in os.scandir(directory)]
+    # files = [{'name': file.name} for file in os.scandir(directory) if file.is_file() and file.name.endswith('.exe')] keeping this for now, in case an operation is created that uses custom files (which are non .exe)
     return render_template('home/operations.html', segment='operations', agents=agents, files=files)
 
 @blueprint.route('/agents.html', methods=["GET"])
@@ -37,7 +38,7 @@ def reports():
 @blueprint.route('/payloads.html', methods=["GET"])
 def payloads():
     directory = './apps/exploit/payload'
-    files = [{'name': file.name} for file in os.scandir(directory)]
+    files = [{'name': file.name} for file in os.scandir(directory) if file.is_file() and file.name.endswith('.exe')] # check for .exe only. Payload upload currently only supports .exe, might change in the future
     return render_template('home/payloads.html', segment='payloads', files=files)
 
 @blueprint.route('/upload_payload', methods=["POST"])
