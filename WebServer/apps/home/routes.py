@@ -38,7 +38,7 @@ def reports():
 def payloads():
     directory = './apps/exploit/payload'
     files = [{'name': file.name} for file in os.scandir(directory)]
-    return render_template('home/payloads.html', files=files)
+    return render_template('home/payloads.html', segment='payloads', files=files)
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
@@ -74,7 +74,7 @@ def delete_payload():
     filename = request.form['file_name']
     filepath = os.path.join(directory, filename)
     os.remove(filepath)
-    
+
     return """
             <script>
                 window.alert("Payload deleted successfully.");
