@@ -37,3 +37,4 @@ class SSL_Service:
 
 ssld = SSL_Service('0.0.0.0',9999,say_hello)
 ssld.run()
+print('hello')

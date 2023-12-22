@@ -3,6 +3,7 @@ import socket
 import time
 import random
 import sqlite3
+from pwn import remote
 db = sqlite3.connect(r'C:\Users\user\Desktop\Wraith\Project-Wraith\WebServer\apps\db.sqlite3', check_same_thread=False)
 # List of active connections
 connections = []
