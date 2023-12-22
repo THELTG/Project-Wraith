@@ -75,7 +75,7 @@ int main()
         fprintf(stderr, "Failed to initialize Winsock\n");
         return 1;
     }
-    fprintf(stdout,"[+] initialized winsock.");
+    fprintf(stdout,"[+] initialized winsock.\n");
     SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == INVALID_SOCKET) {
         fprintf(stderr, "Failed to create socket\n");
