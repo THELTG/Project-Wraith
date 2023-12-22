@@ -439,11 +439,9 @@ p.text-muted {
 /* Example modals */
 .modal {
   z-index: 1072;
-  color : rgb(5, 5, 5);
 }
 
 .modal-header {
-  background-color: #2b70a5;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   color : rgb(255, 255, 255);

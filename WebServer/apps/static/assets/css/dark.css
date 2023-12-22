@@ -90,4 +90,7 @@ body.dark {
   body.dark .pcoded-header .main-search.open .input-group .search-close {
     background-color: transparent; }
 
+  body.dark .modal-header, body.dark .modal-body, body.dark .modal-footer {
+    background-color: #2C394B; }
+
 /*# sourceMappingURL=dark.css.map */

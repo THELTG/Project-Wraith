@@ -276,18 +276,21 @@
                                                             <div class="modal-dialog">
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
-                                                                    <h5 class="modal-title">Select Payload (.exe, .dll files only)</h5>
+                                                                    <h5 class="modal-title">Select Payload</h5>
                                                                   </div>
                                                                   <div class="modal-body">
                                                                     <div class="form-group my-auto">
-                                                                      <select class="form-control" id="file_select" name="selected_payload" onchange="enableButton()">
-                                                                        <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
-                                                                        {% for file in files %}
-                                                                            {% if file['name'].endswith('.exe') %}
-                                                                                <option value="{{ file['name'] }}">{{ file['name'] }}</option>
-                                                                            {% endif %}
-                                                                        {% endfor %}
-                                                                      </select>
+                                                                        <select class="form-control" id="file_select" name="selected_payload" onchange="enableButton()">
+                                                                            <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
+                                                                            {% for file in files %}
+                                                                                {% if file['name'].endswith('.exe') %}
+                                                                                    <option value="{{ file['name'] }}">{{ file['name'] }}</option>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="text mt-3">
+                                                                        Don't see a payload? Upload one <a href="/payloads.html"><u>here.</u></a>
                                                                     </div>
                                                                   </div>
                                                                   <div class="modal-footer">
