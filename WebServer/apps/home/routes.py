@@ -115,7 +115,8 @@ def terminate_connections(id):
                 for conn in connections:
                     if conn[6] == client_id:
                         conn[1].close()
-            db.execute("DELETE FROM all_agents where id=?", id)
+            db.execute('PRAGMA foreign_keys = ON') # this goofy line needs to be added every single time we want to work with a foreign key in sqlite3.
+            db.execute("DELETE FROM all_agents where identifier=?", [client_id])
             db.commit()
             return redirect(request.referrer)
     except OSError:
