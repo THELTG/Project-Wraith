@@ -1,8 +1,6 @@
 from apps import db
 from sqlalchemy.orm import backref
 
-# we can use one table, and then display active connections by filtering the "status" column.
-
 class allAgents(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     identifier = db.Column(db.String(6), unique=True, nullable=False)
@@ -14,14 +12,12 @@ class allAgents(db.Model):
     integrity = db.Column(db.String(50), nullable=False)
     operatingSystem = db.Column(db.String(100), nullable=False)
 
-
-
-
 class operationResults(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    agent_identifier = db.Column(db.String(6), db.ForeignKey('all_agents.identifier', ondelete='CASCADE'))
-    parent = db.relationship('allAgents', backref=backref('children', passive_deletes=True))
+    agent_identifier = db.Column(db.String(6), db.ForeignKey('all_agents.identifier', ondelete='CASCADE')) # fk, delete on cascade
+    parent = db.relationship('allAgents', backref=backref('children', passive_deletes=True)) # creates a relationship between allAgents and operationResults
     operationTested = db.Column(db.String(50), nullable=False)
     result = db.Column(db.String(10), nullable=False)
     details = db.Column(db.String(100), nullable=False)
+    time = db.Column(db.Integer, nullable=False) # unix timestamp
 
