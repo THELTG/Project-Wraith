@@ -19,6 +19,8 @@ def socket_server():
     s.listen(5)
     while True:
         conn, addr = s.accept()
+        #conn = secure_socket(conn)
+        #conn.recv(2048)
         with connections_lock:
             if conn:
                 ip = addr[0]
@@ -118,3 +120,14 @@ def check_connection():
                             db.commit()
                             connections.remove(client)
                     break
+
+def secure_socket(conn):
+    # Create SSL Context
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    # Load Server Cert and Private Key
+    ssl_context.load_cert_chain(certfile=r'C:\Users\user\Desktop\Wraith\Project-Wraith\src\secret\server.crt', keyfile=r'C:\Users\user\Desktop\Wraith\Project-Wraith\src\secret\server.key')
+    # Wrap Socket
+    secured_connection = ssl_context.wrap_socket(conn, server_side=True)
+
+    return secured_connection
+
