@@ -1,10 +1,10 @@
 from apps.home import blueprint
-from flask import render_template, request, jsonify, redirect, url_for, send_from_directory, session
+from flask import render_template, request, jsonify, redirect, url_for, send_from_directory, session, send_file
 # from flask_login import login_required
 # from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents, operationResults
-from c2server.server import *
+from C2Server.server import *
 from apps.exploit.operation import *
 import os
 import socket
@@ -240,3 +240,42 @@ def execute_driver():
             window.alert("No Agent Selected");
             window.location.href = document.referrer;
         </script>"""
+
+
+
+
+
+
+# testing 
+
+import time
+from pdfgen import pdf_gen
+
+@blueprint.route("/generate_pdf/<hostname>", methods=["GET"])
+def generate_pdf(hostname):
+    agent_id = db.execute("SELECT identifier FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
+    name = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
+    results = db.execute("SELECT * FROM operation_results WHERE agent_identifier=?", agent_id).fetchall()
+    if results != "null":
+        filename = pdf_gen(results, hostname, name) 
+        directory = "generated_reports"
+        if filename is not None:
+            print(filename, directory )
+            return send_from_directory(directory, filename, as_attachment=True)
+        else:
+            print("error")
+            return "Error in PDF generation"
+
+    else:
+        return "No Test Conducted"
+    
+
+
+@blueprint.route("/report_rows", methods=["GET"])
+def report_rows():
+    rows = db.execute("SELECT hostname,operatingSystem,ipAddress FROM all_agents").fetchall()
+    # Convert list of tuples to list of lists
+    row_list = [list(row) for row in rows]   
+    return jsonify({"rows": row_list})
+    
+    

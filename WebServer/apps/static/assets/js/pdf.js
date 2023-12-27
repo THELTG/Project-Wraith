@@ -1,0 +1,47 @@
+
+
+
+function downloadpdf() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var rows = JSON.parse(this.responseText).rows;
+            var table = document.getElementById("download_report");
+            // Clear Rows except header row
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+            // Update Rows
+            for(var i= 0; i < rows.length; i++){
+                //Update Rows
+
+
+                var row = table.insertRow();
+                var scope = row.insertCell(0);
+                var Host_Name = row.insertCell(1);
+                var Device_Type = row.insertCell(2);
+                var IP_Address = row.insertCell(3);
+                var Last_Tested = row.insertCell(4);
+                var download_report = row.insertCell(5);
+                scope.innerHTML = i+1;
+                Host_Name.innerHTML = rows[i][0];
+                Device_Type.innerHTML = rows[i][1];
+                IP_Address.innerHTML = rows[i][2];
+                Last_Tested.innerHTML = `6/11/2023`;
+                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}')">Download</button>`;
+            }
+        }
+    };
+    xhttp.open("GET", "/report_rows", true);
+    xhttp.send();
+}
+
+downloadpdf()
+
+
+function pdfgen(id){
+    var xhttp = new XMLHttpRequest();
+    var url = `/generate_pdf/${id}`
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}

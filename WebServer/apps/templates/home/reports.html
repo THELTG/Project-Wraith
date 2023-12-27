@@ -44,7 +44,7 @@
                                         </div>
                                         <div class="card-block table-border-style">
                                             <div class="table-responsive">
-                                                <table class="table table-hover">
+                                                <table class="table table-hover" id="download_report">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
@@ -56,13 +56,13 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        <!-- <tr>
                                                             <th scope="row">1</th>
                                                             <td>MACHINE01</td>
                                                             <td>Win 11</td>
                                                             <td>192.168.x.201</td>
                                                             <td>6/11/2023</td>
-                                                            <td><button type="button" class="btn btn-outline-primary" title="Download">Download</button></td>
+                                                            <td><button type="submit" class="btn btn-outline-primary" title="Download" onclick="pdfgen('MACHINE01')">Download</button></td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row">2</th>
@@ -95,7 +95,7 @@
                                                             <td>192.168.x.33</td>
                                                             <td>6/11/2023</td>
                                                             <td><button type="button" class="btn btn-outline-primary" title="Download">Download</button></td>
-                                                        </tr>
+                                                        </tr> -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -207,4 +207,4 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}<script src="../../static/assets/js/pdf.js"></script>{% endblock javascripts %}
