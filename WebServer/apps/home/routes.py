@@ -6,6 +6,7 @@ from apps import db
 from apps.home.db import allAgents, operationResults
 from c2server.server import *
 from apps.exploit.operation import *
+from apps.agent.script import *
 import os
 import socket
 # from exploit import attacker
@@ -82,6 +83,17 @@ def delete_payload():
                 window.location.href = document.referrer;
             </script>"""
 
+@blueprint.route("/generate_agent", methods=['POST'])
+def generate_agent():
+    arg = request.form.to_dict()
+    ipAddr = arg['ipAddr']
+    port = int(arg['port'])
+    script_generate_agent(ipAddr, port)
+    return """
+            <script>
+                window.alert("Compile Success");
+                window.location.href = document.referrer;
+            </script>"""
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
