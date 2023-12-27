@@ -15,7 +15,6 @@ function downloadpdf() {
             for(var i= 0; i < rows.length; i++){
                 //Update Rows
 
-
                 var row = table.insertRow();
                 var scope = row.insertCell(0);
                 var Host_Name = row.insertCell(1);
@@ -38,10 +37,27 @@ function downloadpdf() {
 
 downloadpdf()
 
-
-function pdfgen(id){
-    var xhttp = new XMLHttpRequest();
-    var url = `/generate_pdf/${id}`
-    xhttp.open("GET", url, true);
-    xhttp.send();
+function pdfgen(id) {
+    fetch(`/generate_pdf/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.blob();
+        } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    })
+    .then(blob => {
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `report_${id}.pdf`;
+        link.click();
+    })
+    .catch(error => {
+        console.error("Error fetching PDF:", error);
+    });
 }

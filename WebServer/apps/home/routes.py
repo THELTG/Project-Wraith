@@ -4,7 +4,7 @@ from flask import render_template, request, jsonify, redirect, url_for, send_fro
 # from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents, operationResults
-from C2Server.server import *
+from c2server.server import *
 from apps.exploit.operation import *
 from apps.agent.script import *
 import os
@@ -270,10 +270,6 @@ def execute_driver():
         </script>"""
 
 
-
-
-
-
 # testing 
 
 import time
@@ -285,7 +281,7 @@ def generate_pdf(hostname):
     name = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
     results = db.execute("SELECT * FROM operation_results WHERE agent_identifier=?", agent_id).fetchall()
     if results != "null":
-        filename = pdf_gen(results, hostname, name) 
+        filename = pdf_gen(results, hostname, name)
         directory = "generated_reports"
         if filename is not None:
             print(filename, directory )

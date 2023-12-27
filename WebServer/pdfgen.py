@@ -1,5 +1,4 @@
 #libraries needed for pdf formatting
-import matplotlib.pyplot as plt
 from fpdf import FPDF
 from datetime import datetime
 import os
