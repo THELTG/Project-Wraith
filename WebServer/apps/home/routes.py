@@ -4,7 +4,7 @@ from flask import render_template, request, jsonify, redirect, url_for, send_fro
 # from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents, operationResults
-from c2server.server import *
+from C2Server.server import *
 from apps.exploit.operation import *
 from apps.agent.script import *
 import os
@@ -285,7 +285,7 @@ def generate_pdf(hostname):
         directory = "generated_reports"
         if filename is not None:
             print(filename, directory )
-            return send_from_directory(directory, filename, as_attachment=True)
+            return jsonify({"filename":filename})
         else:
             print("error")
             return "Error in PDF generation"
@@ -297,7 +297,7 @@ def generate_pdf(hostname):
 
 @blueprint.route("/report_rows", methods=["GET"])
 def report_rows():
-    rows = db.execute("SELECT hostname,operatingSystem,ipAddress FROM all_agents").fetchall()
+    rows = db.execute("SELECT hostname,operatingSystem,ipAddress,identifier,username FROM all_agents").fetchall()
     # Convert list of tuples to list of lists
     row_list = [list(row) for row in rows]   
     return jsonify({"rows": row_list})

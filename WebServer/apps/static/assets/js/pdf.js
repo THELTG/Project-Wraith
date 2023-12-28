@@ -27,7 +27,7 @@ function downloadpdf() {
                 Device_Type.innerHTML = rows[i][1];
                 IP_Address.innerHTML = rows[i][2];
                 Last_Tested.innerHTML = `6/11/2023`;
-                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}')">Download</button>`;
+                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}', '${rows[i][0]}_${rows[i][4]}_${rows[i][2]}.pdf')">Download</button>`;
             }
         }
     };
@@ -37,7 +37,7 @@ function downloadpdf() {
 
 downloadpdf()
 
-function pdfgen(id) {
+function pdfgen(id, filename) {
     fetch(`/generate_pdf/${id}`, {
         method: 'GET',
         headers: {
@@ -54,7 +54,7 @@ function pdfgen(id) {
     .then(blob => {
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = `report_${id}.pdf`;
+        link.download = `report_${filename}.pdf`;
         link.click();
     })
     .catch(error => {
