@@ -72,7 +72,7 @@ def pdf_gen(data, hostname, pdfname):
 
     pdf.set_auto_page_break(auto=bool, margin=0.0)
     filepath = f'{pdfname[0]}_{pdfname[1]}_{pdfname[2]}_{datetime.utcnow():%Y-%m-%d}.pdf'
-    pdf_path = os.path.join("./apps/generated_reports", filepath)
+    pdf_path = os.path.join("./apps/reports", filepath)
     pdf.output(pdf_path)  
 
     return filepath
