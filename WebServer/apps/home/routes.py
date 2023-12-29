@@ -1,15 +1,16 @@
 from apps.home import blueprint
 from flask import render_template, request, jsonify, redirect, url_for, send_from_directory, session, send_file
-# from flask_login import login_required
-# from jinja2 import TemplateNotFound
 from apps import db
 from apps.home.db import allAgents, operationResults
-from C2Server.server import *
+from c2server.server import *
 from apps.exploit.operation import *
 from apps.agent.script import *
 import os
 import socket
-# from exploit import attacker
+import time
+import datetime
+from pdfgen import pdf_gen
+
 
 @blueprint.route('/')
 def index():
@@ -270,18 +271,13 @@ def execute_driver():
         </script>"""
 
 
-# testing 
-
-import time
-from pdfgen import pdf_gen
-
-@blueprint.route("/generate_pdf/<hostname>", methods=["GET"])
+@blueprint.route("/generate_pdf/<identifier>", methods=["GET"])
 def generate_pdf(hostname):
     agent_id = db.execute("SELECT identifier FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
-    name = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
+    # name = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
     results = db.execute("SELECT * FROM operation_results WHERE agent_identifier=?", agent_id).fetchall()
     if results != "null":
-        filename = pdf_gen(results, hostname, name)
+        filename = pdf_gen(results, hostname, agent_id)
         directory = "generated_reports"
         if filename is not None:
             print(filename, directory )
@@ -297,9 +293,13 @@ def generate_pdf(hostname):
 
 @blueprint.route("/report_rows", methods=["GET"])
 def report_rows():
-    rows = db.execute("SELECT hostname,operatingSystem,ipAddress,identifier,username FROM all_agents").fetchall()
-    # Convert list of tuples to list of lists
-    row_list = [list(row) for row in rows]   
+    db.execute('PRAGMA foreign_keys = ON') # enable fk
+    rows = db.execute ("SELECT all_agents.identifier, all_agents.hostname, all_agents.operatingSystem, all_agents.ipAddress, operation_results.time FROM all_agents JOIN operation_results ON all_agents.identifier = operation_results.agent_identifier;")
+    row_list = [
+        list(row[:-1]) + [datetime.datetime.fromtimestamp(row[-1]).strftime('%Y-%m-%d %H:%M:%S')] # convert epoch to datetime
+        for row in rows
+    ]
+
     return jsonify({"rows": row_list})
     
     

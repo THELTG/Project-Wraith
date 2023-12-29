@@ -1,6 +1,3 @@
-
-
-
 function downloadpdf() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -14,20 +11,19 @@ function downloadpdf() {
             // Update Rows
             for(var i= 0; i < rows.length; i++){
                 //Update Rows
-
                 var row = table.insertRow();
-                var scope = row.insertCell(0);
+                var Identifier = row.insertCell(0);
                 var Host_Name = row.insertCell(1);
-                var Device_Type = row.insertCell(2);
+                var OS_Version = row.insertCell(2);
                 var IP_Address = row.insertCell(3);
                 var Last_Tested = row.insertCell(4);
                 var download_report = row.insertCell(5);
-                scope.innerHTML = i+1;
-                Host_Name.innerHTML = rows[i][0];
-                Device_Type.innerHTML = rows[i][1];
-                IP_Address.innerHTML = rows[i][2];
-                Last_Tested.innerHTML = `6/11/2023`;
-                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}', '${rows[i][0]}_${rows[i][4]}_${rows[i][2]}.pdf')">Download</button>`;
+                Identifier.innerHTML = rows[i][0];
+                Host_Name.innerHTML = rows[i][1];
+                OS_Version.innerHTML = rows[i][2];
+                IP_Address.innerHTML = rows[i][3];
+                Last_Tested.innerHTML = rows[i][4];
+                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}')">Download</button>`;
             }
         }
     };
