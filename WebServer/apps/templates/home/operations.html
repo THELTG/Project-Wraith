@@ -21,6 +21,7 @@
             <div class="modal-body">
                 {{ result_data }}
                 <br>
+                <br>
             </div>
         </div>
     </div>
@@ -434,9 +435,7 @@
                                                         <td>
                                                             Windows 10/11                      
                                                         </td>
-                                                    
-                                                        <!-- <form action="" method="post"> replace with flask endpoint later -->
-                                                      
+
                                                         <td>
                                                             <div class="form-group my-auto">
                                                                 <select class="form-control" id="agentAlive">
@@ -452,7 +451,6 @@
                                                             <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
                                                         </td>
                                                    
-                                                        <!-- <form> -->
                                                    
                                                     </tr>
                                                     <tr class="unread">
@@ -621,14 +619,30 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}<script>
 
+    // used for displaying "Executing... when an operation is executed, and disables the button from being pressed again until the operation is done"
+    $(document).ready(function() {
+        $("form").submit(function(event) {
+            // Get the ID of the pressed button
+            var pressedButtonId = $(document.activeElement).attr('id');
+
+            // Disable the pressed button, replace with loading msg
+            $("#" + pressedButtonId).prop("disabled", true);
+            $("#" + pressedButtonId).html(
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Executing...`
+            );
+
+            return true;
+        });
+    });
+
     // used for displaying a modal that contains the results of an operation automatically 
     $(document).ready(function() {
-            $('#result_description')
-                .on('hidden.bs.modal', function () {
-                    // Redirect to operations.html after the modal is hidden
-                    window.location.href = 'operations.html';
-                })
-                .modal('show');
+        $('#result_description')
+            .on('hidden.bs.modal', function () {
+                // Redirect to operations.html after the modal is hidden
+                window.location.href = 'operations.html';
+            })
+            .modal('show');
     });
 
     function enableButton() {
