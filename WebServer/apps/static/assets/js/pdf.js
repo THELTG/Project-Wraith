@@ -50,7 +50,9 @@ function pdfgen(id, filename) {
     .then(blob => {
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = `Report_${filename}.pdf`;
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${currentDate.getUTCDate().toString().padStart(2, '0')}`;
+        link.download = `report_${filename}_${formattedDate}.pdf`;
         link.click();
     })
     .catch(error => {
