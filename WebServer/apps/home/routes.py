@@ -278,7 +278,7 @@ def generate_pdf(identifier):
 @blueprint.route("/report_rows", methods=["GET"])
 def report_rows():
     db.execute('PRAGMA foreign_keys = ON') # enable fk
-    rows = db.execute ("SELECT all_agents.identifier, all_agents.hostname, all_agents.operatingSystem, all_agents.ipAddress, operation_results.time FROM all_agents JOIN operation_results ON all_agents.identifier = operation_results.agent_identifier;")
+    rows = db.execute ("SELECT all_agents.identifier, all_agents.hostname, all_agents.operatingSystem, all_agents.ipAddress, MAX(operation_results.time) FROM all_agents JOIN operation_results ON all_agents.identifier = operation_results.agent_identifier;")
     row_list = [
         list(row[:-1]) + [datetime.datetime.fromtimestamp(row[-1]).strftime('%Y-%m-%d %H:%M:%S')] # convert epoch to datetime
         for row in rows
