@@ -272,16 +272,15 @@ def execute_driver():
 
 
 @blueprint.route("/generate_pdf/<identifier>", methods=["GET"])
-def generate_pdf(hostname):
-    agent_id = db.execute("SELECT identifier FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
-    # name = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE hostname=?", (hostname,)).fetchone()
-    results = db.execute("SELECT * FROM operation_results WHERE agent_identifier=?", agent_id).fetchall()
+def generate_pdf(identifier):
+    hostname = db.execute("SELECT hostname FROM all_agents WHERE identifier=?", (identifier,)).fetchone()
+    agentInfo = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE identifier=?", (identifier,)).fetchone()
+    results = db.execute("SELECT id, agent_identifier, operationTested, result, details FROM operation_results WHERE agent_identifier=?", (identifier,)).fetchall()
     if results != "null":
-        filename = pdf_gen(results, hostname, agent_id)
-        directory = "generated_reports"
+        filename = pdf_gen(results, hostname, agentInfo)
+        directory = 'reports'
         if filename is not None:
-            print(filename, directory )
-            return jsonify({"filename":filename})
+            return send_from_directory(directory, filename, as_attachment=True)
         else:
             print("error")
             return "Error in PDF generation"

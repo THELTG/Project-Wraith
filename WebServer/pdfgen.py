@@ -34,7 +34,7 @@ def pdf_gen(data, hostname, pdfname):
     pdf.cell(40,5,f"Generated on: {date}", ln=2)
     pdf.cell(40,5,f"", ln=2)
     pdf.set_font('Times', 'B', 18)
-    pdf.cell(40,5,f"Host Machine: {hostname}")
+    pdf.cell(40,5,f"Host Machine: {hostname[0]}")
 
 
 
@@ -46,15 +46,9 @@ def pdf_gen(data, hostname, pdfname):
         pdf.cell(40,20,f"{data[i][2]}",ln=2)
         pdf.set_font('Times', 'B', 15)
 
-
-
-
-        templst = data[i][4].split(" - ")
-
-
-        pdf.cell(40,10,f"Exploitation Technique - {templst[0]}",ln=2)
+        pdf.cell(40,10,f"Exploitation Technique - {data[i][2]}",ln=2)
         pdf.set_font('Times', '', 12)
-        pdf.multi_cell(185,5,f"{templst[1]}")
+        pdf.multi_cell(185,5,f"{data[i][4]}")
 
         if data[i][3] == "True":
             success = "Successful"

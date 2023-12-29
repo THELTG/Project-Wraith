@@ -50,7 +50,7 @@ function pdfgen(id, filename) {
     .then(blob => {
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = `report_${filename}.pdf`;
+        link.download = `Report_${filename}.pdf`;
         link.click();
     })
     .catch(error => {
