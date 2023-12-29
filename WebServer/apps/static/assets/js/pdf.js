@@ -23,7 +23,7 @@ function downloadpdf() {
                 OS_Version.innerHTML = rows[i][2];
                 IP_Address.innerHTML = rows[i][3];
                 Last_Tested.innerHTML = rows[i][4];
-                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary" title="Download" onclick="pdfgen('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}')">Download</button>`;
+                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary download-button" title="Download" onclick="download('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}', this)">Download</button>`;
             }
         }
     };
@@ -32,6 +32,18 @@ function downloadpdf() {
 }
 
 downloadpdf()
+
+function download(identifier, fileName, button) {
+    // Disable the button
+    $(button).prop("disabled", true);
+
+    $(button).html(
+        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generating...`
+    );
+
+    pdfgen(identifier, fileName)
+}
+
 
 function pdfgen(id, filename) {
     fetch(`/generate_pdf/${id}`, {
@@ -54,6 +66,7 @@ function pdfgen(id, filename) {
         const formattedDate = `${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${currentDate.getUTCDate().toString().padStart(2, '0')}`;
         link.download = `report_${filename}_${formattedDate}.pdf`;
         link.click();
+        location.reload(true);
     })
     .catch(error => {
         console.error("Error fetching PDF:", error);
