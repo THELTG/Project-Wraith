@@ -11,7 +11,6 @@ import time
 import datetime
 from pdfgen import pdf_gen
 
-
 @blueprint.route('/')
 def index():
     agents = allAgents.query.all()
@@ -135,6 +134,17 @@ def terminate_connections(id):
     except OSError:
         time.sleep(5)
 
+@blueprint.route("/display_results", methods=["POST"])
+def display_results():
+    global result_data
+    data = request.get_json()
+
+    if 'result' in data:
+        result_data = data['result']
+        print(f"Received result data:\n{result_data}\n")
+
+    return '', 204  # 204 No Content response
+
 @blueprint.route("/execute_amsi", methods=["POST"])
 def execute_amsi():
     arg = request.form.to_dict()
@@ -148,11 +158,8 @@ def execute_amsi():
                     for conn in connections:
                         if conn[6] == client_id:
                             amsi_bypass(conn)
-                            return """
-                                <script>
-                                    window.alert("AMSI Bypass Executed");
-                                    window.location.href = document.referrer;
-                                </script>"""
+                            time.sleep(1) # for the global variable to update
+                            return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
                                 <script>
@@ -215,22 +222,8 @@ def execute_reflective():
             window.location.href = document.referrer;
         </script>"""
 
-
-@blueprint.route("/driver_results", methods=["POST"])
-def driver_results():
-    global result_data
-    data = request.get_json()
-
-    if 'result' in data:
-        result_data = data['result']
-        print(f"Received result data:\n{result_data}")
-
-    return '', 204  # 204 No Content response
-
 @blueprint.route("/execute_driver", methods=["POST"])
 def execute_driver():
-    global result_data
-
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_driver_agent']
@@ -242,13 +235,8 @@ def execute_driver():
                     for conn in connections:
                         if conn[6] == client_id:
                             driverCheck(conn)
-                            # result_message = f'window.alert("Driver Check Executed successfully.\\n\\n{result_data}");'
+                            time.sleep(1) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                            # return f"""
-                            #     <script>
-                            #         {result_message}
-                            #         window.location.href = document.referrer;
-                            #     </script>"""
                         else:
                             return """
                                 <script>
