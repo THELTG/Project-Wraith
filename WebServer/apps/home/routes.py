@@ -196,11 +196,8 @@ def execute_reflective():
                         if conn[6] == client_id:
                             conn.append(payload)
                             reflectiveInjection(conn)
-                            return """
-                                <script>
-                                    window.alert("Reflective Injection Executed");
-                                    window.location.href = document.referrer;
-                                </script>"""
+                            time.sleep(1) # for the global variable to update
+                            return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
                                 <script>
