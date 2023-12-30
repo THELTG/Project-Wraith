@@ -34,34 +34,37 @@ def pdf_gen(data, hostname, pdfname):
     pdf.cell(40,5,f"Generated on: {date}", ln=2)
     pdf.cell(40,5,f"", ln=2)
     pdf.set_font('Times', 'B', 18)
-    pdf.cell(40,5,f"Host Machine: {hostname[0]}")
+    pdf.cell(40,5,f"Host Machine: {hostname[0]}", ln=2)
+    pdf.cell(40,5,f"Agent Identifier: {pdfname[0]}")
 
 
+    print(data) # testing
 
+
+    # for reference : data array looks something like the following : [('Kernel Driver check', 'false', 'Generic Detail for Kernel Driver check', 'False Detail for Kernel Driver check')]
+    # [0] - technique name, [1] - test result, [2] - basic info for technique, [3] - additional info based on whether the test result was true or false
     for i in range(len(data)):
         pdf.add_page()
         pdf.set_y(40)
         pdf.set_font('Times', 'B', 28)
 
-        pdf.cell(40,20,f"{data[i][2]}",ln=2)
+        pdf.cell(40,20,f"{data[i][0]}",ln=2)
         pdf.set_font('Times', 'B', 15)
 
-        pdf.cell(40,10,f"Exploitation Technique - {data[i][2]}",ln=2)
+        pdf.cell(40,10,f"Exploitation Technique - {data[i][0]}",ln=2) # exploitation technique name
         pdf.set_font('Times', '', 12)
-        pdf.multi_cell(185,5,f"{data[i][4]}")
+        pdf.multi_cell(185,5,f"{data[i][2]}") # basic info for exploitation, there regardless of whether a true or false result was received
 
-        if data[i][3] == "True":
+        if data[i][1] == "true":
             success = "Successful"
         else:
             success = "Unsuccessful"
 
         pdf.set_font('Times', 'B', 15)
-        pdf.cell(40,25,f"Penetration {success}")
+        pdf.cell(40,25,f"Operation {success}",ln=2)
 
-        
-
-
-
+        pdf.set_font('Times', '', 12)
+        pdf.multi_cell(185,5,f"{data[i][3]}") # info based on the result received
 
 
     pdf.set_auto_page_break(auto=bool, margin=0.0)

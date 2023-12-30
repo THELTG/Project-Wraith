@@ -260,7 +260,30 @@ def execute_driver():
 def generate_pdf(identifier):
     hostname = db.execute("SELECT hostname FROM all_agents WHERE identifier=?", (identifier,)).fetchone()
     agentInfo = db.execute("SELECT identifier,username,ipAddress FROM all_agents WHERE identifier=?", (identifier,)).fetchone()
-    results = db.execute("SELECT id, agent_identifier, operationTested, result, details FROM operation_results WHERE agent_identifier=?", (identifier,)).fetchall()
+
+    db.execute('PRAGMA foreign_keys = ON') # enable fk
+    # retrieves operation details, sorts by the latest operation result based on the unix timestamp value
+    results = db.execute("""
+    SELECT
+        operation_results.operationTested,
+        operation_results.result,
+        operation_details.genericDetail,
+        CASE
+            WHEN operation_results.result = 'true' THEN operation_details.detailTrue
+            WHEN operation_results.result = 'false' THEN operation_details.detailFalse
+        END AS detail
+    FROM
+        operation_results
+    JOIN
+        operation_details ON operation_results.operationTested = operation_details.operationName
+    WHERE
+        operation_results.agent_identifier=?
+    GROUP BY
+        operation_results.operationTested
+    ORDER BY
+        MAX(operation_results.time) DESC
+    """, (identifier,)).fetchall()
+
     if results != "null":
         filename = pdf_gen(results, hostname, agentInfo)
         directory = 'reports'
