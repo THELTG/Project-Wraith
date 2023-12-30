@@ -32,9 +32,10 @@ def pdf_gen(data, hostname, pdfname):
     date = f"{datetime.utcnow():%Y-%m-%d} {datetime.utcnow().hour + 8}:{d_minute}"
     pdf.cell(40,5,f"Scanned by: Project Wraith", ln=2)
     pdf.cell(40,5,f"Generated on: {date}", ln=2)
-    pdf.cell(40,5,f"", ln=2)
-    pdf.set_font('Times', 'B', 18)
+    pdf.multi_cell(1,18,f"")
+    pdf.set_font('Times', 'B', 14)
     pdf.cell(40,5,f"Host Machine: {hostname[0]}", ln=2)
+    pdf.multi_cell(40,5,f"")
     pdf.cell(40,5,f"Agent Identifier: {pdfname[0]}")
 
 
@@ -50,9 +51,11 @@ def pdf_gen(data, hostname, pdfname):
 
         pdf.cell(40,20,f"{data[i][0]}",ln=2)
         pdf.set_font('Times', 'B', 15)
+        pdf.multi_cell(40,10,"")
 
         pdf.cell(40,10,f"Exploitation Technique - {data[i][0]}",ln=2) # exploitation technique name
         pdf.set_font('Times', '', 12)
+        pdf.cell(40,2,f"",ln=2)
         pdf.multi_cell(185,5,f"{data[i][2]}") # basic info for exploitation, there regardless of whether a true or false result was received
 
         if data[i][1] == "true":
@@ -61,9 +64,11 @@ def pdf_gen(data, hostname, pdfname):
             success = "Unsuccessful"
 
         pdf.set_font('Times', 'B', 15)
-        pdf.cell(40,25,f"Operation {success}",ln=2)
+        pdf.multi_cell(1,8,f"") 
+        pdf.cell(40,5,f"[ Operation {success} ]",ln=2)
 
         pdf.set_font('Times', '', 12)
+        pdf.cell(40,5,f"",ln=2)
         pdf.multi_cell(185,5,f"{data[i][3]}") # info based on the result received
 
 
