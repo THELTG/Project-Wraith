@@ -9,7 +9,7 @@ import os
 import socket
 import time
 import datetime
-from pdfgen import pdf_gen
+from apps.pdfgen import pdf_gen
 
 @blueprint.route('/')
 def index():
@@ -252,21 +252,14 @@ def execute_driver():
                             start_time = int(time.time())
                             operation_tested = 'Kernel Driver Check'
 
-                            driverCheck(conn)
+                            result = driverCheck(conn)
+                            db.execute("""
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
+                                VALUES (?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), start_time))
+                            db.commit()
+
                             time.sleep(1.5) # for the global variable to update
-                            print(result_data)
-                            if 'matched' in result_data: # vuln driver was found
-                                db.execute("""
-                                    INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                    VALUES (?, ?, ?, ?)
-                                """, (client_id, operation_tested, 'True', start_time))
-                                db.commit()
-                            else:
-                                db.execute("""
-                                    INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                    VALUES (?, ?, ?, ?)
-                                """, (client_id, operation_tested, 'False', start_time))
-                                db.commit()
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
