@@ -157,8 +157,17 @@ def execute_amsi():
                 if connections != []:
                     for conn in connections:
                         if conn[6] == client_id:
-                            amsi_bypass(conn)
-                            time.sleep(1) # for the global variable to update
+                            start_time = int(time.time())
+                            operation_tested = 'AMSI Bypass'
+
+                            result = amsi_bypass(conn) # either True or False (converted to string later)
+                            db.execute("""
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
+                                VALUES (?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), start_time))
+                            db.commit()
+
+                            time.sleep(1.5) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -195,8 +204,17 @@ def execute_reflective():
                     for conn in connections:
                         if conn[6] == client_id:
                             conn.append(payload)
-                            reflectiveInjection(conn)
-                            time.sleep(1) # for the global variable to update
+                            start_time = int(time.time())
+                            operation_tested = 'Reflective PE Injection'
+
+                            result = reflectiveInjection(conn)
+                            db.execute("""
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
+                                VALUES (?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), start_time))
+                            db.commit()
+
+                            time.sleep(1.5) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -231,8 +249,24 @@ def execute_driver():
                 if connections != []:
                     for conn in connections:
                         if conn[6] == client_id:
+                            start_time = int(time.time())
+                            operation_tested = 'Kernel Driver Check'
+
                             driverCheck(conn)
-                            time.sleep(1) # for the global variable to update
+                            time.sleep(1.5) # for the global variable to update
+                            print(result_data)
+                            if 'matched' in result_data: # vuln driver was found
+                                db.execute("""
+                                    INSERT INTO operation_results (agent_identifier, operationTested, result, time)
+                                    VALUES (?, ?, ?, ?)
+                                """, (client_id, operation_tested, 'True', start_time))
+                                db.commit()
+                            else:
+                                db.execute("""
+                                    INSERT INTO operation_results (agent_identifier, operationTested, result, time)
+                                    VALUES (?, ?, ?, ?)
+                                """, (client_id, operation_tested, 'False', start_time))
+                                db.commit()
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -269,8 +303,8 @@ def generate_pdf(identifier):
         operation_results.result,
         operation_details.genericDetail,
         CASE
-            WHEN operation_results.result = 'true' THEN operation_details.detailTrue
-            WHEN operation_results.result = 'false' THEN operation_details.detailFalse
+            WHEN operation_results.result = 'True' THEN operation_details.detailTrue
+            WHEN operation_results.result = 'False' THEN operation_details.detailFalse
         END AS detail
     FROM
         operation_results

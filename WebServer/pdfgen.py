@@ -58,7 +58,7 @@ def pdf_gen(data, hostname, pdfname):
         pdf.cell(40,2,f"",ln=2)
         pdf.multi_cell(185,5,f"{data[i][2]}") # basic info for exploitation, there regardless of whether a true or false result was received
 
-        if data[i][1] == "true":
+        if data[i][1] == "True":
             success = "Successful"
         else:
             success = "Unsuccessful"
