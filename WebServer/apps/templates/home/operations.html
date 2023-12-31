@@ -41,11 +41,11 @@
                         <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
                             <div class="row">
-                                <!--[ Recommended Operations] start-->
+                                <!--[ All Operations] start-->
                                 <div class="col-xl-8 col-md-6">
                                     <div class="card Recent-Users">
                                         <div class="card-header">
-                                            <h5>Recommended Operations</h5>
+                                            <h5>All Operations</h5>
                                         </div>
                                         <div class="card-block px-3 py-3">
                                             <div class="table-responsive">
@@ -78,12 +78,11 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation tests various AMSI Bypass methods against a Windows 10/11 device.
+                                                                    This operation tests tests an AMSI Bypass method (Memory Patching) against a target system.
                                                                     <br>
                                                                     <br>
-                                                                    The current version of the operation supports one method of AMSI Bypass : Memory patching. <br><br>
                                                                     If this operation is deployed, encoded implementations of this method will be executed in the target machine, and return the results of the test.
-                                                                    It is recommended that this operation is run first before the others, as most rely on the bypass of AMSI to work.
+                                                                    It is recommended that this operation is run first before the others, as most rely on the bypass of AMSI to work. For more information, refer to the documentation.
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -127,10 +126,10 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation tests the kernel driver exploitation method of local privilege escalation.
+                                                                    This operation searches for any vulnerable drivers in the target system.
                                                                     <br>
                                                                     <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    The operation compares the drivers present in the system against a list of known vulnerable drivers found in LOLdrivers (https://www.loldrivers.io/). Detected vulnerabilities require prompt action, as it could indicate the presence of a malicious driver or a driver that can be taken advantage of to carry out exploitations like Privilege Escalation.
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -265,10 +264,10 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation bypasses anti-virus and uploads a selected file using reflective injection.
+                                                                    This operation attempts to bypass anti-virus solutions and uploads a selected executable file into the target system's memory using reflective injection.
                                                                     <br>
                                                                     <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    Reflective PE Injection is a sophisticated method of injecting PE (Portable Executable) files directly into the memory space of another process. This technique is commonly used by malware to avoid detection and enhance persistence by executing code without writing the payload to disk. Common payloads that are injected using this method are credential-stealing tools like Mimikatz, and powerful reverse-shell tools like Metasploit's Meterpreter.
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -334,7 +333,7 @@
 
 
                                 -->
-                                <!--[ Recommended Operations ] end-->
+                                <!--[ All Operations ] end-->
 
                                 <!-- [ Operations info ] start -->
                                 <div class="col-xl-4 col-md-6">
@@ -381,227 +380,7 @@
                                     </div>
                                 </div>
                                 <!-- [ Operations info  ] end -->
-                               
-                        
 
-                                <!--[ All Operations ] start-->
-                                <div class="col-xl-12 col-md-6">
-                                    <div class="card Recent-Users">
-                                        <div class="card-header">
-                                            <h5>All Operations</h5>
-                                        </div>
-                                        <div class="card-block px-3 py-3">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Operation Name</th>
-                                                            <th>Description</th>
-                                                            <th>Compatibility</th>
-                                                            <th>Agent Select</th>
-                                                            <th>Execute</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">AMSI Bypass</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description1">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description1" tabindex="-1" role="dialog" aria-labelledby="Description1Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description1Label">AMSI Bypass</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation tests various AMSI Bypass methods against a Windows 10/11 device.
-                                                                    <br>
-                                                                    <br>
-                                                                    The current version of the operation supports one method of AMSI Bypass : Memory patching. <br><br>
-                                                                    If this operation is deployed, encoded implementations of this method will be executed in the target machine, and return the results of the test.
-                                                                    It is recommended that this operation is run first before the others, as most rely on the bypass of AMSI to work.
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="AMSI">
-                                                        <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
-                                                        </td>
-                                                   
-                                                   
-                                                    </tr>
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">Local Privilege Escalation : Kernel Drivers</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description2">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description2" tabindex="-1" role="dialog" aria-labelledby="Description2Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">Privilege Escalation : Kernel Drivers</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation tests the kernel driver exploitation method of local privilege escalation.
-                                                                    <br>
-                                                                    <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="AMSI">
-                                                        <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
-                                                        </td>
-                                                    
-                                                    </tr>
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">Lateral Movement : Credentials Forwarding</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description3">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description3" tabindex="-1" role="dialog" aria-labelledby="Description3Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">Credentials forwarding for lateral movement</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation tests credentials forwarding.
-                                                                    <br>
-                                                                    <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="AMSI">
-                                                        <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
-                                                        </td>
-                                                    </tr>
-                                                       
-                                                    </tr>
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">Network Pivoting : Chisel</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description4" tabindex="-1" role="dialog" aria-labelledby="Description4Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">Network Pivoting : Chisel</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation tests the ability to pivot into an internal network using Chisel.
-                                                                    <br>
-                                                                    <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAlive">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="AMSI">
-                                                        <td>
-                                                            <button type="submit" class="btn btn-outline-primary">Execute Operation</button>
-                                                        </td>
-                                                       
-                                                    </tr>
-                                                     
-                                                    </tr>
-                                                
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                               <!--[ All Operations ] End-->
 
                             </div>
                             <!-- [ Main Content ] end -->
