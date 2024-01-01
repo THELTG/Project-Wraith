@@ -29,7 +29,15 @@ def pdf_gen(data, hostname, pdfname):
     d_minute = datetime.utcnow().minute
     if d_minute<10:
         d_minute = f"0{d_minute}"
-    date = f"{datetime.utcnow():%Y-%m-%d} {datetime.utcnow().hour + 8}:{d_minute}"
+
+    #update the hour digits
+    d_hour = datetime.utcnow().hour + 8
+    if d_hour >= 24:
+        d_hour -= 24
+        date = f"{datetime.utcnow():%Y-%m-%d} 0{d_hour}:{d_minute}"
+    else:
+        date = f"{datetime.utcnow():%Y-%m-%d} {d_hour}:{d_minute}"
+
     pdf.cell(40,5,f"Scanned by: Project Wraith", ln=2)
     pdf.cell(40,5,f"Generated on: {date}", ln=2)
     pdf.multi_cell(1,18,f"")
