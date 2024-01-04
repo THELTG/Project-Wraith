@@ -167,7 +167,7 @@ def execute_amsi():
                             """, (client_id, operation_tested, str(result), start_time))
                             db.commit()
 
-                            time.sleep(1.5) # for the global variable to update
+                            time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -214,7 +214,7 @@ def execute_reflective():
                             """, (client_id, operation_tested, str(result), start_time))
                             db.commit()
 
-                            time.sleep(1.5) # for the global variable to update
+                            time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -259,7 +259,7 @@ def execute_driver():
                             """, (client_id, operation_tested, str(result), start_time))
                             db.commit()
 
-                            time.sleep(1.5) # for the global variable to update
+                            time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
