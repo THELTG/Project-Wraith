@@ -3,7 +3,10 @@
 {% block title %} Dashboard {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/css/welcome.css">
+
+{% endblock stylesheets %}
 
 {% block sidebar %}{% endblock sidebar %}
 {% block navigation %}{% endblock navigation %}
@@ -15,12 +18,26 @@
     <div id="welcome-background" class="container-fluid">
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="{{ config.ASSETS_ROOT }}/images/wraith3.png" class="img-fluid mx-auto d-block mt-4 pt-5" id="welcome-img">
-                <p class="text-center mx-auto d-block mb-5 pb-4" id="welcome-txt">By Team 65 (Koh Kai En, Aum Jiwoo, Bryant Ten, Lee Pin)</p>
+                <img src="{{ config.ASSETS_ROOT }}/images/wraith.gif" style=="width: 20%" class="img-fluid mx-auto d-block mt-4 pt-5" id="welcome-img">
+                <div class="waviy mt-3" id="welcome-txt">
+                    <span style="--i:1">P</span>
+                    <span style="--i:2">R</span>
+                    <span style="--i:3">O</span>
+                    <span style="--i:4">J</span>
+                    <span style="--i:5">E</span>
+                    <span style="--i:6">C</span>
+                    <span style="--i:7">T</span>
+                    <span style="--i:8"> </span>
+                    <span style="--i:9">W</span>
+                    <span style="--i:10">R</span>
+                    <span style="--i:11">A</span>
+                    <span style="--i:12">I</span>
+                    <span style="--i:13">T</span>
+                    <span style="--i:14">H</span>
+                   </div>
             </div>
         </div>
     </div>
-
 
 
 {% endblock content %}

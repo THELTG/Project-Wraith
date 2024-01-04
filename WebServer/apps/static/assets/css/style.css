@@ -10614,24 +10614,3 @@ div.code-toolbar > .toolbar span:hover {
 		box-shadow: 0 0 0 0 rgba(4, 169, 245, 0)
 	}
 }
-
-
-
-
-
-#welcome-background {
-  z-index: 2;
-  background-color: #62626e ;
-  height: 200%;
-}
-
-#welcome-img {
-  width: 70%;
-  height: 80%;
-  opacity: 0;
-}
-
-#welcome-txt {
-  color: #dee9eb;
-  opacity: 0;
-}

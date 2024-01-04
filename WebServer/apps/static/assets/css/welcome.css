@@ -1,0 +1,50 @@
+body{
+    background-color: #0B2234;
+    
+}
+
+#welcome-img {
+    width: 22%; 
+    height: auto; 
+    opacity: 0;
+}
+
+
+#welcome-background {
+    z-index: 2;
+    height: 200%;
+  }
+  
+  #welcome-txt {
+    color: #ebebeb;
+    opacity: 0;
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+
+  .waviy {
+    position: relative;
+    font-size: 60px;
+  }
+  .waviy span {
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    animation: waviy 1s infinite;
+    animation-delay: calc(.1s * var(--i));
+    
+  }
+  @keyframes waviy {
+    0%,40%,100% {
+      transform: translateY(0)
+    }
+    20% {
+      transform: translateY(-20px)
+    }
+  }
