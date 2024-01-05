@@ -210,7 +210,8 @@ def execute_reflective():
                 if connections != []:
                     for conn in connections:
                         if conn[6] == client_id:
-                            conn.append(payload)
+                            conn.extend([None] * (8 - len(conn)))
+                            conn[7] = payload
                             start_time = int(time.time())
                             operation_tested = 'Reflective PE Injection'
 
