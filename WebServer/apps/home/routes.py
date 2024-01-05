@@ -137,11 +137,18 @@ def terminate_connections(id):
 @blueprint.route("/display_results", methods=["POST"])
 def display_results():
     global result_data
-    data = request.get_json()
 
-    if 'result' in data:
-        result_data = data['result']
-        print(f"Received result data:\n{result_data}\n")
+    content_type = request.headers.get('Content-Type')
+
+    if content_type == 'application/json':
+        data = request.get_json()
+        if 'result' in data:
+            result_data = data['result']
+            print(f"Received result data:\n{result_data}\n")
+    
+    elif content_type == 'text/plain':
+        result_data = request.get_data(as_text=True)
+        print(f"Received result data (text/plain):\n{result_data}\n")
 
     return '', 204  # 204 No Content response
 
@@ -162,9 +169,9 @@ def execute_amsi():
 
                             result = amsi_bypass(conn) # either True or False (converted to string later)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
@@ -203,15 +210,16 @@ def execute_reflective():
                 if connections != []:
                     for conn in connections:
                         if conn[6] == client_id:
-                            conn.append(payload)
+                            conn.extend([None] * (8 - len(conn)))
+                            conn[7] = payload
                             start_time = int(time.time())
                             operation_tested = 'Reflective PE Injection'
 
                             result = reflectiveInjection(conn)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
@@ -254,12 +262,57 @@ def execute_driver():
 
                             result = driverCheck(conn)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
+                            return render_template('home/operations.html', result_data=result_data, show_results=True)
+                        else:
+                            return """
+                                <script>
+                                    window.alert("No Matching Identifier");
+                                    window.location.href = document.referrer;
+                                </script>"""
+                else:
+                    return """
+                        <script>
+                            window.alert("No Active Connections, Check Agents");
+                            window.location.href = document.referrer;
+                        </script>"""
+        except OSError:
+            time.sleep(5)
+    else:
+        return """
+        <script>
+            window.alert("No Agent Selected");
+            window.location.href = document.referrer;
+        </script>"""
+
+@blueprint.route("/rce_privesc", methods=["POST"])
+def rce_privesc():
+    arg = request.form.to_dict()
+    if arg != {}:
+        agent = arg['selected_rce_agent']
+        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = str(client_id[0])
+        try:
+            with connections_lock:
+                if connections != []:
+                    for conn in connections:
+                        if conn[6] == client_id:
+                            start_time = int(time.time())
+                            operation_tested = 'RCE and Privilege Escalation Check'
+
+                            result = RCE_PrivEscCheck(conn) # result will always be True. only for this operation.
+                            time.sleep(3) # for the global variable to update
+                            db.execute("""
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), result_data, start_time))
+                            db.commit()
+
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -295,6 +348,8 @@ def generate_pdf(identifier):
         operation_results.operationTested,
         operation_results.result,
         operation_details.genericDetail,
+        operation_results.additionalInformation,
+        operation_details.detailMitigation,
         CASE
             WHEN operation_results.result = 'True' THEN operation_details.detailTrue
             WHEN operation_results.result = 'False' THEN operation_details.detailFalse

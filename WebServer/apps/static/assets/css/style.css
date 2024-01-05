@@ -66,6 +66,12 @@ body {
   position: relative;
 }
 
+.inherit-css {
+  /* Inherit styles from the parent */
+  font-size: inherit;
+  color: inherit;
+}
+
 *:focus {
   outline: none;
 }

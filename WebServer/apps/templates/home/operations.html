@@ -19,8 +19,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{ result_data }}
-                <br>
+                <pre class="inherit-css">{{ result_data }}</pre>
                 <br>
             </div>
         </div>
@@ -202,7 +201,7 @@
                                             
                                                     <tr class="unread">
                                                         <td>
-                                                            <h6 class="mb-1">Network Pivoting : Chisel</h6>
+                                                            <h6 class="mb-1">RCE and Privilege Escalation Check</h6>
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
@@ -212,16 +211,16 @@
                                                                 <div class="modal-dialog modal-lg"role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">Network Pivoting : Chisel</h5>
+                                                                    <h5 class="modal-title" id="Description2Label">RCE and Privilege Escalation Check</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation tests the ability to pivot into an internal network using Chisel.
+                                                                    This operation runs several checks on the target system for any potential privilege escalation/remote code execution vectors. 
                                                                     <br>
                                                                     <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    The operation was inspired by the tool Seatbelt (https://github.com/GhostPack/Seatbelt), and was created as a more light-weight version of the tool written in pure Powershell. It conducts five main checks : Operating System information, TCP Connections, Installed Applications, Processes, and Services. The information displayed by these checks can reveal potential vectors of privilege escalation/remote code execution through vulnerable services on the machine, or vulnerabilities within the operating system version itself.
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -230,22 +229,26 @@
                                                         <td>
                                                             Windows 10/11                      
                                                         </td>
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveChisel" name = "selected_chisel_agent" onchange="enableButton()">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="chisel">
-                                                        <td>
-                                                            <button type="submit" id="chiselButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
-                                                        </td>
-                                                       
+
+                                                            <form action="{{url_for('home_blueprint.rce_privesc')}}" method="POST">
+                                                                <td>
+                                                                    <div class="form-group my-auto">
+                                                                        <select class="form-control" id="agentAliveRCE" name = "selected_rce_agent" onchange="enableButton()">
+                                                                            <option value="" disabled selected>Select an agent..</option>
+                                                                            {% for agent in agents if agent.status == "Alive" %}
+                                                                            <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                </td>
+                                                                <input type="hidden" operation="rce_privesc">
+                                                                <td>
+                                                                    <button type="submit" id="RCEButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
+                                                                </td>
+                                                                </form>
+                                              
                                                     </tr>
+
+
                                                     <tr class="unread">
                                                         <td>
                                                             <h6 class="mb-1">Reflective PE Injection</h6>
@@ -441,10 +444,10 @@
         var cfButton = document.getElementById('cfButton');
         cfButton.disabled = cfSelect.value === "";
 
-        //NP: Chisel
-        var chiselSelect = document.getElementById('agentAliveChisel');
-        var chiselButton = document.getElementById('chiselButton');
-        chiselButton.disabled = chiselSelect.value === "";
+        //Priv Esc + RCE check
+        var RCESelect = document.getElementById('agentAliveRCE');
+        var RCEButton = document.getElementById('RCEButton');
+        RCEButton.disabled = RCESelect.value === "";
 
         //Reflective Injection
         var riSelect = document.getElementById('agentAliveRI');

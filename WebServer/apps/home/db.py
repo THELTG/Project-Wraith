@@ -18,12 +18,14 @@ class operationDetails(db.Model):
     genericDetail = db.Column(db.Text, nullable=False)
     detailTrue = db.Column(db.Text, nullable=True)
     detailFalse = db.Column(db.Text, nullable=True)
+    detailMitigation = db.Column(db.Text, nullable=True) # information on how to mitigate the payload(s) used in an operation
 
 class operationResults(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     agent_identifier = db.Column(db.String(6), db.ForeignKey('all_agents.identifier', ondelete='CASCADE')) # fk, delete on cascade
     operationTested = db.Column(db.String(50), db.ForeignKey('operation_details.operationName'), nullable=False)
     result = db.Column(db.String(10), nullable=False)
+    additionalInformation = db.Column(db.Text, nullable=True)
     time = db.Column(db.Integer, nullable=False) # unix timestamp
     parent = db.relationship('allAgents', backref=backref('children', passive_deletes=True)) # creates a relationship between allAgents and operationResults
     # details = db.relationship('operationDetails', backref='operation_results', uselist=False)
