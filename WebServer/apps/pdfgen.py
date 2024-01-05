@@ -51,7 +51,8 @@ def pdf_gen(data, hostname, pdfname):
 
 
     # for reference : data array looks something like the following : [('Kernel Driver check', 'false', 'Generic Detail for Kernel Driver check', 'False Detail for Kernel Driver check')]
-    # [0] - technique name, [1] - test result, [2] - basic info for technique, [3] - additional info based on whether the test result was true or false
+    # [0] - technique name, [1] - test result, [2] - basic info for technique, [3] - additional info (optional) , [4] - info about mitigation measures (optional), [5] - info based on whether the result is true or false
+
     for i in range(len(data)):
         pdf.add_page()
         pdf.set_y(40)
@@ -77,8 +78,26 @@ def pdf_gen(data, hostname, pdfname):
 
         pdf.set_font('Times', '', 12)
         pdf.cell(40,5,f"",ln=2)
-        pdf.multi_cell(185,5,f"{data[i][3]}") # info based on the result received
+        pdf.multi_cell(185,5,f"{data[i][5]}") # info based on the result received
 
+        if data[i][3] != '' : # if there is additional info (currently only for the rce/privesc check operation)
+            pdf.set_font('Times', 'B', 15)
+            pdf.multi_cell(1,8,f"") 
+            pdf.cell(40,5,f"[ Additional Info : Operation Output ]",ln=2)
+            
+            pdf.set_font('Courier', '', 8)
+            pdf.cell(40,5,f"",ln=2)
+            # pdf.multi_cell(185, 5, file_contents)
+            pdf.multi_cell(185,5,f"{data[i][3]}") 
+
+        if data[i][4] != '' : # if there is info about mitigation measures
+            pdf.set_font('Times', 'B', 15)
+            pdf.multi_cell(1,8,f"") 
+            pdf.cell(40,5,f"[ Preventive Measures ]",ln=2)
+     
+            pdf.set_font('Times', '', 12)
+            pdf.cell(40,5,f"",ln=2)
+            pdf.multi_cell(185,5,f"{data[i][4]}") 
 
     pdf.set_auto_page_break(auto=bool, margin=0.0)
     filepath = f'{pdfname[0]}_{pdfname[1]}_{pdfname[2]}_{datetime.utcnow():%Y-%m-%d}.pdf'

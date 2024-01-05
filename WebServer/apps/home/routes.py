@@ -169,9 +169,9 @@ def execute_amsi():
 
                             result = amsi_bypass(conn) # either True or False (converted to string later)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
@@ -216,9 +216,9 @@ def execute_reflective():
 
                             result = reflectiveInjection(conn)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
@@ -261,9 +261,9 @@ def execute_driver():
 
                             result = driverCheck(conn)
                             db.execute("""
-                                INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                                VALUES (?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), start_time))
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), '', start_time))
                             db.commit()
 
                             time.sleep(3) # for the global variable to update
@@ -304,14 +304,14 @@ def rce_privesc():
                             start_time = int(time.time())
                             operation_tested = 'RCE and Privilege Escalation Check'
 
-                            result = RCE_PrivEscCheck(conn) # i dont think theres really a result we can put
-                            # db.execute("""
-                            #     INSERT INTO operation_results (agent_identifier, operationTested, result, time)
-                            #     VALUES (?, ?, ?, ?)
-                            # """, (client_id, operation_tested, str(result), start_time))
-                            # db.commit()
-
+                            result = RCE_PrivEscCheck(conn) # result will always be True. only for this operation.
                             time.sleep(3) # for the global variable to update
+                            db.execute("""
+                                INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
+                                VALUES (?, ?, ?, ?, ?)
+                            """, (client_id, operation_tested, str(result), result_data, start_time))
+                            db.commit()
+
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -347,6 +347,8 @@ def generate_pdf(identifier):
         operation_results.operationTested,
         operation_results.result,
         operation_details.genericDetail,
+        operation_results.additionalInformation,
+        operation_details.detailMitigation,
         CASE
             WHEN operation_results.result = 'True' THEN operation_details.detailTrue
             WHEN operation_results.result = 'False' THEN operation_details.detailFalse
