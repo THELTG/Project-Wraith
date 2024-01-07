@@ -329,14 +329,14 @@
                                                             <h6 class="mb-1">Net NTLMv2 Hijacking</h6>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description1">
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description6">
                                                             Read Description
                                                             </button>
-                                                            <div class="modal fade" id="description5" tabindex="-1" role="dialog" aria-labelledby="Description1Label" aria-hidden="true">
+                                                            <div class="modal fade" id="description6" tabindex="-1" role="dialog" aria-labelledby="Description6Label" aria-hidden="true">
                                                                 <div class="modal-dialog modal-lg"role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description5Label">Net NTLMv2 Hijacking</h5>
+                                                                    <h5 class="modal-title" id="Description6Label">Net NTLMv2 Hijacking</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -504,6 +504,11 @@
         var fileSelect = document.getElementById('file_select');
         var fileButton = document.getElementById('fileButton');
         fileButton.disabled = fileSelect.value === "";
+
+        //LM: NetNTLMv2 cracking
+        var NTLMSelect = document.getElementById('agentAliveNetNTLMHijack');
+        var NTLMButton = document.getElementById('NTLMButton');
+        NTLMButton.disabled = NTLMSelect.value === "";
 
     }
     function payloadSelection() {
