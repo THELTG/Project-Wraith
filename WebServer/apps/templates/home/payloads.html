@@ -50,7 +50,7 @@
                                                         <form action = "/upload_payload" enctype="multipart/form-data" method="POST">
                                                             <td>
                                                                 <div class="form-group my-auto">
-                                                                    <input type="file" name="file" />   
+                                                                    <input type="file" name="payload" />   
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -80,13 +80,13 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if files %}
-                                                            {% for file in files %}
+                                                        {% if payloads %}
+                                                            {% for payload in payloads %}
                                                                     <tr>
                                                                         <form action="/delete_payload" enctype="multipart/form-data" method="POST">
-                                                                            <td>{{ file['name'] }}</td>
+                                                                            <td>{{ payload['name'] }}</td>
                                                                             <td>
-                                                                                <input type="hidden" name="file_name" value="{{ file['name'] }}">
+                                                                                <input type="hidden" name="payload_name" value="{{ payload['name'] }}">
                                                                                 <button type="submit" class="btn btn-outline-primary">Delete</button>
                                                                             </td>
                                                                         </form>
@@ -104,6 +104,112 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [ Wordlist section ] end -->
+
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10 mb-4">Wordlists</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-xl-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Upload a Wordlist</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Upload Wordlist (.txt)</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="unread">
+                                                        <form action = "/upload_wordlist" enctype="multipart/form-data" method="POST">
+                                                            <td>
+                                                                <div class="form-group my-auto">
+                                                                    <input type="file" name="wordlist" />   
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <button type="submit" class="btn btn-outline-primary">Upload</button>
+                                                            </td>
+                                                            </form>
+                                                    </tr>                                                                              
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Remove an existing Wordlist</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Payload Name (.exe)</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if wordlists %}
+                                                            {% for wordlist in wordlists %}
+                                                                    <tr>
+                                                                        <form action="/delete_wordlist" enctype="multipart/form-data" method="POST">
+                                                                            <td>{{ wordlist['name'] }}</td>
+                                                                            <td>
+                                                                                <input type="hidden" name="wordlist_name" value="{{ wordlist['name'] }}">
+                                                                                <button type="submit" class="btn btn-outline-primary">Delete</button>
+                                                                            </td>
+                                                                        </form>
+                                                                    </tr>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                        <tr>
+                                                            <td>No files have been uploaded yet.</td>
+                                                            <td><button type="submit" class="btn btn-outline-primary">Delete</button></td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    </tbody>                                                                     
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <!-- [ Main Content ] end -->
                         </div>

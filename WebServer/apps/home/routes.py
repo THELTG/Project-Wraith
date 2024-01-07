@@ -20,10 +20,11 @@ def index():
 @blueprint.route('/operations.html')
 def operations():
     agents = allAgents.query.all()
-    directory = './apps/exploit/payload'
-    files = [{'name': file.name} for file in os.scandir(directory)]
-    # files = [{'name': file.name} for file in os.scandir(directory) if file.is_file() and file.name.endswith('.exe')] keeping this for now, in case an operation is created that uses custom files (which are non .exe)
-    return render_template('home/operations.html', segment='operations', agents=agents, files=files)
+    payloadDirectory = './apps/exploit/payload'
+    payloads = [{'name': file.name} for file in os.scandir(payloadDirectory) if file.is_file() and file.name.endswith('.exe')] # filter by .exe only, can remove later if other extensions are supported
+    wordlistDirectory = './apps/exploit/wordlists'
+    wordlists = [{'name': file.name} for file in os.scandir(wordlistDirectory) if file.is_file() and file.name.endswith('.txt')] 
+    return render_template('home/operations.html', segment='operations', agents=agents, payloads=payloads, wordlists=wordlists)
 
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
@@ -38,15 +39,17 @@ def reports():
 
 @blueprint.route('/payloads.html', methods=["GET"])
 def payloads():
-    directory = './apps/exploit/payload'
-    files = [{'name': file.name} for file in os.scandir(directory) if file.is_file() and file.name.endswith('.exe')] # check for .exe only. Payload upload currently only supports .exe, might change in the future
-    return render_template('home/payloads.html', segment='payloads', files=files)
+    payloadDirectory = './apps/exploit/payload'
+    payloads = [{'name': file.name} for file in os.scandir(payloadDirectory) if file.is_file() and file.name.endswith('.exe')] # filter by .exe only, can remove later if other extensions are supported
+    wordlistDirectory = './apps/exploit/wordlists'
+    wordlists = [{'name': file.name} for file in os.scandir(wordlistDirectory) if file.is_file() and file.name.endswith('.txt')] 
+    return render_template('home/payloads.html', segment='payloads', payloads=payloads, wordlists=wordlists)
 
 @blueprint.route('/upload_payload', methods=["POST"])
 def upload_payload():
     directory = './apps/exploit/payload/' 
 
-    file = request.files['file']
+    file = request.files['payload']
     filename = file.filename
 
     if filename == '':
@@ -69,17 +72,58 @@ def upload_payload():
                 window.location.href = document.referrer;
             </script>"""
 
+@blueprint.route('/upload_wordlist', methods=["POST"])
+def upload_wordlist():
+    directory = './apps/exploit/wordlists/' 
+
+    file = request.files['wordlist']
+    filename = file.filename
+
+    if filename == '':
+        return """
+        <script>
+            window.alert("No file was chosen.");
+            window.location.href = document.referrer;
+        </script>"""
+    elif filename.split('.')[1] != 'txt':
+        return """
+        <script>
+            window.alert("Please upload .txt wordlists only.");
+            window.location.href = document.referrer;
+        </script>"""
+
+    file.save(directory + filename)
+    return """
+            <script>
+                window.alert("File Uploaded Successfully.");
+                window.location.href = document.referrer;
+            </script>"""
+
 @blueprint.route('/delete_payload', methods=["POST"])
 def delete_payload():
     directory = './apps/exploit/payload/' 
 
-    filename = request.form['file_name']
+    filename = request.form['payload_name']
     filepath = os.path.join(directory, filename)
     os.remove(filepath)
 
     return """
             <script>
                 window.alert("Payload deleted successfully.");
+                window.location.href = document.referrer;
+            </script>"""
+
+@blueprint.route('/delete_wordlist', methods=["POST"])
+def delete_wordlist():
+    directory = './apps/exploit/wordlists/' 
+
+    filename = request.form['wordlist_name']
+    filepath = os.path.join(directory, filename)
+    os.remove(filepath)
+
+    return """
+            <script>
+                window.alert("Wordlist deleted successfully.");
                 window.location.href = document.referrer;
             </script>"""
 
@@ -295,7 +339,7 @@ def NetNTLMHijack():
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_ntlm_agent']
-        operation = arg['wordlist_operation']
+        operation = arg['selected_wordlist']
         client_id = db.execute('SELECT identifier FROM all_agnets WHERE id=?',agent).fetchone()
         client_id = str(client_id[0])
 

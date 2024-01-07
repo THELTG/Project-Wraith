@@ -294,7 +294,7 @@
                                                             <button type="button" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
                                                         </td>
 
-                                                        <div id="fileModal" class="modal" tabindex="-1">
+                                                        <div id="payloadFileModal" class="modal" tabindex="-1">
                                                             <div class="modal-dialog">
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
@@ -302,12 +302,10 @@
                                                                   </div>
                                                                   <div class="modal-body">
                                                                     <div class="form-group my-auto">
-                                                                        <select class="form-control" id="file_select" name="selected_payload" onchange="enableButton()">
+                                                                        <select class="form-control" id="payload_select" name="selected_payload" onchange="enableButton()">
                                                                             <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
-                                                                            {% for file in files %}
-                                                                                {% if file['name'].endswith('.exe') %}
-                                                                                    <option value="{{ file['name'] }}">{{ file['name'] }}</option>
-                                                                                {% endif %}
+                                                                            {% for payload in payloads %}
+                                                                                    <option value="{{ payload['name'] }}">{{ payload['name'] }}</option>
                                                                             {% endfor %}
                                                                         </select>
                                                                     </div>
@@ -317,7 +315,7 @@
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                     <input type="hidden" id="Payload">
-                                                                    <button type="submit" class="btn btn-outline-primary" id="fileButton" disabled>Select</button>
+                                                                    <button type="submit" class="btn btn-outline-primary" id="payloadButton" disabled>Select</button>
                                                                   </div>
                                                               </div>
                                                             </div>
@@ -367,8 +365,35 @@
                                                             </td>
                                                             <input type="hidden" id="NetNTLM">
                                                             <td>
-                                                                <button type="submit" id="NTLMButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
+                                                                <button type="button" class="btn btn-outline-primary" onclick="wordlistSelection()" id="NTLMButton" disabled>Execute Operation</button>
                                                             </td>
+
+                                                            <div id="wordlistFileModal" class="modal" tabindex="-1">
+                                                                <div class="modal-dialog">
+                                                                  <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                        <h5 class="modal-title">Select Wordlist</h5>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                        <div class="form-group my-auto">
+                                                                            <select class="form-control" id="wordlist_select" name="selected_wordlist" onchange="enableButton()">
+                                                                                <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
+                                                                                {% for wordlist in wordlists %}
+                                                                                        <option value="{{ wordlist['name'] }}">{{ wordlist['name'] }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="text mt-3">
+                                                                            Want to use a custom wordlist? Upload one <a href="/payloads.html"><u>here.</u></a>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                        <input type="hidden" id="Payload">
+                                                                        <button type="submit" class="btn btn-outline-primary" id="wordlistButton" disabled>Select</button>
+                                                                      </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
                                                             </form>
                                                     </tr>
                                                     
@@ -501,19 +526,30 @@
         riButton.disabled = riSelect.value === "";
         
         //Reflective Injection - Payload 
-        var fileSelect = document.getElementById('file_select');
-        var fileButton = document.getElementById('fileButton');
-        fileButton.disabled = fileSelect.value === "";
+        var payloadSelect = document.getElementById('payload_select');
+        var payloadButton = document.getElementById('payloadButton');
+        payloadButton.disabled = payloadSelect.value === "";
 
         //LM: NetNTLMv2 cracking
         var NTLMSelect = document.getElementById('agentAliveNetNTLMHijack');
         var NTLMButton = document.getElementById('NTLMButton');
         NTLMButton.disabled = NTLMSelect.value === "";
 
+        //LM: NetNTLMv2 cracking - Wordlist
+        var wordlistSelect = document.getElementById('wordlist_select');
+        var wordlistButton = document.getElementById('wordlistButton');
+        wordlistButton.disabled = wordlistSelect.value === "";
+
     }
     function payloadSelection() {
       // Use Bootstrap modal to show the form
-      var popUp = new bootstrap.Modal(document.getElementById('fileModal'));
+      var popUp = new bootstrap.Modal(document.getElementById('payloadFileModal'));
+      popUp.show();
+    }
+
+    function wordlistSelection() {
+      // Use Bootstrap modal to show the form
+      var popUp = new bootstrap.Modal(document.getElementById('wordlistFileModal'));
       popUp.show();
     }
   </script>{% endblock javascripts %}
