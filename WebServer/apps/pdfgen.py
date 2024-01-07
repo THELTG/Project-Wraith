@@ -14,10 +14,6 @@ class PDF(FPDF):
         self.set_font("Arial","I",8)
         self.cell(0,10,"Page" + str(self.page_no())+ '/{nb}',0,0, "C")
 
-    def add_new_page(self):
-        self.add_page()
-        self.set_y(40)
-
 
 def pdf_gen(data, hostname, pdfname):
 
