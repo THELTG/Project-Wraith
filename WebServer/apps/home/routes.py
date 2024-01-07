@@ -305,13 +305,13 @@ def execute_driver():
                             operation_tested = 'Kernel Driver Check'
 
                             result = driverCheck(conn)
+                            time.sleep(3) # for the global variable to update
                             db.execute("""
                                 INSERT INTO operation_results (agent_identifier, operationTested, result, additionalInformation, time)
                                 VALUES (?, ?, ?, ?, ?)
-                            """, (client_id, operation_tested, str(result), '', start_time))
+                            """, (client_id, operation_tested, str(result), result_data, start_time))
                             db.commit()
 
-                            time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
                         else:
                             return """
@@ -348,7 +348,9 @@ def NetNTLMHijack():
                 if connections != []:
                     for conn in connections:
                         if conn[6] == client_id:
-                            operation_tested = ''
+                            start_time = int(time.time())
+                            operation_tested = 'NetNTLMv2 Hijack'
+
                             result = NetNTLMv2_Hijack(conn,operation)
                             if result == False:
                                 return "NTLM Cannot be cracked"
