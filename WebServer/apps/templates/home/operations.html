@@ -340,10 +340,10 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation steals the Net NTLMv2 hash of the current logged on user, which can be decrypted using a bruteforce attack.
+                                                                    This operation steals the Net NTLMv2 hash of the current logged on user, and attempts to obtain the corresponding plaintext password using a bruteforce/dictionary attack.
                                                                     <br>
                                                                     <br>
-                                                                    If this operation is deployed, the Net NTLMv2 hash will be captured by Wraith and displayed. For more information, refer to the documentation.
+                                                                    If this operation is deployed, the Net NTLMv2 hash will be captured by Wraith and then bruteforced using either a dictionary attack or a traditional bruteforce attack. If a password was successfully cracked, it will be displayed accordingly. A successful password crack might indiciate a weak password being used by the user in the target system. For more information, refer to the documentation.
                                                                     </div>
                                                                 </div>
                                                                 </div>
