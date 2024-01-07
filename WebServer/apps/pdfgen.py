@@ -14,11 +14,20 @@ class PDF(FPDF):
         self.set_font("Arial","I",8)
         self.cell(0,10,"Page" + str(self.page_no())+ '/{nb}',0,0, "C")
 
+    def add_new_page(self):
+        self.add_page()
+        self.set_y(40)
+
+
 def pdf_gen(data, hostname, pdfname):
 
     pdf = FPDF()
     pdf = PDF()
     pdf.alias_nb_pages()
+
+    pdf.set_auto_page_break(auto=True, margin=40)
+    pdf.set_top_margin(40)
+
     pdf.add_page()
 
     pdf.set_font('Times', 'B', 30)
@@ -79,7 +88,7 @@ def pdf_gen(data, hostname, pdfname):
         pdf.set_font('Times', '', 12)
         pdf.cell(40,5,f"",ln=2)
         pdf.multi_cell(185,5,f"{data[i][5]}") # info based on the result received
-
+        
         if data[i][3] != '' : # if there is additional info (currently only for the rce/privesc check operation)
             pdf.set_font('Times', 'B', 15)
             pdf.multi_cell(1,8,f"") 
@@ -87,19 +96,19 @@ def pdf_gen(data, hostname, pdfname):
             
             pdf.set_font('Courier', '', 8)
             pdf.cell(40,5,f"",ln=2)
-            # pdf.multi_cell(185, 5, file_contents)
+
             pdf.multi_cell(185,5,f"{data[i][3]}") 
 
         if data[i][4] != '' : # if there is info about mitigation measures
             pdf.set_font('Times', 'B', 15)
             pdf.multi_cell(1,8,f"") 
             pdf.cell(40,5,f"[ Preventive Measures ]",ln=2)
-     
+
             pdf.set_font('Times', '', 12)
             pdf.cell(40,5,f"",ln=2)
+
             pdf.multi_cell(185,5,f"{data[i][4]}") 
 
-    pdf.set_auto_page_break(auto=bool, margin=0.0)
     filepath = f'{pdfname[0]}_{pdfname[1]}_{pdfname[2]}_{datetime.utcnow():%Y-%m-%d}.pdf'
     pdf_path = os.path.join("./apps/reports", filepath)
     pdf.output(pdf_path)  
