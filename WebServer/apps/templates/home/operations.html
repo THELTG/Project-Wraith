@@ -109,7 +109,7 @@
                                                     </tr>
                                                     <tr class="unread">
                                                         <td>
-                                                            <h6 class="mb-1">Vulnerable Kernel Drivers Check</h6>
+                                                            <h6 class="mb-1">Local Privilege Escalation : Vulnerable Kernel Drivers Check</h6>
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description2">
@@ -125,10 +125,10 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                    This operation searches for any vulnerable drivers in the target system.
+                                                                    This operation searches for any vulnerable drivers in the target system. It is recommended to bypass AMSI first before using this operation.
                                                                     <br>
                                                                     <br>
-                                                                    The operation compares the drivers present in the system against a list of known vulnerable drivers found in LOLdrivers (https://www.loldrivers.io/). Detected vulnerabilities require prompt action, as it could indicate the presence of a malicious driver or a driver that can be taken advantage of to carry out exploitations like Privilege Escalation.
+                                                                    The operation compares the drivers present in the system against a list of known vulnerable drivers found in LOLdrivers (https://www.loldrivers.io/). Detected vulnerabilities require prompt action, as it could indicate the presence of a malicious driver or a driver that can be taken advantage of to carry out exploitations like Privilege Escalation. Currently, the operation supports the automated privilege escalations of CVE 2023-36802 and CVE 2023-21768.
                                                                     </div>
                                                                 </div>
                                                                 </div>
