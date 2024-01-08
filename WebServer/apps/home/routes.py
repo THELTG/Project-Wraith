@@ -220,12 +220,6 @@ def execute_amsi():
 
                             time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -268,12 +262,6 @@ def execute_reflective():
 
                             time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -313,12 +301,6 @@ def execute_driver():
                             db.commit()
 
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -402,12 +384,6 @@ def rce_privesc():
                             db.commit()
 
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
