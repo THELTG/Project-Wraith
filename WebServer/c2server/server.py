@@ -67,7 +67,7 @@ def recv_information(conn):
     information = {}
     conn.send(b"\n")
     time.sleep(1)
-    conn.recv(2048).decode()
+    conn.recv(2048)
     time.sleep(1)
     # username
     conn.send("$ENV:username".encode() + b"\n")

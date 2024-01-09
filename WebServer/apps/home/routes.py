@@ -466,5 +466,25 @@ GROUP BY
     ]
 
     return jsonify({"rows": row_list})
+
+
+
+@blueprint.route("/update_terminal", methods=["GET"])
+def update_terminal():
+    filepath = "./apps/log file/amsi.txt"
+    with open(filepath, 'r') as file:
+        file_content = file.read()
+
+    return jsonify({"terminaltext": file_content})
+
+
+@blueprint.route("/clear_txt", methods=["GET"])
+def clear_txt():
+    filepath = "./apps/log file/amsi.txt"
+    with open(filepath, 'w') as file:
+        pass
+
+    return True
+
     
     
