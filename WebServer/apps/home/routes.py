@@ -220,12 +220,6 @@ def execute_amsi():
 
                             time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -268,12 +262,6 @@ def execute_reflective():
 
                             time.sleep(3) # for the global variable to update
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -313,12 +301,6 @@ def execute_driver():
                             db.commit()
 
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -402,12 +384,6 @@ def rce_privesc():
                             db.commit()
 
                             return render_template('home/operations.html', result_data=result_data, show_results=True)
-                        else:
-                            return """
-                                <script>
-                                    window.alert("No Matching Identifier");
-                                    window.location.href = document.referrer;
-                                </script>"""
                 else:
                     return """
                         <script>
@@ -466,12 +442,24 @@ def generate_pdf(identifier):
     else:
         return "No Test Conducted"
     
-
-
 @blueprint.route("/report_rows", methods=["GET"])
 def report_rows():
     db.execute('PRAGMA foreign_keys = ON') # enable fk
-    rows = db.execute ("SELECT all_agents.identifier, all_agents.hostname, all_agents.operatingSystem, all_agents.ipAddress, MAX(operation_results.time) FROM all_agents JOIN operation_results ON all_agents.identifier = operation_results.agent_identifier;")
+    rows = db.execute ("""SELECT
+    all_agents.identifier,
+    all_agents.hostname,
+    all_agents.operatingSystem,
+    all_agents.ipAddress,
+    MAX(operation_results.time) AS max_time
+FROM
+    all_agents
+JOIN
+    operation_results ON all_agents.identifier = operation_results.agent_identifier
+GROUP BY
+    all_agents.identifier,
+    all_agents.hostname,
+    all_agents.operatingSystem,
+    all_agents.ipAddress;""")
     row_list = [
         list(row[:-1]) + [datetime.datetime.fromtimestamp(row[-1]).strftime('%Y-%m-%d %H:%M:%S')] # convert epoch to datetime. used to display the 'last tested' date.
         for row in rows
