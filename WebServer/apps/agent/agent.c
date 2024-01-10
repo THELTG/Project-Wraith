@@ -5,7 +5,6 @@
 #include <ws2tcpip.h>
 #include <schannel.h>
 #include <security.h>
-#include <sspi.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Secur32.lib")
