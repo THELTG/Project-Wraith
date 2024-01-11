@@ -5,6 +5,7 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/css/terminal.css">
+<link rel="stylesheet" href="{{ config.ASSETS_ROOT }}/css/operation.css">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -175,8 +176,7 @@
                                                                     <div class="modal-body">
                                                                     This operation tests credentials forwarding.
                                                                     <br>
-                                                                    <br>
-                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper laoreet nisi sit amet fermentum. Quisque sollicitudin nunc quis aliquet egestas. Nam scelerisque, turpis eget accumsan aliquet, quam velit aliquet turpis, ac tincidunt dui lorem id metus. Phasellus eu consectetur ligula. Suspendisse luctus metus enim, id fringilla erat suscipit eu. Quisque quis augue diam. Morbi ut mi eget tortor pulvinar luctus sed at ipsum. Nam sollicitudin mattis ipsum et sagittis. Duis at dolor metus. Aenean convallis tortor magna. Fusce magna turpis, rutrum a ex eu, condimentum interdum metus. Quisque vel ornare mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                                                                    Please change this description later.
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -186,15 +186,50 @@
                                                             Windows 10/11                      
                                                         </td>
                                                         <td>
-                                                            <div class="form-group my-auto">
-                                                                <div class="form-control" id="agentAliveCF" name = "selected_credential_agent" onchange="enableButton()">
-                                                                    <option value="" disabled selected>Not Applicable</option>
+                                                            <form method="POST" action="{{ url_for('home_blueprint.lateral_movement') }}">
+                                                                <div class="form-group my-auto">
+                                                                    <div class="form-control">
+                                                                        <option value="" disabled selected>Not Applicable</option>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                        <input type="hidden" operation="credentials">
-                                                        <td>
-                                                            <button type="submit" id="cfButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
+                                                                <input type="hidden" operation="lateral_movement">
+                                                                <td>
+                                                                    <button type="button" class="btn btn-outline-primary" onclick="lateralSelection()" id="lateralButton">Execute Operation</button>
+                                                                </td>
+                                                    
+                                                                <div id="lateralMovementModal" class="modal" tabindex="-1">
+                                                                    <div class="modal-dialog">
+                                                                      <div class="modal-content">
+                                                                          <div class="modal-header">
+                                                                            <h5 class="modal-title">Enter Credentials</h5>
+                                                                          </div>
+                                                                          <div class="modal-body">
+                                                                            <div class="form-group my-auto">
+                                                                                <label>Enter the target IP Address</label>
+                                                                                <br>
+                                                                                <input for="ip_address" name="ip_address" class="mb-4 form-control" placeholder="Target IP Address">
+                                                                                <br>
+                                                                                <label>Enter usernames: </label>
+                                                                                <br>
+                                                                                <textarea for="usernames" name="usernames" class="form-control" name="usernames " placeholder="Usernames"></textarea>
+                                                                                <br>
+                                                                                <br>
+                                                                                <label>Enter passwords: </label>
+                                                                                <br>
+                                                                                <textarea for="passwords" name="passwords" class="form-control" name="passwords" placeholder="Passwords"></textarea>
+                                                                            </div>
+                                                                            <div class="text mt-3">
+                                                                                Enter the usernames and passwords to be tested on the target machine. Each entry is delmitted by an enter.
+                                                                            </div>
+                                                                          </div>
+                                                                          <div class="modal-footer">
+                                                                            <input type="hidden" id="Payload">
+                                                                            <button type="submit" class="btn btn-outline-primary" id="payloadButton">Submit</button>
+                                                                          </div>
+                                                                      </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                             
@@ -318,7 +353,7 @@
                                                                   </div>
                                                               </div>
                                                             </div>
-                                                          </div>
+                                                        </div>
                                                         </form>  
                                                     </tr>
                                                     <tr class="unread">
@@ -574,6 +609,11 @@
       // Use Bootstrap modal to show the form
       var popUp = new bootstrap.Modal(document.getElementById('payloadFileModal'));
       popUp.show();
+    }
+
+    function lateralSelection() {
+        var popUp = new bootstrap.Modal(document.getElementById('lateralMovementModal'));
+        popUp.show();
     }
 
     function wordlistSelection() {

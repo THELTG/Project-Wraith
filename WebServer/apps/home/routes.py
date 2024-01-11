@@ -349,12 +349,12 @@ def lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
         ipaddress = arg['ip_address']
-        username = arg['username']
-        password = arg['password']
+        username = arg['usernames']
+        password = arg['passwords']
         # no active agents required.
         output = lateral_movement_check(ipaddress,username,password)
         if output: # might need to change the output of these things
-            return 'OK!'
+            return output
         else:
             return 'Wrong password'
 
