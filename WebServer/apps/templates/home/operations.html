@@ -187,12 +187,9 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveCF" name = "selected_credential_agent" onchange="enableButton()">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
+                                                                <div class="form-control" id="agentAliveCF" name = "selected_credential_agent" onchange="enableButton()">
+                                                                    <option value="" disabled selected>Not Applicable</option>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <input type="hidden" operation="credentials">
