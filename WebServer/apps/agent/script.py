@@ -17,13 +17,14 @@ def ip_to_int(ip_addr):
 
 def script_generate_agent(ip_addr,port):
     #Compile
-    compile= f"gcc agent.c -DIP_ADDRESS={ip_to_int(ip_addr)} -DPORT={port} -o agent -IE:/Mysys2/ucrt64/include/openssl -lssl -lcrypto -lws2_32 -static"
-    print(compile)
+    compile= f"gcc ./apps/agent/agent.c -DIP_ADDRESS={ip_to_int(ip_addr)} -DPORT={port} -o ./apps/agent/agent.exe -I./apps/agent/openssl -lssl -lcrypto -lws2_32 -static"
     try:
         subprocess.run(compile, shell=True, check=True)
         print("Compile Success")
+        return 0
     except:
         print("Compile Failed")
+        return 1
 
 if __name__ == '__main__':
     #Check Args
