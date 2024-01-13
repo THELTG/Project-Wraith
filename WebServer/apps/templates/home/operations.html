@@ -572,11 +572,6 @@
         var kdButton = document.getElementById('kdButton');
         kdButton.disabled = kdSelect.value === "";
 
-        //LM: Credentials Forwarding
-        var cfSelect = document.getElementById('agentAliveCF');
-        var cfButton = document.getElementById('cfButton');
-        cfButton.disabled = cfSelect.value === "";
-
         //Priv Esc + RCE check
         var RCESelect = document.getElementById('agentAliveRCE');
         var RCEButton = document.getElementById('RCEButton');
@@ -609,10 +604,10 @@
       popUp.show();
     }
 
-    function lateralSelection() {
-        var popUp = new bootstrap.Modal(document.getElementById('lateralMovementModal'));
-        popUp.show();
-    }
+    // function lateralSelection() {
+    //     var popUp = new bootstrap.Modal(document.getElementById('lateralMovementModal'));
+    //     popUp.show();
+    // }
 
     function wordlistSelection() {
       // Use Bootstrap modal to show the form
