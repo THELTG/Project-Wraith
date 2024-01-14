@@ -512,6 +512,17 @@
                                 </div>
                                 <!-- End of terminal output -->
 
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Line Chart</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <canvas id="graph"></canvas>  <!--used for chart-->
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- [ Main Content ] end -->
                         </div>
@@ -620,7 +631,10 @@
       popUp.show();
     }
   </script>
+
+    <script src="../../static/assets/js/node_modules/chart.js/dist/chart.umd.js"></script>
   
-  <script src="../../static/assets/js/terminal.js"></script>
+    <script src="../../static/assets/js/terminal.js"></script>
+    
 
   {% endblock javascripts %}
