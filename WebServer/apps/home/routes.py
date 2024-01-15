@@ -473,7 +473,7 @@ GROUP BY
 # used to actively read the different files for commands
 @blueprint.route("/update_terminal", methods=["GET"])
 def update_terminal():
-    filepath = "./apps/log file/amsi.txt"
+    filepath = "./apps/log file/operations.txt"
     with open(filepath, 'r') as file:
         file_content = file.read()
 
@@ -482,7 +482,7 @@ def update_terminal():
 # used to clear files before the start of terminal output and chart
 @blueprint.route("/clear_txt", methods=["GET"])
 def clear_txt():
-    filepath = "./apps/log file/amsi.txt"
+    filepath = "./apps/log file/operations.txt"
     with open(filepath, 'w') as file:
         pass
 
