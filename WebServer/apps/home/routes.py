@@ -467,22 +467,40 @@ GROUP BY
 
 
 
+
+
+
+# used to actively read the different files for commands
 @blueprint.route("/update_terminal", methods=["GET"])
 def update_terminal():
-    filepath = "./apps/log file/amsi.txt"
+    filepath = "./apps/log file/operations.txt"
     with open(filepath, 'r') as file:
         file_content = file.read()
 
     return jsonify({"terminaltext": file_content})
 
-
+# used to clear files before the start of terminal output and chart
 @blueprint.route("/clear_txt", methods=["GET"])
 def clear_txt():
-    filepath = "./apps/log file/amsi.txt"
+    filepath = "./apps/log file/operations.txt"
+    with open(filepath, 'w') as file:
+        pass
+
+    filepath = "./apps/log file/chart.txt"
     with open(filepath, 'w') as file:
         pass
 
     return True
 
     
+
+
+#used to actively read chart.txt
+@blueprint.route('/update_lst', methods=["GET"])
+def update_lst():
+    filepath = "./apps/log file/chart.txt"
+    with open(filepath, 'r') as file:
+        file_content = file.read()
+
+    return jsonify({"updatedLst": file_content})
     

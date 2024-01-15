@@ -1,0 +1,4 @@
+[+] Setting up Powershell ExecutionPolicy Bypassed Environment on jn4Lg, Username: test, IP Address: 192.168.163.132
+[+] Setting an environment variable
+[+] Setting up AMSI Bypassed Environment on jn4Lg, Username: test, IP Address: 192.168.163.132
+[+] Sending script to perform AMSI Bypass

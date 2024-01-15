@@ -221,8 +221,7 @@
                                                                             </div>
                                                                           </div>
                                                                           <div class="modal-footer">
-                                                                            <input type="hidden" id="Payload">
-                                                                            <button type="submit" class="btn btn-outline-primary" id="payloadButton">Submit</button>
+                                                                            <button type="submit" class="btn btn-outline-primary" id="lateralButton">Submit</button>
                                                                           </div>
                                                                       </div>
                                                                     </div>
@@ -512,6 +511,17 @@
                                 </div>
                                 <!-- End of terminal output -->
 
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Line Chart</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <canvas id="graph"></canvas>  <!--used for chart-->
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- [ Main Content ] end -->
                         </div>
@@ -572,11 +582,6 @@
         var kdButton = document.getElementById('kdButton');
         kdButton.disabled = kdSelect.value === "";
 
-        //LM: Credentials Forwarding
-        var cfSelect = document.getElementById('agentAliveCF');
-        var cfButton = document.getElementById('cfButton');
-        cfButton.disabled = cfSelect.value === "";
-
         //Priv Esc + RCE check
         var RCESelect = document.getElementById('agentAliveRCE');
         var RCEButton = document.getElementById('RCEButton');
@@ -620,7 +625,10 @@
       popUp.show();
     }
   </script>
+
+    <script src="../../static/assets/js/node_modules/chart.js/dist/chart.umd.js"></script>
   
-  <script src="../../static/assets/js/terminal.js"></script>
+    <script src="../../static/assets/js/terminal.js"></script>
+    
 
   {% endblock javascripts %}
