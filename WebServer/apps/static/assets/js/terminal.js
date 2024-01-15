@@ -17,15 +17,31 @@ function terminal() {
             container.innerHTML = '';
 
             // Update Rows
-            for(var i= 0; i < terminaltext.length; i++){
-                var paraline = document.createElement('p');
-                paraline.textContent = terminaltext[i];
-                // Set the class attribute
-                paraline.classList.add('mt-3', 'ml-3');
+            if (terminaltext.length <= 6){
+                for(var i= 0; i < terminaltext.length; i++){
+                    var paraline = document.createElement('p');
+                    paraline.textContent = terminaltext[i];
+                    // Set the class attribute
+                    paraline.classList.add('mt-3', 'ml-3');
 
-                // Set the style attribute
-                paraline.style.color = '#39FF14';
-                container.appendChild(paraline);
+                    // Set the style attribute
+                    paraline.style.color = '#39FF14';
+                    container.appendChild(paraline);
+                }
+            }else{
+
+                var newlst = terminaltext.slice(-6)
+                console.log(newlst)
+                for(var i= 0; i < newlst.length; i++){
+                    var paraline = document.createElement('p');
+                    paraline.textContent = newlst[i];
+                    // Set the class attribute
+                    paraline.classList.add('mt-3', 'ml-3');
+
+                    // Set the style attribute
+                    paraline.style.color = '#39FF14';
+                    container.appendChild(paraline);
+                }
             }
         }
     };
