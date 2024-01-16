@@ -90,7 +90,7 @@ const config = {
             x:{
                 title:{
                     display:true,
-                    text: 'Time Elapsed',
+                    text: 'Time Elapsed (s)',
                     color: 'white'
                 }
             },
