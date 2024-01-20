@@ -85,7 +85,7 @@ def pdf_gen(data, hostname, pdfname):
         pdf.cell(40,5,f"",ln=2)
         pdf.multi_cell(185,5,f"{data[i][5]}") # info based on the result received
         
-        if data[i][3] != '' : # if there is additional info (currently only for the rce/privesc check operation)
+        if data[i][3] != '' : # if there is additional info (currently only for the rce/privesc check operation and kernel driver check)
             pdf.set_font('Times', 'B', 15)
             pdf.multi_cell(1,8,f"") 
             pdf.cell(40,5,f"[ Additional Info : Operation Output ]",ln=2)
