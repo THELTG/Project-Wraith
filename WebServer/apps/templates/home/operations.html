@@ -476,8 +476,13 @@
                                                     <i class="feather icon-check-circle f-30 text-c-blue"></i>
                                                 </div>
                                                 <div class="col">
-                                                    <h3 class="f-w-300">0</h3>
-                                                    <span class="d-block text-uppercase">Total Agents fully compromised</span>
+                                                    <h3 class="f-w-300">Operation Summary</h3>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Previous Operation: <span id="Operation"></span></span>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Agent: <span id="Agent"></span></span>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Host Machine IP: <span id="HostIp"></span></span>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Operation Outcome: <span id="successRate"></span></span>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Number of Commands Ran: <span id="numOfCommands"></span></span>
+                                                    <span class="d-block text-uppercase" style="font-size: 16.5px;">Time Elapsed: <span id="timeElapsed"></span></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -497,7 +502,7 @@
                                             <div class="row d-flex align-items-center">
                                                 <div class="terminal-output">
                                                     <div id="current-operation">
-                                                        <h5 class="mt-4 ml-3">Current Operation: <span style="color:red" id="operationname">None</span></h5>
+                                                        <h5 class="mt-4 ml-3" id="currentOp">Current Operation: <span style="color:red" id="operationname">None</span></h5>
                                                     </div>
                                                     <hr style="background-color:grey">
                                                     <div id="terminaltext">

@@ -1,3 +1,45 @@
+function summary() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var summary = JSON.parse(this.responseText).summary;
+
+
+            if (summary != ""){ //if no value in chart.txt (no functions running)
+                updatedLst = summary.split(",");
+                console.log(summary)
+
+
+                document.getElementById("Operation").innerHTML = updatedLst[5]
+                document.getElementById("Agent").innerHTML = updatedLst[0]
+                document.getElementById("HostIp").innerHTML = updatedLst[1]
+                if (updatedLst[2] == "True"){
+                    document.getElementById("successRate").innerHTML = "Successful"
+                }else{
+                    document.getElementById("successRate").innerHTML = "Unsuccessful"
+                }
+                document.getElementById("numOfCommands").innerHTML= updatedLst[4]
+                document.getElementById("timeElapsed").innerHTML = `${updatedLst[3]}(s)`
+
+            }else{
+                console.log("no value")
+                document.getElementById("Operation").innerHTML = "None"
+                document.getElementById("Agent").innerHTML = ""
+                document.getElementById("HostIp").innerHTML = ""
+                document.getElementById("successRate").innerHTML = ""
+                document.getElementById("numOfCommands").innerHTML= ""
+                document.getElementById("timeElapsed").innerHTML = ""
+            }
+
+        }
+    };
+    xhttp.open("GET", "/ops_summary", true);
+    xhttp.send();
+}
+
+
+
+
 
 //############################################################ start of terminal output 
 
@@ -164,8 +206,59 @@ function addData(chart, datalst, dataLabel) {
 }
 
 
+summary()
+
 // calls the updategraph function every 1 second to update chart.js dynamically
 var updategraph = setInterval(updateChartlst, 1000)
+
+
+var themecheck = localStorage.getItem("theme"); // changing colour of graph if dashboard is started with light theme
+if (themecheck == "light"){
+    newchart.options.scales.x.title.color = 'black';
+    newchart.options.scales.y.title.color = 'black';
+    newchart.data.datasets[0].backgroundColor = 'rgba(0,0,0,1.0)';
+    newchart.data.datasets[0].borderColor = 'rgba(0,0,0,0.1)'
+    newchart.update();
+    document.getElementById("currentOp").style.color = 'rgba(255,255,255,1.0)'
+}
+
+
+
+// used to update the graph colour in light theme or dark theme
+var theme = document.getElementById("theme-switch");
+theme.addEventListener('click', ()=> {
+    console.log("yes")
+    
+    function delay(callback){ // creating timmeout function to wait for local storage to update colour theme
+        setTimeout(()=> {
+            const data = localStorage.getItem("theme");
+        callback(data);
+        },200)
+    }
+
+    delay((currentTheme)=> { 
+        console.log(currentTheme)
+        if (currentTheme == "dark"){ // dark theme graph
+            newchart.options.scales.x.title.color = 'white';
+            newchart.options.scales.y.title.color = 'white';
+            newchart.data.datasets[0].backgroundColor = 'rgba(255,255,255,1.0)';
+            newchart.data.datasets[0].borderColor = 'rgba(255,255,255,0.1)'
+            newchart.update();
+            
+        }else{ // light theme graph
+            newchart.options.scales.x.title.color = 'black';
+            newchart.options.scales.y.title.color = 'black';
+            newchart.data.datasets[0].backgroundColor = 'rgba(0,0,0,1.0)';
+            newchart.data.datasets[0].borderColor = 'rgba(0,0,0,0.1)'
+            newchart.update();
+            document.getElementById("currentOp").style.color = 'rgba(255,255,255,1.0)'
+        }
+    });
+
+})
+
+
+
 
 
 

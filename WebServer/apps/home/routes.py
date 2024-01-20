@@ -199,7 +199,9 @@ def execute_amsi():
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_amsi_agent']
-        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = db.execute("SELECT identifier, ipAddress FROM all_agents WHERE id=?", agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
         try:
             with connections_lock:
@@ -239,7 +241,9 @@ def execute_reflective():
     if arg != {}:
         agent = arg['selected_reflective_agent']
         payload = arg['selected_payload']
-        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = db.execute("SELECT identifier, ipAddress FROM all_agents WHERE id=?", agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
         try:
             with connections_lock:
@@ -280,7 +284,9 @@ def execute_driver():
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_driver_agent']
-        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = db.execute("SELECT identifier, ipAddress FROM all_agents WHERE id=?", agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
         try:
             with connections_lock:
@@ -320,7 +326,9 @@ def NetNTLMHijack():
     if arg != {}:
         agent = arg['selected_ntlm_agent']
         operation = arg['selected_wordlist']
-        client_id = db.execute('SELECT identifier FROM all_agnets WHERE id=?',agent).fetchone()
+        client_id = db.execute('SELECT identifier,ipAddress FROM all_agnets WHERE id=?',agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
 
         try:
@@ -348,6 +356,14 @@ def NetNTLMHijack():
 def lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
+
+        agent = arg['selected_rce_agent']
+        client_id = db.execute("SELECT identifier,ipAddress FROM all_agents WHERE id=?", agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
+        client_id = str(client_id[0])
+
+
         ipaddress = arg['ip_address']
         username = arg['usernames']
         password = arg['passwords']
@@ -363,7 +379,9 @@ def rce_privesc():
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_rce_agent']
-        client_id = db.execute("SELECT identifier FROM all_agents WHERE id=?", agent).fetchone()
+        client_id = db.execute("SELECT identifier,ipAddress FROM all_agents WHERE id=?", agent).fetchone()
+        with open("apps/log file/summary.txt", "w") as file:
+            file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
         try:
             with connections_lock:
@@ -504,3 +522,14 @@ def update_lst():
 
     return jsonify({"updatedLst": file_content})
     
+
+
+#used to actively read summary.txt
+@blueprint.route('/ops_summary', methods=["GET"])
+def ops_summary():
+    filepath = "./apps/log file/summary.txt"
+    with open(filepath, 'r') as file:
+        file_content = file.read()
+
+
+    return jsonify({"summary": file_content})
