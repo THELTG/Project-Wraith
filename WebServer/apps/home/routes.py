@@ -127,15 +127,23 @@ def delete_wordlist():
                 window.location.href = document.referrer;
             </script>"""
 
-@blueprint.route("/generate_agent", methods=['POST'])
+@blueprint.route("/generate_agent", methods=['POST','GET'])
 def generate_agent():
-    arg = request.form.to_dict()
-    ipAddr = arg['ipAddr']
-    code = script_generate_agent(ipAddr, 9999)
-    if code == 0: # success
-        return send_file('agent/agent.exe')
+    if request.method == 'POST':
+        arg = request.form.to_dict()
+        ipAddr = arg['ipAddr']
+        code = script_generate_agent(ipAddr, 9999)
+        if code == 0: # success
+            return send_file(f'agent/agent_{ipAddr}.exe')
+        else:
+            return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
     else:
-        return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
+        arg = request.args
+        try:
+            # this is a vulnerable endpoint.
+            return send_file(f'agent/agent_{arg["ipAddr"]}.exe')
+        except:
+            return 'Agent Not Found',404
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -483,11 +491,6 @@ GROUP BY
 
     return jsonify({"rows": row_list})
 
-
-
-
-
-
 # used to actively read the different files for commands
 @blueprint.route("/update_terminal", methods=["GET"])
 def update_terminal():
@@ -509,9 +512,6 @@ def clear_txt():
         pass
 
     return True
-
-    
-
 
 #used to actively read chart.txt
 @blueprint.route('/update_lst', methods=["GET"])
