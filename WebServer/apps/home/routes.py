@@ -143,7 +143,11 @@ def generate_agent():
             # this is a vulnerable endpoint.
             return send_file(f'agent/agent_{arg["ipAddr"]}.exe')
         except:
-            return 'Agent Not Found',404
+            code = script_generate_agent(arg["ipAddr"], 9999)
+            if code == 0:
+                return send_file(f'agent/agent_{arg["ipAddr"]}')
+            else:
+                return 'error',500
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -364,19 +368,12 @@ def NetNTLMHijack():
 def lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
-
-        agent = arg['selected_rce_agent']
-        client_id = db.execute("SELECT identifier,ipAddress FROM all_agents WHERE id=?", agent).fetchone()
-        with open("apps/log file/summary.txt", "w") as file:
-            file.write(f'{client_id[0]},{client_id[1]}')
-        client_id = str(client_id[0])
-
-
         ipaddress = arg['ip_address']
         username = arg['usernames']
         password = arg['passwords']
+        serveraddress = arg['server_address']
         # no active agents required.
-        output = lateral_movement_check(ipaddress,username,password)
+        output = lateral_movement_check(ipaddress,serveraddress,username,password)
         if output: # might need to change the output of these things
             return output
         else:
