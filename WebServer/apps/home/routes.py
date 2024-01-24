@@ -338,11 +338,10 @@ def NetNTLMHijack():
     if arg != {}:
         agent = arg['selected_ntlm_agent']
         operation = arg['selected_wordlist']
-        client_id = db.execute('SELECT identifier,ipAddress FROM all_agnets WHERE id=?',agent).fetchone()
+        client_id = db.execute('SELECT identifier,ipAddress FROM all_agents WHERE id=?',agent).fetchone()
         with open("apps/log file/summary.txt", "w") as file:
             file.write(f'{client_id[0]},{client_id[1]}')
         client_id = str(client_id[0])
-
         try:
             with connections_lock:
                 if connections != []:
@@ -350,11 +349,12 @@ def NetNTLMHijack():
                         if conn[6] == client_id:
                             start_time = int(time.time())
                             operation_tested = 'NetNTLMv2 Hijack'
-
-                            result = NetNTLMv2_Hijack(conn,operation)
-                            if result == False:
-                                return "NTLM Cannot be cracked"
-                            return f"NTLM Cracked: {result}"
+                            result_data = NetNTLMv2_Hijack(conn,operation)
+                            if result_data == False:
+                                return render_template('home/operations.html', result_data='Hash cannot be cracked.', show_results=True)
+                            
+                            message = f''
+                            return render_template('home/operations.html', result_data=result_data, show_results=True)
         except OSError:
             time.sleep(5)
     else:
