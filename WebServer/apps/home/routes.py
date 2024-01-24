@@ -373,11 +373,8 @@ def lateral_movement():
         password = arg['passwords']
         serveraddress = arg['server_address']
         # no active agents required.
-        output = lateral_movement_check(ipaddress,serveraddress,username,password)
-        if output: # might need to change the output of these things
-            return output
-        else:
-            return 'Wrong password'
+        result_data = lateral_movement_check(ipaddress,serveraddress,username,password)
+        return render_template('home/operations.html', result_data=result_data, show_results=True)
 
 @blueprint.route("/rce_privesc", methods=["POST"])
 def rce_privesc():
