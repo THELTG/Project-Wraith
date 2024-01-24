@@ -23,8 +23,9 @@ def operations():
     payloadDirectory = './apps/exploit/payload'
     payloads = [{'name': file.name} for file in os.scandir(payloadDirectory) if file.is_file() and file.name.endswith('.exe')] # filter by .exe only, can remove later if other extensions are supported
     wordlistDirectory = './apps/exploit/wordlists'
-    wordlists = [{'name': file.name} for file in os.scandir(wordlistDirectory) if file.is_file() and file.name.endswith('.txt')] 
-    return render_template('home/operations.html', segment='operations', agents=agents, payloads=payloads, wordlists=wordlists)
+    wordlists = [{'name': file.name} for file in os.scandir(wordlistDirectory) if file.is_file() and file.name.endswith('.txt')]
+    operationsExecuted = db.execute ("SELECT COUNT(*) FROM operation_results").fetchone()[0]
+    return render_template('home/operations.html', segment='operations', agents=agents, payloads=payloads, wordlists=wordlists, operationsExecuted=operationsExecuted)
 
 @blueprint.route('/agents.html', methods=["GET"])
 def agents_info():
