@@ -9,7 +9,6 @@ class allAgents(db.Model):
     username = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(20))
     lastCheckin = db.Column(db.String(100))
-    integrity = db.Column(db.String(50), nullable=False)
     operatingSystem = db.Column(db.String(100), nullable=False)
 
 class operationDetails(db.Model):
