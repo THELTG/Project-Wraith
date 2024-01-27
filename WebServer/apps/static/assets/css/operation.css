@@ -5,3 +5,16 @@ textarea {
     resize: none; /* Remove this if you want the user to resize the textarea */
 }
 
+
+/* used for acknowledgement links in operations.html */
+.acknowledgement-link:visited {
+    color: #a636f1;
+}
+
+.acknowledgement-link:link {
+    color: lightskyblue;
+}
+
+.acknowledgement-link:hover {
+    color: #3758ff;
+}
