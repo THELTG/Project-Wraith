@@ -449,8 +449,10 @@ def generate_pdf(identifier):
         MAX(operation_results.time) DESC
     """, (identifier,)).fetchall()
 
+    password = request.args.get('password')
+
     if results != "null":
-        filename = pdf_gen(results, hostname, agentInfo)
+        filename = pdf_gen(results, hostname, agentInfo, password)
         directory = 'reports'
         if filename is not None:
             return send_from_directory(directory, filename, as_attachment=True)
