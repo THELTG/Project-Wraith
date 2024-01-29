@@ -114,14 +114,12 @@ def pdf_gen(data, hostname, pdfname, password=None):
 
 ####password encryption
     
-    print(password)
     if password:
         with open(f"./apps/reports/{filepath}", "rb") as pdf_file:
             reader = PdfReader(pdf_file)
             writer = PdfWriter()
 
             for page in reader.pages:
-                print("ok")
                 writer.add_page(page)
 
             writer.encrypt(password)
