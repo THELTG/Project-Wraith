@@ -24,7 +24,7 @@ function downloadpdf() {
                 OS_Version.innerHTML = rows[i][2];
                 IP_Address.innerHTML = rows[i][3];
                 Last_Tested.innerHTML = rows[i][4];
-                Password_Cell.innerHTML = `<input class='form-control' type="password" id="password_${rows[i][0]}" placeholder="Password for the report (Optional)">`;
+                Password_Cell.innerHTML = `<input class='form-control' type="password" id="password_${rows[i][0]}" placeholder="Report Password (Optional)">`;
                 download_report.innerHTML = `<button type="button" class="btn btn-outline-primary download-button" title="Download" onclick="download('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}', this, 'password_${rows[i][0]}')">Download</button>`;
             }
         }
