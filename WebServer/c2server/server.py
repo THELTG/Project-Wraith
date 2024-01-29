@@ -95,14 +95,6 @@ def recv_information(conn):
 
     return information
 
-def initiate(target: int, command: str):
-    with connections_lock:
-        conn = connections[target - 1][1]  # access connobj
-        conn.send(command.encode() + b"\n")
-        time.sleep(1)
-        reply = conn.recv(2048).decode()
-    return reply
-
 def check_connection():
     global connections
     while True:
