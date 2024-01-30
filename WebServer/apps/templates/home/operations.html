@@ -215,7 +215,7 @@
                                                             Windows 10/11                      
                                                         </td>
                                                         <td>
-                                                            <form method="POST" action="{{ url_for('home_blueprint.lateral_movement') }}">
+                                                            <form method="POST" action="{{ url_for('home_blueprint.execute_lateral_movement') }}">
                                                                 <div class="form-group my-auto">
                                                                     <div class="form-control">
                                                                         <option value="" disabled selected>Not Applicable</option>
@@ -301,7 +301,7 @@
                                                             Windows 10/11                      
                                                         </td>
 
-                                                            <form action="{{url_for('home_blueprint.rce_privesc')}}" method="POST">
+                                                            <form action="{{url_for('home_blueprint.execute_rce_privesc')}}" method="POST">
                                                                 <td>
                                                                     <div class="form-group my-auto">
                                                                         <select class="form-control" id="agentAliveRCE" name = "selected_rce_agent" onchange="enableButton()">

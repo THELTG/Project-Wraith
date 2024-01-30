@@ -134,21 +134,22 @@ def generate_agent():
         arg = request.form.to_dict()
         ipAddr = arg['ipAddr']
         code = script_generate_agent(ipAddr, 9999)
+        directory = 'agent'
         if code == 0: # success
-            return send_file(f'agent/agent_{ipAddr}.exe')
+            return send_from_directory(directory,f'agent_{ipAddr}.exe')
         else:
             return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
     else:
         arg = request.args
         try:
             # this is a vulnerable endpoint.
-            return send_file(f'agent/agent_{arg["ipAddr"]}.exe')
+            return send_from_directory(directory,f'agent_{ipAddr}.exe')
         except:
             code = script_generate_agent(arg["ipAddr"], 9999)
             if code == 0:
-                return send_file(f'agent/agent_{arg["ipAddr"]}')
+                return send_from_directory(directory,f'agent_{ipAddr}.exe')
             else:
-                return 'error',500
+                return 'Compile Failed',500
 
 @blueprint.route('/exploit/<filename>', methods=["GET"]) # endpoint for retrieving payload files 
 def return_exploit(filename):
@@ -333,39 +334,7 @@ def execute_driver():
             window.location.href = document.referrer;
         </script>"""
 
-@blueprint.route('/NetNTLMHijack',methods=["POST"])
-def NetNTLMHijack():
-    arg = request.form.to_dict()
-    if arg != {}:
-        agent = arg['selected_ntlm_agent']
-        operation = arg['selected_wordlist']
-        client_id = db.execute('SELECT identifier,ipAddress FROM all_agents WHERE id=?',agent).fetchone()
-        with open("apps/log file/summary.txt", "w") as file:
-            file.write(f'{client_id[0]},{client_id[1]}')
-        client_id = str(client_id[0])
-        try:
-            with connections_lock:
-                if connections != []:
-                    for conn in connections:
-                        if conn[6] == client_id:
-                            start_time = int(time.time())
-                            operation_tested = 'NetNTLMv2 Hijack'
-                            result_data = NetNTLMv2_Hijack(conn,operation)
-                            if result_data == False:
-                                return render_template('home/operations.html', result_data='Hash cannot be cracked.', show_results=True)
-                            
-                            message = f''
-                            return render_template('home/operations.html', result_data=result_data, show_results=True)
-        except OSError:
-            time.sleep(5)
-    else:
-        return """
-        <script>
-            window.alert("No Agent Selected");
-            window.location.href = document.referrer;
-        </script>"""
-
-@blueprint.route('/lateral_movement',methods=["POST"])
+@blueprint.route('/execute_lateral_movement',methods=["POST"])
 def lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
@@ -377,7 +346,7 @@ def lateral_movement():
         result_data = lateral_movement_check(ipaddress,serveraddress,username,password)
         return render_template('home/operations.html', result_data=result_data, show_results=True)
 
-@blueprint.route("/rce_privesc", methods=["POST"])
+@blueprint.route("/execute_rce_privesc", methods=["POST"])
 def rce_privesc():
     arg = request.form.to_dict()
     if arg != {}:
