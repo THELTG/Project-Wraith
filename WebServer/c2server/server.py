@@ -42,7 +42,7 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', 'Low', '{osVersion}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', '{osVersion}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
@@ -94,14 +94,6 @@ def recv_information(conn):
     information['os_version'][-1] = information['os_version'][-1].strip()
 
     return information
-
-def initiate(target: int, command: str):
-    with connections_lock:
-        conn = connections[target - 1][1]  # access connobj
-        conn.send(command.encode() + b"\n")
-        time.sleep(1)
-        reply = conn.recv(2048).decode()
-    return reply
 
 def check_connection():
     global connections

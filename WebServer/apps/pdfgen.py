@@ -2,6 +2,7 @@
 from fpdf import FPDF
 from datetime import datetime
 import os
+from PyPDF2 import PdfReader, PdfWriter
 
 
 class PDF(FPDF):
@@ -15,7 +16,7 @@ class PDF(FPDF):
         self.cell(0,10,"Page" + str(self.page_no())+ '/{nb}',0,0, "C")
 
 
-def pdf_gen(data, hostname, pdfname):
+def pdf_gen(data, hostname, pdfname, password=None):
 
     pdf = FPDF()
     pdf = PDF()
@@ -52,7 +53,7 @@ def pdf_gen(data, hostname, pdfname):
     pdf.cell(40,5,f"Agent Identifier: {pdfname[0]}")
 
 
-    print(data) # testing
+    #print(data) # testing
 
 
     # for reference : data array looks something like the following : [('Kernel Driver check', 'false', 'Generic Detail for Kernel Driver check', 'False Detail for Kernel Driver check')]
@@ -108,6 +109,24 @@ def pdf_gen(data, hostname, pdfname):
     filepath = f'{pdfname[0]}_{pdfname[1]}_{pdfname[2]}_{datetime.utcnow():%Y-%m-%d}.pdf'
     pdf_path = os.path.join("./apps/reports", filepath)
     pdf.output(pdf_path)  
+
+
+
+####password encryption
+    
+    if password:
+        with open(f"./apps/reports/{filepath}", "rb") as pdf_file:
+            reader = PdfReader(pdf_file)
+            writer = PdfWriter()
+
+            for page in reader.pages:
+                writer.add_page(page)
+
+            writer.encrypt(password)
+
+            with open(f"./apps/reports/{filepath}", "wb") as encrypted_pdf:
+                writer.write(encrypted_pdf)
+
 
     return filepath
 

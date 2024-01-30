@@ -17,13 +17,15 @@ function downloadpdf() {
                 var OS_Version = row.insertCell(2);
                 var IP_Address = row.insertCell(3);
                 var Last_Tested = row.insertCell(4);
-                var download_report = row.insertCell(5);
+                var Password_Cell = row.insertCell(5); 
+                var download_report = row.insertCell(6);
                 Identifier.innerHTML = rows[i][0];
                 Host_Name.innerHTML = rows[i][1];
                 OS_Version.innerHTML = rows[i][2];
                 IP_Address.innerHTML = rows[i][3];
                 Last_Tested.innerHTML = rows[i][4];
-                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary download-button" title="Download" onclick="download('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}', this)">Download</button>`;
+                Password_Cell.innerHTML = `<input class='form-control' type="password" id="password_${rows[i][0]}" placeholder="Report Password (Optional)">`;
+                download_report.innerHTML = `<button type="button" class="btn btn-outline-primary download-button" title="Download" onclick="download('${rows[i][0]}', '${rows[i][0]}_${rows[i][1]}', this, 'password_${rows[i][0]}')">Download</button>`;
             }
         }
     };
@@ -33,20 +35,24 @@ function downloadpdf() {
 
 downloadpdf()
 
-function download(identifier, fileName, button) {
+function download(identifier, fileName, button, password) {
     // Disable the button
     $(button).prop("disabled", true);
+
+    var enteredPassword = document.getElementById(password).value;
+
+    console.log(enteredPassword)
 
     $(button).html(
         `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generating...`
     );
 
-    pdfgen(identifier, fileName)
+    pdfgen(identifier, fileName, enteredPassword)
 }
 
 
-function pdfgen(id, filename) {
-    fetch(`/generate_pdf/${id}`, {
+function pdfgen(id, filename, password) {
+    fetch(`/generate_pdf/${id}?password=${password}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
