@@ -335,19 +335,30 @@ def execute_driver():
         </script>"""
 
 @blueprint.route('/execute_lateral_movement',methods=["POST"])
-def lateral_movement():
+def execute_lateral_movement():
     arg = request.form.to_dict()
     if arg != {}:
         ipaddress = arg['ip_address']
         username = arg['usernames']
-        password = arg['passwords']
         serveraddress = arg['server_address']
+        password = arg['passwords']
+        try:
+            wordlist = arg['wordlist']
+        except:
+            wordlist = ''
         # no active agents required.
-        result_data = lateral_movement_check(ipaddress,serveraddress,username,password)
+        result_data = lateral_movement_check(ipaddress,serveraddress,username,password,wordlist)
         return render_template('home/operations.html', result_data=result_data, show_results=True)
+    
+    else:
+        return """
+        <script>
+            window.alert("Error with Lateral Movement");
+            window.location.href = document.referrer;
+        </script>"""
 
 @blueprint.route("/execute_rce_privesc", methods=["POST"])
-def rce_privesc():
+def execute_rce_privesc():
     arg = request.form.to_dict()
     if arg != {}:
         agent = arg['selected_rce_agent']

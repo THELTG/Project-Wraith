@@ -250,9 +250,18 @@
                                                                                 <label>Enter passwords: </label>
                                                                                 <br>
                                                                                 <textarea for="passwords" name="passwords" class="form-control" name="passwords" placeholder="Passwords"></textarea>
+                                                                                <br>
+                                                                                <label>Select password wordlist: </label>
+                                                                                <br>
+                                                                                <select class="form-control" id="wordlist" name="wordlist" onchange="enableButton()">
+                                                                                    <option value="" disabled selected>Select File</option>
+                                                                                    {% for wordlist in wordlists %}
+                                                                                            <option value="{{ wordlist['name'] }}">{{ wordlist['name'] }}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
                                                                             </div>
                                                                             <div class="text mt-3">
-                                                                                Enter the usernames and passwords to be tested on the target machine. Each entry is delmitted by a new line.
+                                                                                Enter the usernames and passwords to be tested on the target machine. Each entry is delmitted by a new line. For passwords, a choice of either a wordlist or manual input is allowed.
                                                                             </div>
                                                                           </div>
                                                                           <div class="modal-footer">
