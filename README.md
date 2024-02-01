@@ -16,5 +16,3 @@ Team Members:
 2) Aum Jiwoo  (Asst Team Leader)
 3) Bryant Ten
 4) Lee Pin
-
-NOTE: please update this document accordingly 
