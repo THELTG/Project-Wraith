@@ -98,11 +98,12 @@ def recv_information(conn):
 def check_connection():
     global connections
     while True:
+        time.sleep(10)
         for client in connections:
             conn = client[1]  # access connobj
             try:
-                conn.send(b"")
-                time.sleep(5)
+                conn.send(b"$pid")
+                time.sleep(3)
             #If client disconnect remove from list
             except(ConnectionResetError, OSError):
                 with connections_lock:
@@ -113,6 +114,8 @@ def check_connection():
                             db.commit()
                             connections.remove(client)
                     break
+            except Exception as error:
+                print(error)
 
 def secure_socket(conn):
     # Create SSL Context
