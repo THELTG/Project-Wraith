@@ -488,7 +488,7 @@ def clear_txt():
     with open(filepath, 'w') as file:
         pass
 
-    return True
+    return 'OK'
 
 #used to actively read chart.txt
 @blueprint.route('/update_lst', methods=["GET"])
