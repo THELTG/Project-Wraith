@@ -24,7 +24,7 @@ function updateConnections() {
                     Host.innerHTML = clients[i][3];
                     Username.innerHTML = clients[i][4];
                     IP_Address.innerHTML = clients[i][2];
-                    OS_Version.innerHTML = clients[i][8];
+                    OS_Version.innerHTML = clients[i][7];
                     Terminate.innerHTML = `<button type="submit" class="btn btn-outline-primary" onclick="terminateConnection(${clients[i][0]})">Terminate</button>`;
         
                     if(clients[i][5] == 'Alive'){
