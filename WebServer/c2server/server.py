@@ -45,7 +45,7 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', 'Low', '{osVersion}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', '{osVersion}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
