@@ -4,6 +4,7 @@ import time
 import random
 import sqlite3
 import ssl
+import psutil
 db = sqlite3.connect('./apps/db.sqlite3', check_same_thread=False)
 # List of active connections
 connections = []
@@ -12,7 +13,7 @@ connections_lock = threading.Lock()
 
 def socket_server():
     global connections 
-    HOST = "0.0.0.0"
+    HOST = "0.0.0.0" 
     PORT = 9999
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -20,6 +21,8 @@ def socket_server():
     s.listen(5)
     while True:
         conn, addr = s.accept()
+        laddr = conn.getsockname()
+        host_ip = laddr[0]
         conn = secure_socket(conn)
         with connections_lock:
             if conn:
@@ -42,13 +45,13 @@ def socket_server():
                         identifier = identifier[0]
                         db.execute("UPDATE all_agents SET status='Alive' where ipAddress=?", (ip,))
                     else:
-                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', '{osVersion}')"
+                        query = f"INSERT into all_agents (identifier, ipAddress, hostname, username, status, lastCheckin, integrity, operatingSystem) VALUES ('{identifier}', '{ip}', '{hostname}', '{username}', 'Alive', '{str(int(time.time()-time.time())) + ' seconds ago'}', 'Low', '{osVersion}')"
                         db.execute(query)
                     db.commit()
                     client_info = [ip, conn, time.time(), username, hostname, osVersion, identifier]
                     connections.append(client_info)
                     # Handle disconnections
-                    threading.Thread(target=check_connection).start()
+                    threading.Thread(target=check_connection, args=(host_ip, PORT)).start()
 
 def generate_identifier(length=5):
     characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -95,27 +98,31 @@ def recv_information(conn):
 
     return information
 
-def check_connection():
+def get_network_connections(ip, port):
+    connections = psutil.net_connections(kind='inet')
+    current_connections = []
+    for conn in connections:
+        if (conn.laddr.ip == ip and conn.laddr.port == port) and conn.status != "LISTEN" and conn.raddr:
+            current_connections.append(conn)
+    return current_connections
+
+def check_connection(HOST, PORT):
     global connections
     while True:
-        time.sleep(10)
-        for client in connections:
-            conn = client[1]  # access connobj
-            try:
-                conn.send(b"$pid")
-                time.sleep(3)
-            #If client disconnect remove from list
-            except(ConnectionResetError, OSError):
-                with connections_lock:
-                    for client in connections:
-                        if conn == client[1]:
-                            print(f"[-] {client[0]} disconnected.")
-                            db.execute("UPDATE all_agents SET status='Dead', lastCheckin=? where identifier=?", (time.asctime(),client[6]))
-                            db.commit()
-                            connections.remove(client)
-                    break
-            except Exception as error:
-                print(error)
+        connection_list = []
+        current_connections = get_network_connections(HOST, PORT)
+        # inet Current Connections
+        for conn in current_connections:
+            connection_list.append(conn.raddr.ip)
+        # Server Current Connections
+        if connections != []:
+            for client in connections:
+                if client[0] not in connection_list:
+                    print(f"[-] {client[0]} disconnected.")
+                    db.execute("UPDATE all_agents SET status='Dead', lastCheckin=? where identifier=?", (time.asctime(),client[6]))
+                    db.commit()
+                    connections.remove(client)
+        time.sleep(5)
 
 def secure_socket(conn):
     # Create SSL Context
