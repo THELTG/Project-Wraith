@@ -404,7 +404,7 @@
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                     <input type="hidden" id="Payload">
-                                                                    <button type="submit" class="btn btn-outline-primary" id="payloadButton" disabled>Select</button>
+                                                                    <button type="submit" class="btn btn-outline-primary" id="RIpayloadButton" disabled>Select</button>
                                                                   </div>
                                                               </div>
                                                             </div>
@@ -537,7 +537,7 @@
             $("#" + pressedButtonId).html(
                 `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Executing...`
             );
-
+            console.log(pressedButtonId)
             if (pressedButtonId == "amsiButton"){
                 $("#operationname").html(
                 `AMSI Bypass`
@@ -548,9 +548,9 @@
             } else if (pressedButtonId == "RCEButton"){
                 $("#operationname").html(
                 `RCE & Privilege Escalation Check`);
-            } else if (pressedButtonId == "riButton"){
+            } else if (pressedButtonId == "RIpayloadButton"){
                 $("#operationname").html(
-                `Relfective PE Injection`);
+                `Reflective PE Injection`);
             } else if (pressedButtonId == "NTLMButton"){
                 $("#operationname").html(
                 `NetNTLM Hijacking`);
@@ -597,7 +597,7 @@
         
         //Reflective Injection - Payload 
         var payloadSelect = document.getElementById('payload_select');
-        var payloadButton = document.getElementById('payloadButton');
+        var payloadButton = document.getElementById('RIpayloadButton');
         payloadButton.disabled = payloadSelect.value === "";
 
         //LM: NetNTLMv2 cracking
