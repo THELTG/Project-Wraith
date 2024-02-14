@@ -19,5 +19,6 @@ flask-dance==7.0.0
 blinker==1.6.2
 fpdf==1.7.2
 pypdf2==3.0.1
+psutil==5.9.8
 # flask_mysqldb
 # psycopg2-binary
