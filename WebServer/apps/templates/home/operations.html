@@ -117,6 +117,144 @@
                                                             </td>
                                                             </form>
                                                     </tr>
+                                                    
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">Reflective PE Injection</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description5">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description5" tabindex="-1" role="dialog" aria-labelledby="Description5Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">Reflective Injection</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation attempts to bypass anti-virus solutions and uploads a selected executable file into the target system's memory using reflective injection.
+                                                                    <br>
+                                                                    <br>
+                                                                    Reflective PE Injection is a sophisticated method of injecting PE (Portable Executable) files directly into the memory space of another process. This technique is commonly used by malware to avoid detection and enhance persistence by executing code without writing the payload to disk. Common payloads that are injected using this method are credential-stealing tools like Mimikatz, and powerful reverse-shell tools like Metasploit's Meterpreter.
+                                                                    <br>
+                                                                    <br>
+                                                                    Acknowledgements:
+                                                                    <br>
+                                                                    <a class="acknowledgement-link" href="https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-ReflectivePEInjection.ps1">https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-ReflectivePEInjection.ps1</a>
+                                                                    <br>
+                                                                    <a class="acknowledgement-link" href="https://github.com/mishmashclone/BC-SECURITY-Empire/blob/master/empire/server/data/module_source/management/Invoke-ReflectivePEInjection.ps1
+                                                                    ">https://github.com/mishmashclone/BC-SECURITY-Empire/blob/master/empire/server/data/module_source/management/Invoke-ReflectivePEInjection.ps1
+                                                                    </a>    
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+                                                        <form method="POST" action="{{ url_for('home_blueprint.execute_reflective') }}">
+                                                        <td>
+                                                            <div class="form-group my-auto">
+                                                                <select class="form-control" id="agentAliveRI" name="selected_reflective_agent" onchange="enableButton()">
+                                                                    <option value="" disabled selected>Select an agent..</option>
+                                                                    {% for agent in agents if agent.status == "Alive" %}
+                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                        </td>
+                                                        <input type="hidden" operation="reflectiveInjection">
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
+                                                        </td>
+
+                                                        <div id="payloadFileModal" class="modal" tabindex="-1">
+                                                            <div class="modal-dialog">
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title">Select Payload</h5>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    <div class="form-group my-auto">
+                                                                        <select class="form-control" id="payload_select" name="selected_payload" onchange="enableButton()">
+                                                                            <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
+                                                                            {% for payload in payloads %}
+                                                                                    <option value="{{ payload['name'] }}">{{ payload['name'] }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="text mt-3">
+                                                                        Don't see a payload? Upload one <a href="/payloads.html"><u>here.</u></a>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <input type="hidden" id="Payload">
+                                                                    <button type="submit" class="btn btn-outline-primary" id="RIpayloadButton" disabled>Select</button>
+                                                                  </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                        </form>  
+                                                    </tr> 
+                                            
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <h6 class="mb-1">RCE and Privilege Escalation Check</h6>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
+                                                            Read Description
+                                                            </button>
+                                                            <div class="modal fade" id="description4" tabindex="-1" role="dialog" aria-labelledby="Description4Label" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg"role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="Description2Label">RCE and Privilege Escalation Check</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                    This operation runs several checks on the target system for any potential privilege escalation/remote code execution vectors. 
+                                                                    <br>
+                                                                    <br>
+                                                                    The operation was inspired by the tool Seatbelt (https://github.com/GhostPack/Seatbelt), and was created as a more light-weight version of the tool written in pure Powershell. It conducts five main checks : Operating System information, TCP Connections, Installed Applications, Processes, and Services. The information displayed by these checks can reveal potential vectors of privilege escalation/remote code execution through vulnerable services on the machine, or vulnerabilities within the operating system version itself.
+                                                                    <br>
+                                                                    <br>
+                                                                    Acknowledgements:
+                                                                    <br>
+                                                                    <a class="acknowledgement-link" href="https://github.com/GhostPack/Seatbelt">https://github.com/GhostPack/Seatbelt</a>
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Windows 10/11                      
+                                                        </td>
+
+                                                            <form action="{{url_for('home_blueprint.execute_rce_privesc')}}" method="POST">
+                                                                <td>
+                                                                    <div class="form-group my-auto">
+                                                                        <select class="form-control" id="agentAliveRCE" name = "selected_rce_agent" onchange="enableButton()">
+                                                                            <option value="" disabled selected>Select an agent..</option>
+                                                                            {% for agent in agents if agent.status == "Alive" %}
+                                                                            <option value="{{ agent.id }}">{{ agent.identifier }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                </td>
+                                                                <input type="hidden" operation="rce_privesc">
+                                                                <td>
+                                                                    <button type="submit" id="RCEButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
+                                                                </td>
+                                                                </form>
+                                              
+                                                    </tr>
+
                                                     <tr class="unread">
                                                         <td>
                                                             <h6 class="mb-1">Local Privilege Escalation : Vulnerable Kernel Drivers Check</h6>
@@ -176,6 +314,7 @@
                                                         </td>
                                                         </form>
                                                     </tr>
+                                                    
                                                     <tr class="unread">
                                                         <td>
                                                             <h6 class="mb-1">Lateral Movement Check</h6>
@@ -273,144 +412,8 @@
                                                             </form>
                                                         </td>
                                                     </tr>
-                                            
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">RCE and Privilege Escalation Check</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description4">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description4" tabindex="-1" role="dialog" aria-labelledby="Description4Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">RCE and Privilege Escalation Check</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation runs several checks on the target system for any potential privilege escalation/remote code execution vectors. 
-                                                                    <br>
-                                                                    <br>
-                                                                    The operation was inspired by the tool Seatbelt (https://github.com/GhostPack/Seatbelt), and was created as a more light-weight version of the tool written in pure Powershell. It conducts five main checks : Operating System information, TCP Connections, Installed Applications, Processes, and Services. The information displayed by these checks can reveal potential vectors of privilege escalation/remote code execution through vulnerable services on the machine, or vulnerabilities within the operating system version itself.
-                                                                    <br>
-                                                                    <br>
-                                                                    Acknowledgements:
-                                                                    <br>
-                                                                    <a class="acknowledgement-link" href="https://github.com/GhostPack/Seatbelt">https://github.com/GhostPack/Seatbelt</a>
-                                                                </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
 
-                                                            <form action="{{url_for('home_blueprint.execute_rce_privesc')}}" method="POST">
-                                                                <td>
-                                                                    <div class="form-group my-auto">
-                                                                        <select class="form-control" id="agentAliveRCE" name = "selected_rce_agent" onchange="enableButton()">
-                                                                            <option value="" disabled selected>Select an agent..</option>
-                                                                            {% for agent in agents if agent.status == "Alive" %}
-                                                                            <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                            {% endfor %}
-                                                                        </select>
-                                                                </td>
-                                                                <input type="hidden" operation="rce_privesc">
-                                                                <td>
-                                                                    <button type="submit" id="RCEButton" class="btn btn-outline-primary" disabled>Execute Operation</button>
-                                                                </td>
-                                                                </form>
-                                              
-                                                    </tr>
-
-
-                                                    <tr class="unread">
-                                                        <td>
-                                                            <h6 class="mb-1">Reflective PE Injection</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#description5">
-                                                            Read Description
-                                                            </button>
-                                                            <div class="modal fade" id="description5" tabindex="-1" role="dialog" aria-labelledby="Description5Label" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg"role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                    <h5 class="modal-title" id="Description2Label">Reflective Injection</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    This operation attempts to bypass anti-virus solutions and uploads a selected executable file into the target system's memory using reflective injection.
-                                                                    <br>
-                                                                    <br>
-                                                                    Reflective PE Injection is a sophisticated method of injecting PE (Portable Executable) files directly into the memory space of another process. This technique is commonly used by malware to avoid detection and enhance persistence by executing code without writing the payload to disk. Common payloads that are injected using this method are credential-stealing tools like Mimikatz, and powerful reverse-shell tools like Metasploit's Meterpreter.
-                                                                    <br>
-                                                                    <br>
-                                                                    Acknowledgements:
-                                                                    <br>
-                                                                    <a class="acknowledgement-link" href="https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-ReflectivePEInjection.ps1">https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-ReflectivePEInjection.ps1</a>
-                                                                    <br>
-                                                                    <a class="acknowledgement-link" href="https://github.com/mishmashclone/BC-SECURITY-Empire/blob/master/empire/server/data/module_source/management/Invoke-ReflectivePEInjection.ps1
-                                                                    ">https://github.com/mishmashclone/BC-SECURITY-Empire/blob/master/empire/server/data/module_source/management/Invoke-ReflectivePEInjection.ps1
-                                                                    </a>    
-                                                                </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            Windows 10/11                      
-                                                        </td>
-                                                        <form method="POST" action="{{ url_for('home_blueprint.execute_reflective') }}">
-                                                        <td>
-                                                            <div class="form-group my-auto">
-                                                                <select class="form-control" id="agentAliveRI" name="selected_reflective_agent" onchange="enableButton()">
-                                                                    <option value="" disabled selected>Select an agent..</option>
-                                                                    {% for agent in agents if agent.status == "Alive" %}
-                                                                    <option value="{{ agent.id }}">{{ agent.identifier }}</option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                        </td>
-                                                        <input type="hidden" operation="reflectiveInjection">
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-primary" onclick="payloadSelection()" id="riButton" disabled>Execute Operation</button>
-                                                        </td>
-
-                                                        <div id="payloadFileModal" class="modal" tabindex="-1">
-                                                            <div class="modal-dialog">
-                                                              <div class="modal-content">
-                                                                  <div class="modal-header">
-                                                                    <h5 class="modal-title">Select Payload</h5>
-                                                                  </div>
-                                                                  <div class="modal-body">
-                                                                    <div class="form-group my-auto">
-                                                                        <select class="form-control" id="payload_select" name="selected_payload" onchange="enableButton()">
-                                                                            <option value="" disabled selected>Select File</option> <!--filter for .exe files only, as this is reflective PE injection-->
-                                                                            {% for payload in payloads %}
-                                                                                    <option value="{{ payload['name'] }}">{{ payload['name'] }}</option>
-                                                                            {% endfor %}
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="text mt-3">
-                                                                        Don't see a payload? Upload one <a href="/payloads.html"><u>here.</u></a>
-                                                                    </div>
-                                                                  </div>
-                                                                  <div class="modal-footer">
-                                                                    <input type="hidden" id="Payload">
-                                                                    <button type="submit" class="btn btn-outline-primary" id="RIpayloadButton" disabled>Select</button>
-                                                                  </div>
-                                                              </div>
-                                                            </div>
-                                                        </div>
-                                                        </form>  
-                                                    </tr>                                                    
+                                                                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
