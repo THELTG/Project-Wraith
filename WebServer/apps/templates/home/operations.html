@@ -554,9 +554,6 @@
             } else if (pressedButtonId == "RIpayloadButton"){
                 $("#operationname").html(
                 `Reflective PE Injection`);
-            } else if (pressedButtonId == "NTLMButton"){
-                $("#operationname").html(
-                `NetNTLM Hijacking`);
             } else if (pressedButtonId == "lateralButton"){
                 $("#operationname").html(
                 `Lateral Movement`);
@@ -602,16 +599,6 @@
         var payloadSelect = document.getElementById('payload_select');
         var payloadButton = document.getElementById('RIpayloadButton');
         payloadButton.disabled = payloadSelect.value === "";
-
-        //LM: NetNTLMv2 cracking
-        var NTLMSelect = document.getElementById('agentAliveNetNTLMHijack');
-        var NTLMButton = document.getElementById('NTLMButton');
-        NTLMButton.disabled = NTLMSelect.value === "";
-
-        //LM: NetNTLMv2 cracking - Wordlist
-        var wordlistSelect = document.getElementById('wordlist_select');
-        var wordlistButton = document.getElementById('wordlistButton');
-        wordlistButton.disabled = wordlistSelect.value === "";
 
     }
     function payloadSelection() {

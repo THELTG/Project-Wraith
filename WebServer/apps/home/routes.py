@@ -129,7 +129,7 @@ def delete_wordlist():
             </script>"""
 
 @blueprint.route("/generate_agent", methods=['POST','GET'])
-def generate_agent():
+def gerate_agent():
     if request.method == 'POST':
         arg = request.form.to_dict()
         ipAddr = arg['ipAddr']
@@ -141,11 +141,12 @@ def generate_agent():
             return """<script>window.alert("Compile Failed");window.location.href = document.referrer;</script>"""
     else:
         arg = request.args
+        ipAddr = arg["ipAddr"]
         try:
             # this is a vulnerable endpoint.
             return send_from_directory(directory,f'agent_{ipAddr}.exe')
         except:
-            code = script_generate_agent(arg["ipAddr"], 9999)
+            code = script_generate_agent(ipAddr, 9999)
             if code == 0:
                 return send_from_directory(directory,f'agent_{ipAddr}.exe')
             else:
