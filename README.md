@@ -11,6 +11,9 @@ Supervisor: Mr Samson Yeow
 Team Members:
 
 Koh Kai En (Leader)
+
 Aum Jiwoo (Assistant Leader)
+
 Bryant Ten (Agent Specialist)
+
 Lee Pin (Integrations Expert)
