@@ -1,4 +1,0 @@
-pwntools
-flask
-pycryptodome
-colorama
